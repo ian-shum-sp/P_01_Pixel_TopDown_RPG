@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Fighter
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -11,8 +13,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Character
+  - Blocking
   - 
   - 
   - 
@@ -40,4 +42,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 2703753833
+    locked: 0
+  - name: Wall
+    uniqueID: 2550391071
+    locked: 0
+  - name: Design
+    uniqueID: 3708783087
+    locked: 0
+  - name: Interactable
+    uniqueID: 829518645
+    locked: 0
+  - name: Character
+    uniqueID: 1910158857
+    locked: 0
+  - name: High Wall
+    uniqueID: 698241601
     locked: 0
