@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class FloatingText
     #region class members
     private bool _isActive;
     private GameObject _target;
-    private Text _text;
+    private TextMeshProUGUI _text;
     private Vector3 _motion;
     private float _showDuration;
     private float _lastShownTime;
@@ -28,7 +29,7 @@ public class FloatingText
         set { _target = value; }
     }
 
-    public Text Text
+    public TextMeshProUGUI Text
     {
         get { return _text; }
         set { _text = value; }

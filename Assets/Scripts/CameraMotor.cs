@@ -8,6 +8,11 @@ public class CameraMotor : MonoBehaviour
     //boundX and boundY is the set the camera only move when the target moves too far from the camera range
     public float boundX = 0.3f;
     public float boundY = 0.3f;
+
+    private void Start()
+    {
+        target = GameObject.Find("Player").transform;
+    }
     
     private void LateUpdate() 
     {

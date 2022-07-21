@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,7 +45,7 @@ public class FloatingTextManager : MonoBehaviour
             floatingText = new FloatingText();
             floatingText.Target = Instantiate(textPrefab);
             floatingText.Target.transform.SetParent(textContainer.transform);
-            floatingText.Text = floatingText.Target.GetComponent<Text>();
+            floatingText.Text = floatingText.Target.GetComponent<TextMeshProUGUI>();
 
             floatingTexts.Add(floatingText);
         }
