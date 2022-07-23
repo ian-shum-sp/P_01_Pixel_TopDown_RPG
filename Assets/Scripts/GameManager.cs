@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI loadingScreenInfoText;
     #endregion 
 
-    #region References to Singleton
+    #region References
     public FloatingTextManager floatingTextManager;
     public DialogManager dialogManager;
     public ConfirmationManager confirmationManager;
@@ -142,9 +142,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Dialog Manager
-    public void ShowDialog(string headerText, string text)
+    public void ShowDialog(Enums.NPCName nPCName)
     {
-        dialogManager.Show(headerText, text);
+        dialogManager.Show(nPCName);
     }
     #endregion
 

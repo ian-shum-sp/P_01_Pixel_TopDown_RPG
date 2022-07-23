@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private float _healthPoints;
     private float _maxHealthPoints;
     private int _experience;
+    private string _name;
 
     #endregion
     
@@ -29,6 +30,12 @@ public class Player : MonoBehaviour
     {
         get { return _experience; }
         set { _experience = value; }
+    }
+
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
     }
     #endregion
 
