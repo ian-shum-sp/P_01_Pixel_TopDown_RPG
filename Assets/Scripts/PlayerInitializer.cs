@@ -51,9 +51,18 @@ public class PlayerInitializer : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.player.Name = inputField.text;
+            InitializePlayerStats();
             _nameInputAnimator.SetTrigger("Hide");
             GameManager.Instance.ShowDialog(Enums.NPCName.GUIDE);
         }
     }
+
+    private void InitializePlayerStats()
+    {
+        GameManager.Instance.player.healthPoints = 20.0f;
+        GameManager.Instance.player.maxHealthPoints = 20.0f;
+        GameManager.Instance.player.Experience = 0;
+        GameManager.Instance.player.Name = inputField.text;
+        GameManager.Instance.player.IsActive = true;
+    }   
 }

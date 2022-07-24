@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public static class Enums 
@@ -12,10 +16,16 @@ public static class Enums
 
     public enum SceneName
     {
-        MAIN_MENU = 0,
+        [Description("MainScene")]
+        MAIN_SCENE = 0,
+        [Description("Introductory")]
         INTRODUCTORY = 1,
-        CENTRAL_HUB = 2,
-        DUNGEON = 3
+        [Description("DungeonCentralHub")]
+        DUNGEON_CENTRAL_HUB = 2,
+        [Description("EnchantedForestCentralHub")]
+        ENCHANTED_FOREST_CENTRAL_HUB = 3,
+        [Description("FantasyCentralHub")]
+        FANTASY_CENTRAL_HUB = 4
     }
 
     public enum NPCName
@@ -23,7 +33,8 @@ public static class Enums
         GUIDE = 0,
         ARMORER = 1,
         WEAPONSMITH  = 2,
-        MEDIC = 3
+        MEDIC = 3,
+        SIGN = 4
     }
 
     private static readonly int _numberOfTypeOfNPCs = 4;
@@ -54,12 +65,12 @@ public static class Enums
             {
                 dialogs.Add("Welcome to FIrst RPG!\n" +
                             "I will guide you through this tutorial, so please follow closely!");
-                dialogs.Add("First of all, the movement is controlled by W A S D buttons. Try to move around the scene.");
-                dialogs.Add("At top left of your screen, you can see your current Level, Level Progress, Health and Gold.\n" + 
-                            "Click on the bag icon on the top right of your screen or M button to open up the Player Menu.\n" + 
+                dialogs.Add("First of all, the movement is controlled by the Arrow Buttons. You can also use W A S D buttons. Try to move around the room.");
+                dialogs.Add("Press I button to interact with signs, chests and NPCs.");
+                dialogs.Add("At top left of your screen, you can see your current Level, Level Progress, Health and Status.\n" + 
+                            "Click on the bag icon on the bottom right of your screen or M button to open up the Player Menu.\n" + 
                             "In the Player Menu, you can view your stats and inventory, and also save the game or go back to the Main Menu screen.\n" + 
                             "You can equip/unequip armors, weapons and potions by pressing E button. Potion slots are unlocked by levelling up.");
-                dialogs.Add("Press I button to interact with signs, chests and NPCs.");
                 dialogs.Add("Press Space to attack!\n" +
                             "To use the equipped potions, press 1, 2, 3, 4 button for respective potion slots.\n" + 
                             "Note: You can only use equipped potions during adventure mode, and you cannot change equipped potion during adventure mode.");
@@ -79,6 +90,11 @@ public static class Enums
         }
         return dialogs;
     } 
+
+    public static string GetEnumDescription(Enum value)
+    {
+        return value.GetType().GetMember(value.ToString()).FirstOrDefault()?.GetCustomAttribute<DescriptionAttribute>()?.Description ?? value.ToString();
+    }
 
     public static string GetNPCName(NPCName nPCName)
     {

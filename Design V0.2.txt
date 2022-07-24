@@ -50,9 +50,17 @@ Equipment System
 	Only potions in the Pouch slot is considered as active and can be used
 	Upgradable with Gold and Level Requirement
 	Maximum 4 Level
+5. Inventory
+	3 different inventory section: Equipment, Weapon and Potions
+	One row can have 16 slots
+		- Equipment Inventory: Maximum 4 rows   
+		- Equipment Inventory: Maximum 3 rows   
+		- Equipment Inventory: Maximum 1 row   
+	Upgradable with Gold and Level Requirement
+	Maximum ??? Level
 
 Gold System
-1. Use for upgrading Pouch and Buying Equipments
+1. Use for upgrading Pouch/Inventory Slots and Buying Equipments
 
 Level System
 1. XP Table
@@ -87,7 +95,7 @@ Regions
 	Map Loots:
 		- More Gold
 		- Normal Equipment (Armor, Weapon, Potion)
-		- Nomal XP
+		- Normal XP
 2. Enchanted Forest
 	Central Hub Shop: 
 		- Blacksmith: specializes in
@@ -101,7 +109,7 @@ Regions
 	Map Loots:
 		- Normal Gold
 		- More Equipment (Armor, Weapon, Potion)
-		- Nomal XP
+		- Normal XP
 3. Fantasy
 	Central Hub Shop: 
 		- Blacksmith: specializes in

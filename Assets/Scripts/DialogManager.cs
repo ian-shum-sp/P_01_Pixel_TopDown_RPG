@@ -10,15 +10,10 @@ public class DialogManager : MonoBehaviour
     private int _currentNPCDialogIndex = 0;
     private string _currentNPCName;
     private List<string> _currentNPCDialogs = new List<string>();
+    private Color _textColor = Color.black;
     public TextMeshProUGUI dialogHeaderText;
     public TextMeshProUGUI dialogText;
     public Animator animator;
-    public TextMeshProUGUI dialogTextContinue;
-
-    private void Awake() 
-    {
-        dialogTextContinue.gameObject.SetActive(false);
-    }
 
     private void Update() 
     {
@@ -36,14 +31,16 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    public void Show(Enums.NPCName nPCName)
+    public void Show(Enums.NPCName nPCName, Color? color = null)
     {
         _isActive = true;
         _currentNPCName = Enums.GetNPCName(nPCName);
         _currentNPCDialogs = Enums.GetNPCDialogs(nPCName);
         _currentNPCDialogIndex = 0;
         if(nPCName == Enums.NPCName.GUIDE)
-            dialogTextContinue.gameObject.SetActive(true);
+            GameManager.Instance.player.IsActive = true;
+        if(color != null)
+            _textColor = (Color)color;
         UpdateDialog();
         _currentNPCDialogIndex++;
         animator.SetTrigger("Show");
@@ -52,8 +49,8 @@ public class DialogManager : MonoBehaviour
     public void Hide()
     {
         _isActive = false;
-        if(dialogTextContinue.gameObject.activeInHierarchy)
-            dialogTextContinue.gameObject.SetActive(false);
+        GameManager.Instance.player.IsActive = true;
+        _textColor = Color.black;
         animator.SetTrigger("Hide");
     }
 

@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
     public FloatingTextManager floatingTextManager;
     public DialogManager dialogManager;
     public ConfirmationManager confirmationManager;
-    public GameObject MainMenu;
-    public GameObject LoadingScreen;
+    public HUD hUD;
+    public PlayerMenu playerMenu;
     #endregion
 
     #region Reset Game
@@ -61,8 +61,8 @@ public class GameManager : MonoBehaviour
             Destroy(floatingTextManager.gameObject);
             Destroy(dialogManager.gameObject);
             Destroy(confirmationManager.gameObject);
-            Destroy(MainMenu);
-            Destroy(LoadingScreen);
+            Destroy(hUD.gameObject);
+            Destroy(playerMenu.gameObject);
             Destroy(player.gameObject);
             return;
         }
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         }
 
         loadingScreenAnimator.SetTrigger("Show");
-        _sceneLoading.Add(SceneManager.LoadSceneAsync(sceneToBeLoaded.SceneName));
+        _sceneLoading.Add(SceneManager.LoadSceneAsync(Enums.GetEnumDescription(sceneToBeLoaded.SceneName)));
         _totalProgress = 0;
         _isDoneStimulate = false;
         StartCoroutine(StimulateLoad());
@@ -142,15 +142,17 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Dialog Manager
-    public void ShowDialog(Enums.NPCName nPCName)
+    public void ShowDialog(Enums.NPCName nPCName, Color? color = null)
     {
-        dialogManager.Show(nPCName);
+        player.IsActive = false;
+        dialogManager.Show(nPCName, color);
     }
     #endregion
 
     #region Confirmation Manager
     public void ShowConfirmation(string text)
     {
+        player.IsActive = false;
         confirmationManager.Show(text);
     }
     #endregion
@@ -215,7 +217,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("P01SaveData");
         GameScene _mainScene = new GameScene();
-        _mainScene.SceneName = "MainScene";
+        _mainScene.SceneName = Enums.SceneName.MAIN_SCENE;
         _mainScene.SceneDisplayName = "";
         LoadScene(_mainScene, 0.5f);
     }
@@ -225,7 +227,7 @@ public class GameManager : MonoBehaviour
         if(!PlayerPrefs.HasKey("P01SaveData"))
         {
             GameScene _introductoryScene = new GameScene();
-            _introductoryScene.SceneName = "Introductory";
+            _introductoryScene.SceneName = Enums.SceneName.INTRODUCTORY;
             _introductoryScene.SceneDisplayName = "";
             LoadScene(_introductoryScene);
         }

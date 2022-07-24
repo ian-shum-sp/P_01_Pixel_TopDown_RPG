@@ -124,7 +124,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -132,6 +132,69 @@ TextureImporter:
       bones: []
       spriteID: 7946b50ddd8b7e14893f1137fc8fe4ab
       internalID: 619775073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armor_0
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70ce46fe1bdf089498147bbbd57219d2
+      internalID: 160792882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armor_1
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f88300db3ac20a2459cff4894529ce9d
+      internalID: -1276541915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armor_2
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c620906e243ee248b0579463481075f
+      internalID: 359066173
       vertices: []
       indices: 
       edges: []
@@ -147,7 +210,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      armor_1: -1276541915
+      armor_2: 359066173
       wall_0: 619775073
+      armor_0: 160792882
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
