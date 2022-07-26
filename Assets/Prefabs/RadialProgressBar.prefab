@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3785023294520746089}
   - component: {fileID: 8902783884733489893}
   m_Layer: 5
-  m_Name: Mask
+  m_Name: MaskFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 2216249835094482404}
   - component: {fileID: 4083250108996284707}
   m_Layer: 5
-  m_Name: Fill
+  m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

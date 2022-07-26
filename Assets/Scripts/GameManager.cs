@@ -44,11 +44,18 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Character Creation
-
+    #region Experience Table
+    //Experience table store the accumulated experience for the level
+    public List<int> experienceTable;
     #endregion
 
     #region Game
+    private bool _isBlockGameActions;
+    public bool IsBlockGameActions
+    {
+        get { return _isBlockGameActions; }
+        set { _isBlockGameActions = value; }
+    }
     public Player player;
     public List<Sprite> playerSprites = new List<Sprite>();
     #endregion
@@ -95,8 +102,8 @@ public class GameManager : MonoBehaviour
         }
 
         loadingScreenAnimator.SetTrigger("Show");
-        _sceneLoading.Add(SceneManager.LoadSceneAsync(Enums.GetEnumDescription(sceneToBeLoaded.SceneName)));
-        _totalProgress = 0;
+        _sceneLoading.Add(SceneManager.LoadSceneAsync(Common.GetEnumDescription(sceneToBeLoaded.SceneName)));
+        _totalProgress = 0.0f;
         _isDoneStimulate = false;
         StartCoroutine(StimulateLoad());
         StartCoroutine(GetSceneLoadProgress(sceneToBeLoaded.SceneDisplayName));
@@ -108,7 +115,7 @@ public class GameManager : MonoBehaviour
         {
             while(!_sceneLoading[i].isDone || !_isDoneStimulate)
             {
-                float ratio = (float) _totalProgress / (float) 100;
+                float ratio = (float)_totalProgress / (float)100.0f;
                 loadingScreenProgressBarMask.fillAmount = ratio;
                 loadingScreenInfoText.text = string.Format("Loading {0} ({1}%)", sceneDisplayName, ratio * 100.0f);
 
@@ -117,13 +124,13 @@ public class GameManager : MonoBehaviour
         }
 
         loadingScreenAnimator.SetTrigger("Hide");
-        _totalProgress = 0;
+        _totalProgress = 0.0f;
         _isDoneStimulate = false;
     }
 
     private IEnumerator StimulateLoad()
     {
-        while(_totalProgress < 100)
+        while(_totalProgress < 100.0f)
         {
             yield return new WaitForEndOfFrame();
             _totalProgress++;
@@ -142,17 +149,23 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Dialog Manager
-    public void ShowDialog(Enums.NPCName nPCName, Color? color = null)
+    public void ShowFullDialog(Common.NPCName nPCName, Color? color = null)
     {
-        player.IsActive = false;
-        dialogManager.Show(nPCName, color);
+        _isBlockGameActions = true;
+        dialogManager.ShowFullDialog(nPCName, color);
+    }
+
+    public void ShowRunningDialog(Common.NPCName nPCName, Color? color = null)
+    {
+        _isBlockGameActions = true;
+        dialogManager.ShowRunningDialog(nPCName, color);
     }
     #endregion
 
     #region Confirmation Manager
     public void ShowConfirmation(string text)
     {
-        player.IsActive = false;
+        _isBlockGameActions = true;
         confirmationManager.Show(text);
     }
     #endregion
@@ -160,9 +173,9 @@ public class GameManager : MonoBehaviour
     #region Save, Load, Reset Game
     private void SpawnPlayer()
     {
-        GameObject _spawnPoint = GameObject.Find("SpawnPoint");
+        GameObject spawnPoint = GameObject.Find("SpawnPoint");
 
-        if(_spawnPoint != null)
+        if(spawnPoint != null)
         {
             player.transform.position = GameObject.Find("SpawnPoint").transform.position;
         }
@@ -197,6 +210,7 @@ public class GameManager : MonoBehaviour
 
     public void ShowMainMenu()
     {
+        _isBlockGameActions = true;
         mainMenuAnimator.SetTrigger("Show");
         if(!PlayerPrefs.HasKey("P01SaveData"))
             resetButton.gameObject.SetActive(false);
@@ -216,20 +230,22 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         PlayerPrefs.DeleteKey("P01SaveData");
-        GameScene _mainScene = new GameScene();
-        _mainScene.SceneName = Enums.SceneName.MAIN_SCENE;
-        _mainScene.SceneDisplayName = "";
-        LoadScene(_mainScene, 0.5f);
+        GameScene mainScene = new GameScene();
+        mainScene.SceneName = Common.SceneName.MAIN_SCENE;
+        mainScene.SceneDisplayName = "";
+        LoadScene(mainScene, 0.5f);
     }
 
     public void LoadGame()
     {
+        _isBlockGameActions = false;
         if(!PlayerPrefs.HasKey("P01SaveData"))
         {
-            GameScene _introductoryScene = new GameScene();
-            _introductoryScene.SceneName = Enums.SceneName.INTRODUCTORY;
-            _introductoryScene.SceneDisplayName = "";
-            LoadScene(_introductoryScene);
+            GameScene introductoryScene = new GameScene()
+            ;
+            introductoryScene.SceneName = Common.SceneName.INTRODUCTORY;
+            introductoryScene.SceneDisplayName = "";
+            LoadScene(introductoryScene);
         }
         else
         {

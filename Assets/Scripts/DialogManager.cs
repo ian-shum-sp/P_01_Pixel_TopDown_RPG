@@ -7,56 +7,95 @@ using UnityEngine.UI;
 public class DialogManager : MonoBehaviour
 {
     private bool _isActive = false;
-    private int _currentNPCDialogIndex = 0;
+    private int _fullDialogCurrentNPCDialogIndex = 0;
+    private int _runningDialogCurrentNPCDialogIndex = 0;
     private string _currentNPCName;
     private List<string> _currentNPCDialogs = new List<string>();
     private Color _textColor = Color.black;
+    private bool _isShowAllDialogs = true;
     public TextMeshProUGUI dialogHeaderText;
     public TextMeshProUGUI dialogText;
     public Animator animator;
 
     private void Update() 
     {
-        if(_isActive && Input.GetKeyDown(KeyCode.Return))
+        if(_isActive && _isShowAllDialogs && Input.GetKeyDown(KeyCode.Return))
         {
-            if(_currentNPCDialogIndex < _currentNPCDialogs.Count)
+            if(_fullDialogCurrentNPCDialogIndex < _currentNPCDialogs.Count)
             {
                 UpdateDialog();
-                _currentNPCDialogIndex++;
             }
             else
             {
                 Hide();
             }
         }
+        else if(_isActive && !_isShowAllDialogs && Input.GetKeyDown(KeyCode.Return))
+        {
+            Hide();
+        }
     }
 
-    public void Show(Enums.NPCName nPCName, Color? color = null)
+    private void Show(Color? color = null)
     {
         _isActive = true;
-        _currentNPCName = Enums.GetNPCName(nPCName);
-        _currentNPCDialogs = Enums.GetNPCDialogs(nPCName);
-        _currentNPCDialogIndex = 0;
-        if(nPCName == Enums.NPCName.GUIDE)
-            GameManager.Instance.player.IsActive = true;
+        
         if(color != null)
             _textColor = (Color)color;
+        else
+            _textColor = Color.black;
         UpdateDialog();
-        _currentNPCDialogIndex++;
         animator.SetTrigger("Show");
+    }
+
+    public void ShowFullDialog(Common.NPCName nPCName, Color? color = null)
+    {
+        _isShowAllDialogs = true;
+        _currentNPCName = Common.GetNPCName(nPCName);
+        _currentNPCDialogs = Common.GetNPCDialogs(nPCName);
+        _fullDialogCurrentNPCDialogIndex = 0;
+        Show(color);
+    }
+
+    public void ShowRunningDialog(Common.NPCName nPCName, Color? color = null)
+    {
+        _isShowAllDialogs = false;
+        //Check if is want to continue to show the next dialog same NPC, if not same NPC then restart from first dialog od the new NPC
+        if(_currentNPCName != Common.GetNPCName(nPCName))
+        {
+            _currentNPCName = Common.GetNPCName(nPCName);
+            _currentNPCDialogs = Common.GetNPCDialogs(nPCName);
+            _runningDialogCurrentNPCDialogIndex = 0;
+        }
+        else
+        {
+            if(_runningDialogCurrentNPCDialogIndex >= _currentNPCDialogs.Count)
+            {
+                _runningDialogCurrentNPCDialogIndex = _currentNPCDialogs.Count-1;
+            }
+        }
+        Show(color);
     }
 
     public void Hide()
     {
         _isActive = false;
-        GameManager.Instance.player.IsActive = true;
-        _textColor = Color.black;
         animator.SetTrigger("Hide");
+        GameManager.Instance.IsBlockGameActions = false;
     }
 
     public void UpdateDialog()
     {
         dialogHeaderText.text = _currentNPCName;
-        dialogText.text = _currentNPCDialogs[_currentNPCDialogIndex];
+        if(_isShowAllDialogs)
+        {
+            dialogText.text = _currentNPCDialogs[_fullDialogCurrentNPCDialogIndex];
+            _fullDialogCurrentNPCDialogIndex++;
+        }
+        else
+        {
+            dialogText.text = _currentNPCDialogs[_runningDialogCurrentNPCDialogIndex];
+            _runningDialogCurrentNPCDialogIndex++;
+        }
     }
 }

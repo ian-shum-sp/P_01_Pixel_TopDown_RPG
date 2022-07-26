@@ -5,12 +5,12 @@ using UnityEngine;
 public class GameScene
 {
     #region class members
-    private Enums.SceneName _sceneName;
+    private Common.SceneName _sceneName;
     private string _sceneDisplayName;
     #endregion
     
     #region accessors
-    public Enums.SceneName SceneName
+    public Common.SceneName SceneName
     {
         get { return _sceneName; }
         set { _sceneName = value; }
