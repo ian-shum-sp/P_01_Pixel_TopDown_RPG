@@ -84,12 +84,12 @@ public class Player : MonoBehaviour
         _spriteRenderer.sprite = sprite;
     }
 
-    public void UpdateInventory(Common.InventoryType inventoryType, int inventoryLevel)
+    public void InitializeInventory(Common.InventoryType inventoryType, int inventoryLevel)
     {
-        _inventories[(int)inventoryType].UpdateInventory(inventoryLevel);
+        _inventories[(int)inventoryType].InitializeInventory(inventoryLevel);
     }
 
-    public Inventory GetInventoryInfo(Common.InventoryType inventoryType)
+    public Inventory GetInventory(Common.InventoryType inventoryType)
     {
         return _inventories[(int)inventoryType];
     }

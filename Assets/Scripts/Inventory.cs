@@ -8,9 +8,12 @@ public class Inventory : MonoBehaviour
     public Common.InventoryType inventoryType;
     //stores the plain Level (not index)
     private int _inventoryLevel;
+    private int _inventoryBaseNumberOfSlots;
     private int _unlockedInventorySlots;
     public int maxLevel;
     public int maxNumberOfInventorySlots;
+    public int[] upgradePrices;
+    public Slot[] slots;
     #endregion
     
     #region accessors
@@ -21,14 +24,40 @@ public class Inventory : MonoBehaviour
     }
     #endregion
 
-    public void UpdateInventory(int inventoryLevel)
+    public void InitializeInventory(int inventoryLevel)
     {
-        _inventoryLevel = inventoryLevel;
-        Common.UpdateInventoryBaseNumberOfSlots(inventoryType, maxNumberOfInventorySlots, maxLevel);
-        _unlockedInventorySlots = _inventoryLevel * Common.GetInventoryBaseNumberOfSlots(inventoryType);
-        if(_unlockedInventorySlots > maxNumberOfInventorySlots)
+        if(maxNumberOfInventorySlots > slots.Length)
         {
-            _unlockedInventorySlots = maxNumberOfInventorySlots;
+            Slot[] newSlots = new Slot[maxNumberOfInventorySlots];
+            for (int i = 0; i < maxNumberOfInventorySlots; i++)
+            {
+                Slot newSlot = slots[i];
+                newSlots[i] = newSlot;
+            }
         }
+        else if(maxNumberOfInventorySlots < slots.Length)
+        {
+            maxNumberOfInventorySlots = slots.Length;
+        }
+
+        _inventoryLevel = inventoryLevel;
+        if(_inventoryLevel > maxLevel)
+            _inventoryLevel = maxLevel;
+
+        _inventoryBaseNumberOfSlots = maxNumberOfInventorySlots / maxLevel;
+        _unlockedInventorySlots = _inventoryLevel * _inventoryBaseNumberOfSlots;
+
+        for (int i = 0; i < maxNumberOfInventorySlots; i++)
+        {
+            if(i < _unlockedInventorySlots)
+                slots[i].UnlockSlot();
+            else
+                slots[i].LockSlot();
+        }
+    }
+
+    public void UpgradeInventory()
+    {
+        
     }
 }

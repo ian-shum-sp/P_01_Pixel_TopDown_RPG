@@ -57,7 +57,7 @@ Equipment System
 		- Equipment Inventory: Maximum 3 rows   
 		- Equipment Inventory: Maximum 1 row   
 	Upgradable with Gold and Level Requirement
-	Maximum ??? Level
+	Maximum 4 Level
 
 Gold System
 1. Use for upgrading Pouch/Inventory Slots and Buying Equipments

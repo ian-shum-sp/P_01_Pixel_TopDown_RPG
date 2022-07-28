@@ -10,26 +10,20 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { private set; get; }
 
     #region Scene Management
-    private List<GameScene> _scenes = new List<GameScene>();
     #endregion
 
     #region Main Menu 
     public Animator mainMenuAnimator;
     #endregion
 
-    #region Loading Screen
-    private List<AsyncOperation> _sceneLoading = new List<AsyncOperation>();
-    private float _totalProgress;
-    private bool _isDoneStimulate;
-    public Animator loadingScreenAnimator;
-    public Image loadingScreenProgressBarMask;
-    public TextMeshProUGUI loadingScreenInfoText;
-    #endregion 
-
     #region References
     public FloatingTextManager floatingTextManager;
     public DialogManager dialogManager;
     public ConfirmationManager confirmationManager;
+    public LoadingScreenManager loadingScreenManager;
+    public ExperienceManager experienceManager;
+    public EquipmentManager equipmentManager;
+    public NPCManager nPCManager;
     public HUD hUD;
     public PlayerMenu playerMenu;
     #endregion
@@ -44,11 +38,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Experience Table
-    //Experience table store the accumulated experience for the level
-    public List<int> experienceTable;
-    #endregion
-
     #region Game
     private bool _isBlockGameActions;
     public bool IsBlockGameActions
@@ -57,7 +46,11 @@ public class GameManager : MonoBehaviour
         set { _isBlockGameActions = value; }
     }
     public Player player;
-    public List<Sprite> playerSprites = new List<Sprite>();
+    #endregion
+
+    #region Custom Cursor
+    public Texture2D defaultCursorTexture;
+    public Texture2D hoverCursorTexture;
     #endregion
 
     private void Awake() 
@@ -68,6 +61,10 @@ public class GameManager : MonoBehaviour
             Destroy(floatingTextManager.gameObject);
             Destroy(dialogManager.gameObject);
             Destroy(confirmationManager.gameObject);
+            Destroy(loadingScreenManager.gameObject);
+            Destroy(experienceManager.gameObject);
+            Destroy(equipmentManager.gameObject);
+            Destroy(nPCManager.gameObject);
             Destroy(hUD.gameObject);
             Destroy(playerMenu.gameObject);
             Destroy(player.gameObject);
@@ -80,66 +77,10 @@ public class GameManager : MonoBehaviour
 
     private void Start() 
     {
+        nPCManager.InitializeNPCInfos();
         ShowMainMenu();
+        ChangeCursor(false);
     }
-
-    #region Loading Screen
-    public void LoadScene(GameScene scene, float delay = 0.0f)
-    {
-        StartCoroutine(LoadSceneDelay(scene, delay));
-    }
-
-    public IEnumerator LoadSceneDelay(GameScene scene, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        GameScene sceneToBeLoaded = _scenes.Find(x => x.SceneName == scene.SceneName);
-
-        if(sceneToBeLoaded == null)
-        {
-            sceneToBeLoaded = scene;
-            _scenes.Add(sceneToBeLoaded);
-        }
-
-        loadingScreenAnimator.SetTrigger("Show");
-        _sceneLoading.Add(SceneManager.LoadSceneAsync(Common.GetEnumDescription(sceneToBeLoaded.SceneName)));
-        _totalProgress = 0.0f;
-        _isDoneStimulate = false;
-        StartCoroutine(StimulateLoad());
-        StartCoroutine(GetSceneLoadProgress(sceneToBeLoaded.SceneDisplayName));
-    }
-
-    private IEnumerator GetSceneLoadProgress(string sceneDisplayName)
-    {
-        for (int i = 0; i < _sceneLoading.Count; i++)
-        {
-            while(!_sceneLoading[i].isDone || !_isDoneStimulate)
-            {
-                float ratio = (float)_totalProgress / (float)100.0f;
-                loadingScreenProgressBarMask.fillAmount = ratio;
-                loadingScreenInfoText.text = string.Format("Loading {0} ({1}%)", sceneDisplayName, ratio * 100.0f);
-
-                yield return null;
-            }
-        }
-
-        loadingScreenAnimator.SetTrigger("Hide");
-        _totalProgress = 0.0f;
-        _isDoneStimulate = false;
-    }
-
-    private IEnumerator StimulateLoad()
-    {
-        while(_totalProgress < 100.0f)
-        {
-            yield return new WaitForEndOfFrame();
-            _totalProgress++;
-        }
-        yield return new WaitForSeconds(0.5f);
-        _isDoneStimulate = true;
-    }
-
-    #endregion
 
     #region Floating Text Manager
     public void ShowFloatingText(string message, int fontSize, Color color, Vector3 position, Vector3 motion, float showDuration)
@@ -170,6 +111,55 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Loading Screen Manager
+    public void LoadScene(GameScene scene, float delay = 0.0f)
+    {
+        loadingScreenManager.LoadScene(scene, delay);
+    }
+    #endregion
+
+    #region Experience Manager
+    public int GetPlayerLevel()
+    {
+        return experienceManager.CalculateLevelFromExperience();
+    }
+
+    public int GetAccumulatedExperienceOfLevel(int level)
+    {
+        return experienceManager.GetAccumulatedExperienceOfLevel(level);
+    }
+    #endregion
+
+    #region Equipment Manager
+
+    #endregion
+
+    #region NPC Manager
+    public string GetNPCName(Common.NPCName nPCName)
+    {
+        return nPCManager.GetNPCName(nPCName);
+    }
+
+    public List<string> GetNPCDialogs(Common.NPCName nPCName)
+    {
+        return nPCManager.GetNPCDialogs(nPCName);
+    }
+
+    public void UpdateGuideName(Common.PlayerGender playerGENDER)
+    {
+        nPCManager.UpdateGuideName(playerGENDER);
+    }
+    #endregion
+
+    #region HUD
+    public void ShowHUD()
+    {
+        hUD.InitializeHUD();
+        hUD.Show();
+    }
+    #endregion
+
+
     #region Save, Load, Reset Game
     private void SpawnPlayer()
     {
@@ -191,7 +181,7 @@ public class GameManager : MonoBehaviour
         Save with '|' as delimeter 
         Order of saving
         1. Player Name
-        2. Xp
+        2. Experience
         3. Gold
         4. Inventory ('&' as delimeter)
         5. Central Hub Location
@@ -241,8 +231,7 @@ public class GameManager : MonoBehaviour
         _isBlockGameActions = false;
         if(!PlayerPrefs.HasKey("P01SaveData"))
         {
-            GameScene introductoryScene = new GameScene()
-            ;
+            GameScene introductoryScene = new GameScene();
             introductoryScene.SceneName = Common.SceneName.INTRODUCTORY;
             introductoryScene.SceneDisplayName = "";
             LoadScene(introductoryScene);
@@ -256,6 +245,16 @@ public class GameManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SpawnPlayer();
+    }
+    #endregion
+
+    #region Custom Cursor
+    public void ChangeCursor(bool isHover)
+    {
+        if(!isHover)
+            Cursor.SetCursor(defaultCursorTexture, Vector2.zero, CursorMode.Auto);
+        else
+            Cursor.SetCursor(hoverCursorTexture, Vector2.zero, CursorMode.Auto);
     }
     #endregion
 }

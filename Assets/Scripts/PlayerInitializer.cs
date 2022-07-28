@@ -9,6 +9,7 @@ public class PlayerInitializer : MonoBehaviour
     public Animator _nameInputAnimator;
     public Animator _warningAnimator;
     public TMP_InputField inputField;
+    public List<Sprite> playerSprites = new List<Sprite>();
 
     private void Awake() 
     {
@@ -33,8 +34,8 @@ public class PlayerInitializer : MonoBehaviour
 
     private void UpdatePlayerGenderAndGuide(Common.PlayerGender playerGender)
     {
-        GameManager.Instance.player.SetPlayerSprite(GameManager.Instance.playerSprites[(int)playerGender]);
-        Common.UpdateGuideName(playerGender);
+        GameManager.Instance.player.SetPlayerSprite(playerSprites[(int)playerGender]);
+        GameManager.Instance.UpdateGuideName(playerGender);
         Invoke("ShowNameInput", 0.25f);
     }
 
@@ -59,8 +60,7 @@ public class PlayerInitializer : MonoBehaviour
         {
             InitializePlayerStats();
             _nameInputAnimator.SetTrigger("Hide");
-            GameManager.Instance.hUD.InitializeHUD();
-            GameManager.Instance.hUD.Show();
+            GameManager.Instance.ShowHUD();
             GameManager.Instance.ShowRunningDialog(Common.NPCName.GUIDE_INTRODUCTORY);
         }
     }
@@ -71,9 +71,9 @@ public class PlayerInitializer : MonoBehaviour
         GameManager.Instance.player.maxHealthPoints = 20.0f;
         GameManager.Instance.player.Experience = 0;
         GameManager.Instance.player.Name = inputField.text;
-        GameManager.Instance.player.UpdateInventory(Common.InventoryType.ARMOR, 1);
-        GameManager.Instance.player.UpdateInventory(Common.InventoryType.WEAPON, 1);
-        GameManager.Instance.player.UpdateInventory(Common.InventoryType.POTION, 1);
-        GameManager.Instance.player.UpdateInventory(Common.InventoryType.POUCH, 1);
+        GameManager.Instance.player.InitializeInventory(Common.InventoryType.ARMOR, 1);
+        GameManager.Instance.player.InitializeInventory(Common.InventoryType.WEAPON, 1);
+        GameManager.Instance.player.InitializeInventory(Common.InventoryType.POTION, 1);
+        GameManager.Instance.player.InitializeInventory(Common.InventoryType.POUCH, 1);
     }   
 }
