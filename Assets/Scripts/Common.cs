@@ -28,13 +28,13 @@ public static class Common
         FANTASY_CENTRAL_HUB = 4
     }
 
-    public enum NPCName
+    public enum NPCType
     {
-        GUIDE_INTRODUCTORY = 0,
+        GUIDE = 0,
         ARMORER = 1,
         WEAPONSMITH  = 2,
-        MEDIC = 3,
-        GUIDE_SIGN = 4
+        POTION_BREWER = 3,
+        SIGN = 4
     }
 
     public enum InventoryType
@@ -57,10 +57,37 @@ public static class Common
     public enum EquipmentType
     {
         HEAD_ARMOR = 0,
-        WEAPON = 1,
-        CHEST_ARMOR = 2,
-        BOOTS_ARMOR = 3,
-        POTION = 4
+        CHEST_ARMOR = 1,
+        BOOTS_ARMOR = 2,
+        MELEE_WEAPON = 3,
+        RANGED_WEAPON = 4,
+        POTION = 5
+    }
+
+    public enum ArmorBuff
+    {
+        BLEEDING_RESISTANCE = 0,
+        KNOCKBACK_RESISTANCE = 1,
+        ELEMENT_RESISTANCE = 2,
+        NONE = 4 
+    }
+
+    public enum PotionBuff
+    {
+        BLEEDING_RESISTANCE = 0,
+        KNOCKBACK_RESISTANCE = 1,
+        ELEMENT_RESISTANCE = 2,
+        STRENGTH = 3,
+        SPEED = 4,
+        HEALING = 5
+    }
+
+    public enum Debuff
+    {
+        BLEEDING = 0,
+        KNOCKBACK = 1,
+        ELEMENT = 2,
+        NONE = 3
     }
    
     public static readonly Color UnlockedSlotColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);

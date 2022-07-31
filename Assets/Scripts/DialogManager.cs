@@ -10,7 +10,7 @@ public class DialogManager : MonoBehaviour
     private int _fullDialogCurrentNPCDialogIndex = 0;
     private int _runningDialogCurrentNPCDialogIndex = 0;
     private string _currentNPCName;
-    private List<string> _currentNPCDialogs = new List<string>();
+    private string[] _currentNPCDialogs = new string[20];
     private Color _textColor = Color.black;
     private bool _isShowAllDialogs = true;
     public TextMeshProUGUI dialogHeaderText;
@@ -21,7 +21,7 @@ public class DialogManager : MonoBehaviour
     {
         if(_isActive && _isShowAllDialogs && Input.GetKeyDown(KeyCode.Return))
         {
-            if(_fullDialogCurrentNPCDialogIndex < _currentNPCDialogs.Count)
+            if(_fullDialogCurrentNPCDialogIndex < _currentNPCDialogs.Length)
             {
                 UpdateDialog();
             }
@@ -48,30 +48,30 @@ public class DialogManager : MonoBehaviour
         animator.SetTrigger("Show");
     }
 
-    public void ShowFullDialog(Common.NPCName nPCName, Color? color = null)
+    public void ShowFullDialog(Common.NPCType nPCType, Color? color = null)
     {
         _isShowAllDialogs = true;
-        _currentNPCName = GameManager.Instance.GetNPCName(nPCName);
-        _currentNPCDialogs = GameManager.Instance.GetNPCDialogs(nPCName);
+        _currentNPCName = GameManager.Instance.GetNPCName(nPCType);
+        _currentNPCDialogs = GameManager.Instance.GetNPCDialogs(nPCType);
         _fullDialogCurrentNPCDialogIndex = 0;
         Show(color);
     }
 
-    public void ShowRunningDialog(Common.NPCName nPCName, Color? color = null)
+    public void ShowRunningDialog(Common.NPCType nPCType, Color? color = null)
     {
         _isShowAllDialogs = false;
-        //Check if is want to continue to show the next dialog same NPC, if not same NPC then restart from first dialog od the new NPC
-        if(_currentNPCName !=  GameManager.Instance.GetNPCName(nPCName))
+        //Check if is want to continue to show the next dialog of same NPC, if not same NPC then restart from first dialog of the new NPC
+        if(_currentNPCName !=  GameManager.Instance.GetNPCName(nPCType))
         {
-            _currentNPCName =  GameManager.Instance.GetNPCName(nPCName);
-            _currentNPCDialogs =  GameManager.Instance.GetNPCDialogs(nPCName);
+            _currentNPCName =  GameManager.Instance.GetNPCName(nPCType);
+            _currentNPCDialogs =  GameManager.Instance.GetNPCDialogs(nPCType);
             _runningDialogCurrentNPCDialogIndex = 0;
         }
         else
         {
-            if(_runningDialogCurrentNPCDialogIndex >= _currentNPCDialogs.Count)
+            if(_runningDialogCurrentNPCDialogIndex >= _currentNPCDialogs.Length)
             {
-                _runningDialogCurrentNPCDialogIndex = _currentNPCDialogs.Count-1;
+                _runningDialogCurrentNPCDialogIndex = _currentNPCDialogs.Length-1;
             }
         }
         Show(color);
@@ -90,11 +90,15 @@ public class DialogManager : MonoBehaviour
         if(_isShowAllDialogs)
         {
             dialogText.text = _currentNPCDialogs[_fullDialogCurrentNPCDialogIndex];
+            //clean the array
+            _currentNPCDialogs[_fullDialogCurrentNPCDialogIndex] = null;
             _fullDialogCurrentNPCDialogIndex++;
         }
         else
         {
             dialogText.text = _currentNPCDialogs[_runningDialogCurrentNPCDialogIndex];
+            //clean the array
+            _currentNPCDialogs[_runningDialogCurrentNPCDialogIndex] = null;
             _runningDialogCurrentNPCDialogIndex++;
         }
     }

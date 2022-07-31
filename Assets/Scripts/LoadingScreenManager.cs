@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,7 +50,7 @@ public class LoadingScreenManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        GameScene sceneToBeLoaded = _scenes.Find(x => x.SceneName == scene.SceneName);
+        GameScene sceneToBeLoaded = _scenes.FirstOrDefault(x => x.SceneName == scene.SceneName);
 
         if(sceneToBeLoaded == null)
         {

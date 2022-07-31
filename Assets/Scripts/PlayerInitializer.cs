@@ -9,7 +9,7 @@ public class PlayerInitializer : MonoBehaviour
     public Animator _nameInputAnimator;
     public Animator _warningAnimator;
     public TMP_InputField inputField;
-    public List<Sprite> playerSprites = new List<Sprite>();
+    public Sprite[] playerSprites;
 
     private void Awake() 
     {
@@ -61,7 +61,7 @@ public class PlayerInitializer : MonoBehaviour
             InitializePlayerStats();
             _nameInputAnimator.SetTrigger("Hide");
             GameManager.Instance.ShowHUD();
-            GameManager.Instance.ShowRunningDialog(Common.NPCName.GUIDE_INTRODUCTORY);
+            GameManager.Instance.ShowRunningDialog(Common.NPCType.GUIDE);
         }
     }
 

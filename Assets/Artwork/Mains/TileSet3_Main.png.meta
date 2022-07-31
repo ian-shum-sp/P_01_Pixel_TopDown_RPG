@@ -1312,6 +1312,111 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: fire_0
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 672
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d946cadaa7a2764095154056a7a9d2a
+      internalID: -2115005118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flask_big_purple
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 800
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde31d97122c9c14fa7fce53a66ed8f8
+      internalID: -2062026677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flask_purple
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 768
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b430e3ad4862454a84ab10a52466701
+      internalID: 2081810091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flask_big_orange
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 784
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75421c89691a4b24383f0e68033aaac0
+      internalID: -341130846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flask_orange
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 752
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1481f7f0e5bca4a4eaf0e23c03018ae1
+      internalID: 1461110581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1352,32 +1457,36 @@ TextureImporter:
       torch_4: 540423202
       stain_2: 864700328
       sign_1: -1257838607
-      TileSet3_Main_0: 568663016
+      stain_14: 1684443673
       big_stairs_5: -647877480
       torch_14: -1710180061
       stain_7: 1695543009
       TileSet3_Main_3: -1891329056
       stain_10: 12009565
-      stain_14: 1684443673
       torch_1: -177132044
       torch_5: 791791039
+      flask_big_orange: -1038360158
       sign_0: -241603364
       torch_12: 1421910718
       stain_13: -66938286
       pouch_0: -1289683070
+      flask_big_purple: -2062026677
       key_0: 243078456
       wall_2: 1403287223
       stain_4: -2066669659
       stain_8: -101329739
       pouch_2: 1991828262
+      flask_orange: 1461110581
       torch_7: -553629932
       door_top_0: -1972865339
       big_stairs_4: 280573886
       torch_8: -814407756
       pouch_1: -2075984229
+      fire_0: 568663016
       stain_15: -1881965426
       stairs_2: 201745049
       ladder_0: 918614701
+      flask_purple: 2081810091
       stain_3: 1624497388
       stairs_3: -967791630
       stain_0: -442433414

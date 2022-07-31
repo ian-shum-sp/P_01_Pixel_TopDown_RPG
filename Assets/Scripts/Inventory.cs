@@ -10,8 +10,8 @@ public class Inventory : MonoBehaviour
     private int _inventoryLevel;
     private int _inventoryBaseNumberOfSlots;
     private int _unlockedInventorySlots;
+    private int _maxNumberOfInventorySlots;
     public int maxLevel;
-    public int maxNumberOfInventorySlots;
     public int[] upgradePrices;
     public Slot[] slots;
     #endregion
@@ -26,28 +26,17 @@ public class Inventory : MonoBehaviour
 
     public void InitializeInventory(int inventoryLevel)
     {
-        if(maxNumberOfInventorySlots > slots.Length)
-        {
-            Slot[] newSlots = new Slot[maxNumberOfInventorySlots];
-            for (int i = 0; i < maxNumberOfInventorySlots; i++)
-            {
-                Slot newSlot = slots[i];
-                newSlots[i] = newSlot;
-            }
-        }
-        else if(maxNumberOfInventorySlots < slots.Length)
-        {
-            maxNumberOfInventorySlots = slots.Length;
-        }
-
         _inventoryLevel = inventoryLevel;
         if(_inventoryLevel > maxLevel)
             _inventoryLevel = maxLevel;
 
-        _inventoryBaseNumberOfSlots = maxNumberOfInventorySlots / maxLevel;
+        _maxNumberOfInventorySlots = slots.Length;
+        _inventoryBaseNumberOfSlots = Mathf.CeilToInt((float)_maxNumberOfInventorySlots / (float)maxLevel);
         _unlockedInventorySlots = _inventoryLevel * _inventoryBaseNumberOfSlots;
+        if(_unlockedInventorySlots > _maxNumberOfInventorySlots)
+            _unlockedInventorySlots = _maxNumberOfInventorySlots;
 
-        for (int i = 0; i < maxNumberOfInventorySlots; i++)
+        for (int i = 0; i < _maxNumberOfInventorySlots; i++)
         {
             if(i < _unlockedInventorySlots)
                 slots[i].UnlockSlot();

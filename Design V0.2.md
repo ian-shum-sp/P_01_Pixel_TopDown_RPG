@@ -71,7 +71,7 @@ Level System
 Combat System
 1. Hitboxes
 2. Modifiers
-3. Health
+3. Health 
 4. Stamina
 
 General Map Design

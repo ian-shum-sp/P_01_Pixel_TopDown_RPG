@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
-    
+    public List<Equipment> _equipments = new List<Equipment>();
 }

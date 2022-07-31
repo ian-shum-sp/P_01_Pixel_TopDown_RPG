@@ -4,5 +4,14 @@ using UnityEngine;
 
 public class Weapon : Equipment
 {
+    #region class members
+    public int damagePoints;
+    public Common.Debuff weaponDebuff;
+    public int debuffLevel;
+    public int attackRange;
+    public float pushForce;
+    #endregion
     
+    #region accessors
+    #endregion
 }

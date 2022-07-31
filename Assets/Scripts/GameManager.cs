@@ -77,7 +77,6 @@ public class GameManager : MonoBehaviour
 
     private void Start() 
     {
-        nPCManager.InitializeNPCInfos();
         ShowMainMenu();
         ChangeCursor(false);
     }
@@ -90,13 +89,13 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Dialog Manager
-    public void ShowFullDialog(Common.NPCName nPCName, Color? color = null)
+    public void ShowFullDialog(Common.NPCType nPCName, Color? color = null)
     {
         _isBlockGameActions = true;
         dialogManager.ShowFullDialog(nPCName, color);
     }
 
-    public void ShowRunningDialog(Common.NPCName nPCName, Color? color = null)
+    public void ShowRunningDialog(Common.NPCType nPCName, Color? color = null)
     {
         _isBlockGameActions = true;
         dialogManager.ShowRunningDialog(nPCName, color);
@@ -135,19 +134,19 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region NPC Manager
-    public string GetNPCName(Common.NPCName nPCName)
+    public string GetNPCName(Common.NPCType nPCType)
     {
-        return nPCManager.GetNPCName(nPCName);
+        return nPCManager.GetNPCName(nPCType);
     }
 
-    public List<string> GetNPCDialogs(Common.NPCName nPCName)
+    public string[] GetNPCDialogs(Common.NPCType nPCType)
     {
-        return nPCManager.GetNPCDialogs(nPCName);
+        return nPCManager.GetNPCDialogs(nPCType);
     }
 
-    public void UpdateGuideName(Common.PlayerGender playerGENDER)
+    public void UpdateGuideName(Common.PlayerGender playerGender)
     {
-        nPCManager.UpdateGuideName(playerGENDER);
+        nPCManager.UpdateGuideName(playerGender);
     }
     #endregion
 
