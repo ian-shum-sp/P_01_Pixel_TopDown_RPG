@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: MW17
+  equipmentName: Saw Sword B
   equipmentType: 3
   purchasePrice: 810
   levelRequirement: 19
@@ -108,6 +109,7 @@ MonoBehaviour:
   debuffLevel: 2
   attackRange: 25
   pushForce: 3.6
+  coooldown: 0.8
 --- !u!61 &6390463311459975483
 BoxCollider2D:
   m_ObjectHideFlags: 0

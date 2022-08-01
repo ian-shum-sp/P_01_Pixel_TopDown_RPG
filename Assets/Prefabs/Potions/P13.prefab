@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P13
+  equipmentName: Potion of Knockback Resistance I
   equipmentType: 5
   purchasePrice: 100
   levelRequirement: 0

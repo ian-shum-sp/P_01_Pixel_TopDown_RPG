@@ -39,10 +39,10 @@ Equipment System
 3. Potion
 	Provides Buffs for a fixed duration of time
 	Type:
-		- Bleeding Resistance (Red)
+		- Bleeding Resistance (Pink)
 		- Knockback Resistance (Yellow)
 		- Element (Fire, Wind, Ice, Thunder) Resistance (Purple)
-		- Strength (Orange)
+		- Strength (Red)
 		- Speed (Blue)
 		- Healing (Light Green): Heals a fixed amount of health when consumed, maximum 3 levels
 		- Stamina (Dark Green): Heals a fixed amount of stamina when consumed, maximum 3 levels

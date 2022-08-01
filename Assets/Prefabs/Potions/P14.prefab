@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P14
+  equipmentName: Potion of Knockback Resistance II
   equipmentType: 5
   purchasePrice: 150
   levelRequirement: 0

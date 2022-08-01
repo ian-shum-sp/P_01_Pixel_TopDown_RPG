@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: MW23
+  equipmentName: Golden Sword B
   equipmentType: 3
   purchasePrice: 1250
   levelRequirement: 21
@@ -108,6 +109,7 @@ MonoBehaviour:
   debuffLevel: 3
   attackRange: 21
   pushForce: 3.8
+  coooldown: 0.6
 --- !u!61 &4300650899760777038
 BoxCollider2D:
   m_ObjectHideFlags: 0

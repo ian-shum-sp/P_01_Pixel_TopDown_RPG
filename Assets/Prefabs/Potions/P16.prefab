@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P16
+  equipmentName: Potion of Element Resistance I
   equipmentType: 5
   purchasePrice: 100
   levelRequirement: 0

@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class Equipment : MonoBehaviour
 {
     #region class members
-    private bool _isEquipped = false;
     public string equipmentID;
+    public string equipmentName;
     public Common.EquipmentType equipmentType;
     public int purchasePrice;
     public int levelRequirement;
@@ -14,11 +14,5 @@ public abstract class Equipment : MonoBehaviour
     #endregion
     
     #region accessors
-    public bool IsEquipped
-    
-    {
-        get { return _isEquipped; }
-        set { _isEquipped = value; }
-    }
     #endregion
 }

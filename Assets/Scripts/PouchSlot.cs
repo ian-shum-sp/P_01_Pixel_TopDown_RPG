@@ -10,9 +10,9 @@ public class PouchSlot : ActivatableSlot
     public Image potionImage;
     public TextMeshProUGUI potionAmountText;
 
-    protected override void EmptySlot()
+    protected override void ResetSlot()
     {
-        base.EmptySlot();
+        base.ResetSlot();
         potionImage.sprite = null;
         potionImage.color = Common.UnoccupiedSlotImageBackgroundColor;
         potionAmountText.text = null;
@@ -22,14 +22,14 @@ public class PouchSlot : ActivatableSlot
     {
         base.LockSlot();
         pouchSlotImage.color = Common.LockedSlotColor;
-        EmptySlot();
+        ResetSlot();
     }
 
     public override void UnlockSlot()
     {
         base.UnlockSlot();
         pouchSlotImage.color = Common.UnlockedSlotColor;
-        EmptySlot();
+        ResetSlot();
     }
 
     public override void ActivateSlot()

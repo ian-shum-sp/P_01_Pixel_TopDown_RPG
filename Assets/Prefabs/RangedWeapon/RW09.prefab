@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: RW09
+  equipmentName: Bow +4
   equipmentType: 4
   purchasePrice: 590
   levelRequirement: 17
@@ -219,3 +220,4 @@ MonoBehaviour:
   debuffLevel: 2
   attackRange: 100
   pushForce: 2.5
+  coooldown: 1.5

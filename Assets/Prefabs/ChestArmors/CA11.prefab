@@ -98,10 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: CA11
+  equipmentName: Chest +7
   equipmentType: 1
   purchasePrice: 630
   levelRequirement: 20
   equipmentSprite: {fileID: -1276541915, guid: 731fcbb2ed3b41f42a4aa20abc1a1909, type: 3}
-  ArmorPoints: 15
-  ArmorBuff: 2
-  BuffLevel: 2
+  armorPoints: 15
+  armorBuff: 2
+  buffLevel: 2

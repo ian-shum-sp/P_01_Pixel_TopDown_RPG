@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DisplaySlot : Slot
 {
     private Image _displaySlotBackgroundImage;
-    public Common.DisplaySlotType slotType;
+    public Common.DisplaySlotType displaySlotType;
     public Image equipmentSprite;
     public TextMeshProUGUI equipmentText;
 
@@ -16,31 +16,54 @@ public class DisplaySlot : Slot
         _displaySlotBackgroundImage = GetComponent<Image>();
     }
 
-    protected override void EmptySlot()
+    protected override void ResetSlot()
     {
-        base.EmptySlot();
+        base.ResetSlot();
         equipmentSprite.sprite = null;
         equipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        if(slotType == Common.DisplaySlotType.POUCH)
-        {
-            if(!_isUnlocked)
-                equipmentText.text = "Locked";
-            else
-                equipmentText.text = "Empty";
-        }
+        equipmentText.text = "Not Equipped";
     }
 
     public override void LockSlot()
     {
         base.LockSlot();
         _displaySlotBackgroundImage.color = Common.LockedSlotColor;
-        EmptySlot();
+        ResetSlot();
     }
 
     public override void UnlockSlot()
     {
         base.UnlockSlot();
         _displaySlotBackgroundImage.color = Common.UnlockedSlotColor;
-        EmptySlot();
+        ResetSlot();
+    }
+
+    public override void AddToSlot(Equipment equipment)
+    {
+        base.AddToSlot(equipment);
+        equipmentSprite.sprite = _equipment.equipmentSprite;
+        equipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+        equipmentText.text = _equipment.equipmentName;
+    }
+
+    public override void RemoveFromSlot()
+    {
+        ResetSlot();
+    }
+
+    public void UpdateDisplaySlot()
+    {
+        if(_isOccupied)
+        {
+            equipmentSprite.sprite = _equipment.equipmentSprite;
+            equipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+            equipmentText.text = _equipment.equipmentName;
+        }
+        else
+        {
+            equipmentSprite.sprite = null;
+            equipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+            equipmentText.text = "Not Equipped";
+        }
     }
 }

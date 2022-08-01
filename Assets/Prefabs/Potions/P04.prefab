@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P04
+  equipmentName: Potion of Speed I
   equipmentType: 5
   purchasePrice: 100
   levelRequirement: 0

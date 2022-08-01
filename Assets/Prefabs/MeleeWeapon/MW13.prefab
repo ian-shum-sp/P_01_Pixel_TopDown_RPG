@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: MW13
+  equipmentName: Sword
   equipmentType: 3
   purchasePrice: 590
   levelRequirement: 17
@@ -108,6 +109,7 @@ MonoBehaviour:
   debuffLevel: 0
   attackRange: 21
   pushForce: 3.5
+  coooldown: 0.8
 --- !u!61 &7376563738481586436
 BoxCollider2D:
   m_ObjectHideFlags: 0

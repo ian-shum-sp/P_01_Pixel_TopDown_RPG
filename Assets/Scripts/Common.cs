@@ -10,7 +10,9 @@ public static class Common
 {
     public enum PlayerGender
     {
+        [Description("Male")]
         MALE = 0,
+        [Description("Female")]
         FEMALE = 1
     }
 
@@ -34,7 +36,8 @@ public static class Common
         ARMORER = 1,
         WEAPONSMITH  = 2,
         POTION_BREWER = 3,
-        SIGN = 4
+        SIGN = 4,
+        WARNING_SIGN = 5
     }
 
     public enum InventoryType
@@ -45,13 +48,20 @@ public static class Common
         POUCH = 3
     }
 
+    public enum InventorySlotType
+    {
+        ARMOR = 0,
+        WEAPON = 1,
+        POTION = 2,
+        POUCH = 3
+    }
+
     public enum DisplaySlotType
     {
         HEAD_ARMOR = 0,
-        WEAPON = 1,
-        CHEST_ARMOR = 2,
-        BOOTS_ARMOR = 3,
-        POUCH = 4
+        CHEST_ARMOR = 1,
+        BOOTS_ARMOR = 2,
+        WEAPON = 3
     }
 
     public enum EquipmentType
@@ -89,12 +99,22 @@ public static class Common
         ELEMENT = 2,
         NONE = 3
     }
+
+    public enum ChestType
+    {
+        STARTER_CHEST = 0,
+        GOLD_CHEST_SILVER = 1,
+        GOLD_CHEST_GOLDEN = 2,
+        ARMOR_CHEST = 3,
+        WEAPON_CHEST = 4,
+        POTION_CHEST = 5
+    }
    
     public static readonly Color UnlockedSlotColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);
     public static readonly Color LockedSlotColor = new Color(Color.black.r, Color.black.g, Color.black.b, 100.0f/255.0f);
     public static readonly Color OccupiedSlotImageBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 1.0f);
     public static readonly Color UnoccupiedSlotImageBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
-    public static readonly Color EquippedSlotBackgroundColor = new Color(211.0f, 191.0f, 169.0f, 1.0f);
+    public static readonly Color EquippedSlotBackgroundColor = new Color(211.0f/255.0f, 191.0f/255.0f, 169.0f/255.0f, 1.0f);
     public static readonly Color UnequippedSlotBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);
 
     public static string GetEnumDescription(Enum value)

@@ -1376,15 +1376,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: flask_big_orange
+      name: flask_big_pink
       rect:
         serializedVersion: 2
         x: 288
-        y: 784
+        y: 800
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1397,15 +1397,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: flask_orange
+      name: flask_pink
       rect:
         serializedVersion: 2
         x: 288
-        y: 752
+        y: 768
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1463,9 +1463,9 @@ TextureImporter:
       stain_7: 1695543009
       TileSet3_Main_3: -1891329056
       stain_10: 12009565
+      flask_pink: 1461110581
       torch_1: -177132044
       torch_5: 791791039
-      flask_big_orange: -1038360158
       sign_0: -241603364
       torch_12: 1421910718
       stain_13: -66938286
@@ -1476,7 +1476,6 @@ TextureImporter:
       stain_4: -2066669659
       stain_8: -101329739
       pouch_2: 1991828262
-      flask_orange: 1461110581
       torch_7: -553629932
       door_top_0: -1972865339
       big_stairs_4: 280573886
@@ -1490,6 +1489,7 @@ TextureImporter:
       stain_3: 1624497388
       stairs_3: -967791630
       stain_0: -442433414
+      flask_big_pink: -341130846
       big_stairs_7: 1211664231
       big_stairs_2: -358606713
   spritePackingTag: 

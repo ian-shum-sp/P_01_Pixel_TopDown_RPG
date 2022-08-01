@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -12,8 +13,9 @@ public class Inventory : MonoBehaviour
     private int _unlockedInventorySlots;
     private int _maxNumberOfInventorySlots;
     public int maxLevel;
+    public int[] upgradeLevelRequirements;
     public int[] upgradePrices;
-    public Slot[] slots;
+    public InventorySlot[] slots;
     #endregion
     
     #region accessors
@@ -21,6 +23,12 @@ public class Inventory : MonoBehaviour
     {
         get { return _inventoryLevel; }
         set { _inventoryLevel = value; }
+    }
+
+    public int UnlockedInventorySlots
+    {
+        get { return _unlockedInventorySlots; }
+        set { _unlockedInventorySlots = value; }
     }
     #endregion
 
@@ -42,6 +50,33 @@ public class Inventory : MonoBehaviour
                 slots[i].UnlockSlot();
             else
                 slots[i].LockSlot();
+        }
+    }
+
+    public bool CheckIsInventoryFull()
+    {
+        InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsOccupied == false);
+
+        if(unoccupiedSlot == null)
+            return true;
+
+        return false;
+    }
+
+    public void AddEquipmentToInventory(Equipment equipment, int? amount = null)
+    {
+        if(equipment is not Potion)
+        {
+            InventorySlot slot = slots.First(x => x.IsOccupied == false);
+            slot.AddEquipmentToSlot(equipment, amount);
+        }
+        else
+        {
+            InventorySlot slot = slots.FirstOrDefault(x => x.Equipment != null && x.Equipment.equipmentID == equipment.equipmentID);
+            if(slot == null)
+                slot = slots.First(x => x.IsOccupied == false);
+            
+            slot.AddEquipmentToSlot(equipment, amount);
         }
     }
 

@@ -46,6 +46,13 @@ public class GameManager : MonoBehaviour
         set { _isBlockGameActions = value; }
     }
     public Player player;
+    public Sprite[] playerSprites;
+    private string _lastSavedTimeText;
+    public string LastSavedTimeText
+    {
+        get { return _lastSavedTimeText; }
+        set { _lastSavedTimeText = value; }
+    }
     #endregion
 
     #region Custom Cursor
@@ -108,6 +115,13 @@ public class GameManager : MonoBehaviour
         _isBlockGameActions = true;
         confirmationManager.Show(text);
     }
+
+    public bool GetConfirmationResult()
+    {
+        bool result = confirmationManager.IsClickedYes;
+        confirmationManager.IsClickedYes = false;
+        return result;
+    }
     #endregion
 
     #region Loading Screen Manager
@@ -130,10 +144,32 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Equipment Manager
+    public List<Equipment> GetStarterEquipments()
+    {
+        return equipmentManager.GetStarterEquipments();
+    }
+    public Equipment GenerateRandomArmor()
+    {
+        return equipmentManager.GetRandomArmor();
+    }
 
+    public Equipment GenerateRandomWeapon()
+    {
+        return equipmentManager.GetRandomWeapon();
+    }
+
+    public Equipment GenerateRandomPotion()
+    {
+        return equipmentManager.GetRandomPotion();
+    }
     #endregion
 
     #region NPC Manager
+    public void UpdateNPCManager(NPC nPC)
+    {
+        nPCManager.AddNPC(nPC);
+    }
+
     public string GetNPCName(Common.NPCType nPCType)
     {
         return nPCManager.GetNPCName(nPCType);
@@ -146,7 +182,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateGuideName(Common.PlayerGender playerGender)
     {
-        nPCManager.UpdateGuideName(playerGender);
+        nPCManager.UpdateGuide(playerGender);
     }
     #endregion
 
@@ -156,6 +192,49 @@ public class GameManager : MonoBehaviour
         hUD.InitializeHUD();
         hUD.Show();
     }
+    #endregion
+
+    #region Player Menu
+    public void InitializePlayerMenu()
+    {
+        playerMenu.InitializePlayerMenu();
+    }
+
+    public void ShowPlayerMenu()
+    {
+        playerMenu.UpdateOnExpandPlayerMenu();
+    }
+
+    public void UpdatePlayerMenuHealthPoints()
+    {
+        playerMenu.UpdateHealthPoints();
+    }
+
+    public void UpdatePlayerMenuGold()
+    {
+        playerMenu.UpdateGold();
+        playerMenu.UpdateInventoryUpgradeStatus();
+    }
+
+    public void UpdatePlayerMenuExperience()
+    {
+        playerMenu.UpdateExperience();
+        playerMenu.UpdateInventoryUpgradeStatus();
+    }
+
+    public void AddToDisplaySlot(Equipment equipment)
+    {
+        playerMenu.AddToDisplaySlot(equipment);
+    }
+
+    public void RemoveFromDisplaySlot(Equipment equipment)
+    {
+        playerMenu.RemoveFromDisplaySlot(equipment);
+    }
+
+    
+
+    
     #endregion
 
 
@@ -230,6 +309,7 @@ public class GameManager : MonoBehaviour
         _isBlockGameActions = false;
         if(!PlayerPrefs.HasKey("P01SaveData"))
         {
+            _lastSavedTimeText = "-";
             GameScene introductoryScene = new GameScene();
             introductoryScene.SceneName = Common.SceneName.INTRODUCTORY;
             introductoryScene.SceneDisplayName = "";

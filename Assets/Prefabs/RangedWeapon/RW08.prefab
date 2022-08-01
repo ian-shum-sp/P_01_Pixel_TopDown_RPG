@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: RW08
+  equipmentName: Satf +3
   equipmentType: 4
   purchasePrice: 460
   levelRequirement: 15
@@ -219,3 +220,4 @@ MonoBehaviour:
   debuffLevel: 2
   attackRange: 120
   pushForce: 2
+  coooldown: 1.4

@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P07
+  equipmentName: Potion of Healing I
   equipmentType: 5
   purchasePrice: 30
   levelRequirement: 0

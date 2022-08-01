@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P18
+  equipmentName: Potion of Element Resistance III
   equipmentType: 5
   purchasePrice: 300
   levelRequirement: 0

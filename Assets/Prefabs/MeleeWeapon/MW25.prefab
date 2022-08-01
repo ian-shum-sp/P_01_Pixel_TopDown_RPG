@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: MW25
+  equipmentName: Knight Sword (G) A
   equipmentType: 3
   purchasePrice: 3000
   levelRequirement: 24
@@ -108,6 +109,7 @@ MonoBehaviour:
   debuffLevel: 0
   attackRange: 29
   pushForce: 4
+  coooldown: 0.4
 --- !u!61 &6393428397255664723
 BoxCollider2D:
   m_ObjectHideFlags: 0

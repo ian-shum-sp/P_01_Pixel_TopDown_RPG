@@ -10,6 +10,7 @@ public class Weapon : Equipment
     public int debuffLevel;
     public int attackRange;
     public float pushForce;
+    public float coooldown;
     #endregion
     
     #region accessors

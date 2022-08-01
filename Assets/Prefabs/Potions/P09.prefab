@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P09
+  equipmentName: Potion of Healing III
   equipmentType: 5
   purchasePrice: 200
   levelRequirement: 0

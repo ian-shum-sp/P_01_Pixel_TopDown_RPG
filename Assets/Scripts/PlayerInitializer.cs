@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class PlayerInitializer : MonoBehaviour
 {
-    public Animator _genderSelectionanimator;
-    public Animator _nameInputAnimator;
-    public Animator _warningAnimator;
+    public Animator genderSelectionAnimator;
+    public Animator nameInputAnimator;
+    public Animator warningAnimator;
     public TMP_InputField inputField;
-    public Sprite[] playerSprites;
 
     private void Awake() 
     {
@@ -19,22 +18,23 @@ public class PlayerInitializer : MonoBehaviour
     private void ShowGenderSelection()
     {
         GameManager.Instance.IsBlockGameActions = true;
-        _genderSelectionanimator.SetTrigger("Show");
+        genderSelectionAnimator.SetTrigger("Show");
     }
 
     private void ShowNameInput()
     {
-        _nameInputAnimator.SetTrigger("Show");
+        nameInputAnimator.SetTrigger("Show");
     }
 
     private void HideWarning()
     {
-        _warningAnimator.SetTrigger("Hide");
+        warningAnimator.SetTrigger("Hide");
     }
 
     private void UpdatePlayerGenderAndGuide(Common.PlayerGender playerGender)
     {
-        GameManager.Instance.player.SetPlayerSprite(playerSprites[(int)playerGender]);
+        GameManager.Instance.player.Gender = playerGender;
+        GameManager.Instance.player.SetPlayerSprite();
         GameManager.Instance.UpdateGuideName(playerGender);
         Invoke("ShowNameInput", 0.25f);
     }
@@ -53,14 +53,15 @@ public class PlayerInitializer : MonoBehaviour
     {
         if(string.IsNullOrEmpty(inputField.text) || string.IsNullOrWhiteSpace(inputField.text))
         {
-            _warningAnimator.SetTrigger("Show");
+            warningAnimator.SetTrigger("Show");
             Invoke("HideWarning", 1.5f);
         }
         else
         {
             InitializePlayerStats();
-            _nameInputAnimator.SetTrigger("Hide");
+            nameInputAnimator.SetTrigger("Hide");
             GameManager.Instance.ShowHUD();
+            GameManager.Instance.InitializePlayerMenu();
             GameManager.Instance.ShowRunningDialog(Common.NPCType.GUIDE);
         }
     }

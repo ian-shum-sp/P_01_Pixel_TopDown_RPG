@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: MW18
+  equipmentName: Sword + A
   equipmentType: 3
   purchasePrice: 920
   levelRequirement: 20
@@ -108,6 +109,7 @@ MonoBehaviour:
   debuffLevel: 1
   attackRange: 30
   pushForce: 3.8
+  coooldown: 0.8
 --- !u!61 &7005565797528997647
 BoxCollider2D:
   m_ObjectHideFlags: 0

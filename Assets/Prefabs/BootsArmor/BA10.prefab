@@ -97,11 +97,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda75fae5ab099d4187b021a1416f7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipmentID: BA01
+  equipmentID: BA10
+  equipmentName: Boots +6
   equipmentType: 2
   purchasePrice: 190
   levelRequirement: 18
   equipmentSprite: {fileID: 359066173, guid: 731fcbb2ed3b41f42a4aa20abc1a1909, type: 3}
-  ArmorPoints: 3
-  ArmorBuff: 0
-  BuffLevel: 2
+  armorPoints: 3
+  armorBuff: 0
+  buffLevel: 2

@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 2007450379
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: baef12ebb03315d4cbede780c284e57d, type: 3}
+  m_Sprite: {fileID: 1461110581, guid: 5c13745aae69d904780783884069beae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,10 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: P11
+  equipmentName: Potion of Bleeding Resistance II
   equipmentType: 5
   purchasePrice: 150
   levelRequirement: 0
-  equipmentSprite: {fileID: 21300000, guid: baef12ebb03315d4cbede780c284e57d, type: 3}
+  equipmentSprite: {fileID: 1461110581, guid: 5c13745aae69d904780783884069beae, type: 3}
   potionBuff: 0
   buffLevel: 2
   duration: 45

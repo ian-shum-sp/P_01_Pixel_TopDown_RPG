@@ -73,6 +73,5 @@ public class FloatingText
         }
 
         _target.transform.position += Motion * Time.deltaTime;
-
     }
 }

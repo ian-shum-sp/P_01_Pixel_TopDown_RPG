@@ -98,10 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: HA15
+  equipmentName: Head (G) B
   equipmentType: 0
   purchasePrice: 1200
   levelRequirement: 24
   equipmentSprite: {fileID: 160792882, guid: 731fcbb2ed3b41f42a4aa20abc1a1909, type: 3}
-  ArmorPoints: 10
-  ArmorBuff: 0
-  BuffLevel: 3
+  armorPoints: 10
+  armorBuff: 0
+  buffLevel: 3
