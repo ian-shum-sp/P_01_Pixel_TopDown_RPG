@@ -40,8 +40,6 @@ public class Chest : Collidable
                 GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
                 GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
                 GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[5], 1);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[6], 2);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[5], 3);
                 GameManager.Instance.ShowFloatingText("Acquire starter equipments!", 30, Color.yellow, transform.position + new Vector3(0.0f, 0.16f, 0.0f), Vector3.up * 30, 3.0f);
                 break;
             }

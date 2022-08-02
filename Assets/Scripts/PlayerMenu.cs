@@ -13,7 +13,8 @@ public class PlayerMenu : MonoBehaviour
     public TextMeshProUGUI healthPointsText;
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI levelText;
-    public TextMeshProUGUI equipmentStatInfoText;
+    public TextMeshProUGUI equipmentWeaponStatInfoText;
+    public TextMeshProUGUI equipmentArmorStatInfoText;
     public Image experienceBarMask;
     public TextMeshProUGUI experienceText;
     //Equipped equipments (exclude pouch)
@@ -22,14 +23,67 @@ public class PlayerMenu : MonoBehaviour
     public TextMeshProUGUI weaponInventoryUpgradeButtonText;
     public TextMeshProUGUI potionInventoryUpgradeButtonText;
     public TextMeshProUGUI pouchInventoryUpgradeButtonText;
-    public TextMeshProUGUI equipmentInfoText;
+    public GameObject popUpPanel;
+    public Image popUpEquipmentSprite;
+    public Image popUpWeaponSprite;
+    public Image popUpPotionSprite;
+    public TextMeshProUGUI popUpEquipmentText;
+    public TextMeshProUGUI popUpEquipmentInfoText;
+    public Animator popUpAnimator;
+    public Animator animator;
+    private bool _isPopUpShowing;
+    public bool IsPopUpShowing
+    {
+        get { return _isPopUpShowing; }
+        set { _isPopUpShowing = value; }
+    }
 
+    private void Update() 
+    {
+        
+    }
     
-
-    private void SetUpgradeButtonText(TextMeshProUGUI text, string upgradeText, Color color)
+    private void UpdateUpgradeButtonText(TextMeshProUGUI text, string upgradeText, Color color)
     {
             text.text = upgradeText;
             text.color = color;
+    }
+
+    private void UpdateArmorStatInfoText()
+    {
+        //Order: Armor, Damage Reduction, Bleeding Resistance, Knockback Resistance, Element Resistance
+        Protection protection = GameManager.Instance.player.GetArmorInfo();
+
+        equipmentArmorStatInfoText.text = "\n" + 
+                                        protection.armorPoints.ToString() + "\n" + 
+                                        protection.armorPoints.ToString() + "%\n" + 
+                                        protection.armorBuffsLevels[0].ToString() + "\n" +
+                                        protection.armorBuffsLevels[1].ToString() + "\n" +
+                                        protection.armorBuffsLevels[2].ToString();
+    }
+
+    private void UpdateWeaponStatInfoText()
+    {
+        //Order: Weapon Type, Damage Points, Attack Range, Attack Speed, Bleeding, Knockback, Element
+        Damage damage = GameManager.Instance.player.GetWeaponInfo();
+
+        equipmentWeaponStatInfoText.text = (damage.damagePoints == 0 ? "-" : (damage.isMelee ? "Melee" : "Range")) + "\n" + 
+                                            damage.damagePoints.ToString() + "\n" + 
+                                            damage.attackRange.ToString() + "\n" +
+                                            damage.attackSpeed.ToString() + "\n" +
+                                            damage.weaponDebuffsLevels[0].ToString() + "\n" +
+                                            damage.weaponDebuffsLevels[1].ToString() + "\n" +
+                                            damage.weaponDebuffsLevels[2].ToString();
+    }
+
+    private void ResetPopUpSprite()
+    {
+        popUpEquipmentSprite.sprite = null;
+        popUpEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        popUpWeaponSprite.sprite = null;
+        popUpWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        popUpPotionSprite.sprite = null;
+        popUpPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
     }
     
     public void InitializePlayerMenu()
@@ -47,6 +101,8 @@ public class PlayerMenu : MonoBehaviour
         UpdateExperience();
         UpdateInventoryUpgradeStatus();
         UpdateDisplaySlot();
+        UpdateArmorStatInfoText();
+        UpdateWeaponStatInfoText();
     }
 
     public void UpdateHealthPoints()
@@ -80,12 +136,12 @@ public class PlayerMenu : MonoBehaviour
         {
             string upgradeText = armorInventory.upgradePrices[armorInventory.InventoryLevel].ToString() + " Gold";
             Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
-            SetUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, textColor);
+            UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
         {
             string upgradeText = "Require Level " + armorInventory.upgradeLevelRequirements[armorInventory.InventoryLevel].ToString();
-            SetUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, Color.red);
+            UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, Color.red);
         }
 
         Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
@@ -93,12 +149,12 @@ public class PlayerMenu : MonoBehaviour
         {
             string upgradeText = weaponInventory.upgradePrices[weaponInventory.InventoryLevel].ToString() + " Gold";
             Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
-            SetUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, textColor);
+            UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
         {
             string upgradeText = "Require Level " + weaponInventory.upgradeLevelRequirements[weaponInventory.InventoryLevel].ToString();
-            SetUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, Color.red);
+            UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, Color.red);
         }
 
         Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
@@ -106,12 +162,12 @@ public class PlayerMenu : MonoBehaviour
         {
             string upgradeText = potionInventory.upgradePrices[potionInventory.InventoryLevel].ToString() + " Gold";
             Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
-            SetUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, textColor);
+            UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
         {
             string upgradeText = "Require Level " + potionInventory.upgradeLevelRequirements[potionInventory.InventoryLevel].ToString();
-            SetUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, Color.red);
+            UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, Color.red);
         }
 
         Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
@@ -119,12 +175,12 @@ public class PlayerMenu : MonoBehaviour
         {
             string upgradeText = pouchInventory.upgradePrices[pouchInventory.InventoryLevel].ToString() + " Gold";
             Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
-            SetUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, textColor);
+            UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
         {
             string upgradeText = "Require Level " + pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel].ToString();
-            SetUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, Color.red);
+            UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, Color.red);
         }
     }
 
@@ -135,22 +191,26 @@ public class PlayerMenu : MonoBehaviour
             case Common.EquipmentType.HEAD_ARMOR:
             {
                 displaySlots[(int)Common.DisplaySlotType.HEAD_ARMOR].AddToSlot(equipment);
+                UpdateArmorStatInfoText();
                 break;
             }
             case Common.EquipmentType.CHEST_ARMOR:
             {
                 displaySlots[(int)Common.DisplaySlotType.CHEST_ARMOR].AddToSlot(equipment);
+                UpdateArmorStatInfoText();
                 break;
             }
             case Common.EquipmentType.BOOTS_ARMOR:
             {
                 displaySlots[(int)Common.DisplaySlotType.BOOTS_ARMOR].AddToSlot(equipment);
+                UpdateArmorStatInfoText();
                 break;
             }
             case Common.EquipmentType.MELEE_WEAPON:
             case Common.EquipmentType.RANGED_WEAPON:
             {
                 displaySlots[(int)Common.DisplaySlotType.WEAPON].AddToSlot(equipment);
+                UpdateWeaponStatInfoText();
                 break;
             }
             default:
@@ -165,22 +225,26 @@ public class PlayerMenu : MonoBehaviour
             case Common.EquipmentType.HEAD_ARMOR:
             {
                 displaySlots[(int)Common.DisplaySlotType.HEAD_ARMOR].RemoveFromSlot();
+                UpdateArmorStatInfoText();
                 break;
             }
             case Common.EquipmentType.CHEST_ARMOR:
             {
                 displaySlots[(int)Common.DisplaySlotType.CHEST_ARMOR].RemoveFromSlot();
+                UpdateArmorStatInfoText();
                 break;
             }
             case Common.EquipmentType.BOOTS_ARMOR:
             {
                 displaySlots[(int)Common.DisplaySlotType.BOOTS_ARMOR].RemoveFromSlot();
+                UpdateArmorStatInfoText();
                 break;
             }
             case Common.EquipmentType.MELEE_WEAPON:
             case Common.EquipmentType.RANGED_WEAPON:
             {
                 displaySlots[(int)Common.DisplaySlotType.WEAPON].RemoveFromSlot();
+                UpdateWeaponStatInfoText();
                 break;
             }
             default:
@@ -194,5 +258,65 @@ public class PlayerMenu : MonoBehaviour
         {
             displaySlots[i].UpdateDisplaySlot();
         }
+    }
+
+    public void UpdatePopUpInfo(Equipment equipment, int amount, Vector3 position)
+    {
+        ResetPopUpSprite();
+        switch(equipment.equipmentType)
+        {
+            case Common.EquipmentType.HEAD_ARMOR:
+            case Common.EquipmentType.CHEST_ARMOR:
+            case Common.EquipmentType.BOOTS_ARMOR:
+            {
+                Armor armor = equipment as Armor;
+                popUpEquipmentSprite.sprite = armor.equipmentSprite;
+                popUpEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                popUpEquipmentText.text = armor.equipmentName;
+                popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
+                                            "Armor Points: " + armor.armorPoints.ToString() + "\n" +
+                                            "Level Requirement: " + armor.levelRequirement.ToString() + "\n" +
+                                            "Purchase Price: " + armor.purchasePrice.ToString() + "\n" +
+                                            "Sell Price: " + Mathf.FloorToInt(armor.purchasePrice/2.0f).ToString() + "\n" +
+                                            "Armor Buffs: " + Common.GetEnumDescription(armor.armorBuff) + (armor.armorBuff == Common.ArmorBuff.NONE ? "" : " Level " + armor.buffLevel);
+                break;
+            }
+            case Common.EquipmentType.MELEE_WEAPON:
+            case Common.EquipmentType.RANGED_WEAPON:
+            {
+                Weapon weapon = equipment as Weapon;
+                popUpWeaponSprite.sprite = weapon.equipmentSprite;
+                popUpWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                popUpEquipmentText.text = weapon.equipmentName;
+                popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
+                                            "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
+                                            "Attack Range: " + weapon.attackRange.ToString() + "\n" +
+                                            "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                            "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
+                                            "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
+                                            "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
+                                            "Weapon Buffs: " + Common.GetEnumDescription(weapon.weaponDebuff) + (weapon.weaponDebuff == Common.Debuff.NONE ? "" : " Level " + weapon.debuffLevel);
+                break;
+            }
+            case Common.EquipmentType.POTION:
+            {
+                Potion potion = equipment as Potion;
+                popUpPotionSprite.sprite = potion.equipmentSprite;
+                popUpPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                popUpEquipmentText.text = potion.equipmentName;
+                popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
+                                            "Duration: " + potion.duration.ToString() + " seconds\n" +
+                                            "Cooldown: " + potion.cooldown.ToString() + "seconds\n" +
+                                            "Amount in inventory: " + amount.ToString() + "\n" +
+                                            "Max number in pouch: " + potion.maxNumberInPouch.ToString() + "\n" +
+                                            "Purchase Price: " + potion.purchasePrice.ToString() + "\n" +
+                                            "Sell Price: " + Mathf.FloorToInt(potion.purchasePrice/2.0f).ToString() + "\n" +
+                                            "Effect: " + Common.GetEnumDescription(potion.potionBuff) + " Level " + potion.buffLevel;
+                break;
+            }
+            default:
+                break;
+        }
+        popUpPanel.transform.position = position;
     }
 }

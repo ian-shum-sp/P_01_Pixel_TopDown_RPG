@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,5 +54,15 @@ public class HUD : MonoBehaviour
     public void Show()
     {
         animator.SetTrigger("Show");
+    }
+
+    public void AddToPouchSlot(Potion potion, int amount)
+    {
+        pouchSlots.First(x => !x.IsOccupied).AddToPouchSlot(potion, amount);
+    }
+
+    public void RemoveFromPouchSlot(Equipment equipment)
+    {
+        pouchSlots.First(x => x.Equipment.equipmentID == equipment.equipmentID).RemoveFromPouchSlot();
     }
 }

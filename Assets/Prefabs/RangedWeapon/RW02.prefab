@@ -220,4 +220,4 @@ MonoBehaviour:
   debuffLevel: 0
   attackRange: 120
   pushForce: 1.6
-  coooldown: 1.4
+  cooldown: 1.4

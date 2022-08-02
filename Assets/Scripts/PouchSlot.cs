@@ -36,4 +36,17 @@ public class PouchSlot : ActivatableSlot
     {
         throw new System.NotImplementedException();
     }
+
+    public void AddToPouchSlot(Potion potion, int amount)
+    {
+        base.AddToSlot(potion);
+        potionImage.sprite = potion.equipmentSprite;
+        potionImage.color = Common.OccupiedSlotImageBackgroundColor;
+        potionAmountText.text = amount.ToString();
+    }
+
+    public void RemoveFromPouchSlot()
+    {
+        ResetSlot();
+    }
 }

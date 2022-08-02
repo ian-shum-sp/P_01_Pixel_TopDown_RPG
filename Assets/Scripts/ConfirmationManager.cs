@@ -26,6 +26,7 @@ public class ConfirmationManager : MonoBehaviour
 
     public void OnYesClicked()
     {
+        GameManager.Instance.IsBlockGameActions = false;
         _isClickedYes = true;
         if(GameManager.Instance.IsTryResetGame)
         {
@@ -35,6 +36,7 @@ public class ConfirmationManager : MonoBehaviour
 
     public void OnNoClicked()
     {
+        GameManager.Instance.IsBlockGameActions = false;
         _isClickedYes = false;
         if(GameManager.Instance.IsTryResetGame)
         {

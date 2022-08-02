@@ -18,7 +18,6 @@ public class EquipmentManager : MonoBehaviour
         Equipment starterMeleeWeapon = equipments.First(x => x.equipmentID == "MW01");
         Equipment starterRangedWeapon = equipments.First(x => x.equipmentID == "RW01");
         Equipment starterPotion = equipments.First(x => x.equipmentID == "P01");
-        Equipment starterPotion2 = equipments.First(x => x.equipmentID == "P04");
 
         starterEquipments.Add(starterHeadArmor);
         starterEquipments.Add(starterChestArmor);
@@ -26,7 +25,6 @@ public class EquipmentManager : MonoBehaviour
         starterEquipments.Add(starterMeleeWeapon);
         starterEquipments.Add(starterRangedWeapon);
         starterEquipments.Add(starterPotion);
-        starterEquipments.Add(starterPotion2);
 
         return starterEquipments;
     }

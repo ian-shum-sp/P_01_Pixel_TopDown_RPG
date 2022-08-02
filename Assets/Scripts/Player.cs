@@ -133,7 +133,43 @@ public class Player : MonoBehaviour
         }
     }
 
-    //to do for tomorrw
-    //get total armor
-    //get total buffs / debuffs
+    public Protection GetArmorInfo()
+    {
+        Protection protection = new Protection();
+        protection.InitializeBuffsInfo();
+
+        List<Equipment> armorEquipments = _inventories[(int)Common.InventoryType.ARMOR].GetEquippedEquipments();
+
+        foreach(Equipment equipment in armorEquipments)
+        {
+            Armor armor = equipment as Armor;
+            protection.armorPoints += armor.armorPoints;
+            protection.SetArmorBuffLevel(armor.armorBuff, armor.buffLevel);
+        }
+        
+        return protection;
+    }
+
+    public Damage GetWeaponInfo()
+    {
+        Damage damage = new Damage();
+        damage.InitializeDebuffsInfo();
+
+        List<Equipment> weaponEquipments = _inventories[(int)Common.InventoryType.WEAPON].GetEquippedEquipments();
+        
+        foreach(Equipment equipment in weaponEquipments)
+        {
+            Weapon weapon = equipment as Weapon;
+            damage.isMelee = weapon.equipmentType == Common.EquipmentType.MELEE_WEAPON ? true : false;
+            damage.origin = Vector3.zero;
+            damage.damagePoints += weapon.damagePoints;
+            damage.pushForce = weapon.pushForce;
+            damage.attackRange = weapon.attackRange;
+            damage.attackSpeed = Mathf.FloorToInt((2.0f - weapon.cooldown)*20);
+            damage.SetWeaponBuffLevel(weapon.weaponDebuff, weapon.debuffLevel);
+        }
+
+        return damage;
+    }
+
 }

@@ -53,19 +53,9 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool CheckIsInventoryFull()
-    {
-        InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsOccupied == false);
-
-        if(unoccupiedSlot == null)
-            return true;
-
-        return false;
-    }
-
     public void AddEquipmentToInventory(Equipment equipment, int? amount = null)
     {
-        if(equipment is not Potion)
+        if(equipment.equipmentType != Common.EquipmentType.POTION)
         {
             InventorySlot slot = slots.First(x => x.IsOccupied == false);
             slot.AddEquipmentToSlot(equipment, amount);
@@ -78,6 +68,27 @@ public class Inventory : MonoBehaviour
             
             slot.AddEquipmentToSlot(equipment, amount);
         }
+    }
+
+    public List<Equipment> GetEquippedEquipments()
+    {
+        List<Equipment> equippedEquipments = new List<Equipment>();
+        List<InventorySlot> equippedSlots = slots.Where(x => x.IsEquipped).ToList();
+        foreach(InventorySlot slot in equippedSlots)
+        {
+            equippedEquipments.Add(slot.Equipment);
+        }
+        return equippedEquipments;
+    }
+
+    public bool CheckIsInventoryFull()
+    {
+        InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsOccupied == false);
+
+        if(unoccupiedSlot == null)
+            return true;
+
+        return false;
     }
 
     public void UpgradeInventory()

@@ -7,7 +7,6 @@ public class PlayerInitializer : MonoBehaviour
 {
     public Animator genderSelectionAnimator;
     public Animator nameInputAnimator;
-    public Animator warningAnimator;
     public TMP_InputField inputField;
 
     private void Awake() 
@@ -24,11 +23,6 @@ public class PlayerInitializer : MonoBehaviour
     private void ShowNameInput()
     {
         nameInputAnimator.SetTrigger("Show");
-    }
-
-    private void HideWarning()
-    {
-        warningAnimator.SetTrigger("Hide");
     }
 
     private void UpdatePlayerGenderAndGuide(Common.PlayerGender playerGender)
@@ -53,8 +47,7 @@ public class PlayerInitializer : MonoBehaviour
     {
         if(string.IsNullOrEmpty(inputField.text) || string.IsNullOrWhiteSpace(inputField.text))
         {
-            warningAnimator.SetTrigger("Show");
-            Invoke("HideWarning", 1.5f);
+            GameManager.Instance.ShowWarning("Please enter your name", true);
         }
         else
         {

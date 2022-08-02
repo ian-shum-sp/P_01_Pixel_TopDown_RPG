@@ -109,7 +109,7 @@ MonoBehaviour:
   debuffLevel: 2
   attackRange: 24
   pushForce: 3.2
-  coooldown: 0.8
+  cooldown: 0.8
 --- !u!61 &6615403160263687041
 BoxCollider2D:
   m_ObjectHideFlags: 0

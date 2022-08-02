@@ -109,7 +109,7 @@ MonoBehaviour:
   debuffLevel: 2
   attackRange: 100
   pushForce: 2.6
-  coooldown: 0.9
+  cooldown: 0.9
 --- !u!1 &8402722872928942636
 GameObject:
   m_ObjectHideFlags: 0

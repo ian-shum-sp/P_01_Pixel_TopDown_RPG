@@ -22,6 +22,11 @@ public class InventorySlot : Slot
     #endregion
     
     #region accessors
+    public bool IsEquipped
+    {
+        get { return _isEquipped; }
+        set { _isEquipped = value; }
+    }
     #endregion
 
     private void Start() 
@@ -42,7 +47,7 @@ public class InventorySlot : Slot
             if(_equipment.equipmentType == Common.EquipmentType.POTION)
             {
                 _inventory.slots.First(x => x._isEquipped).UnequipPotions();
-                Potion potion = (Potion)_equipment;
+                Potion potion = _equipment as Potion;
                 _inventory.slots.First(x => !x._isEquipped).EquipPotions(potion, _amount);
                 _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
             }
@@ -53,6 +58,10 @@ public class InventorySlot : Slot
 
     private void TryEquip()
     {
+        int playerLevel = GameManager.Instance.GetPlayerLevel();
+        if(playerLevel < _equipment.levelRequirement)
+            return;
+
         _isTryEquip = true;
         switch(_equipment.equipmentType)
         {
@@ -103,7 +112,7 @@ public class InventorySlot : Slot
                 }
                 else
                 {
-                    Potion potion = (Potion)_equipment;
+                    Potion potion = _equipment as Potion;
                     _inventory.slots.First(x => !x._isOccupied).EquipPotions(potion, _amount);
                     EquipEquipments();
                 }
@@ -145,11 +154,13 @@ public class InventorySlot : Slot
         equipmentSprite.sprite = _equipment.equipmentSprite;
         equipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
         equipmentText.text = "x" + _amount;
+        GameManager.Instance.EquipToPouch(potion, _amount);
     }
 
 
     private void UnequipPotions()
     {
+        GameManager.Instance.UnequipFromPouch(_equipment);
         base.RemoveFromSlot();
         _amount = 0;
         _isEquipped = false;
@@ -208,13 +219,18 @@ public class InventorySlot : Slot
 
     public void OnCursorEnter()
     {
-        if(_isUnlocked)
+        if(_isUnlocked && _isOccupied && GameManager.Instance.CheckIfPopUpShown() == false)
+        {
             GameManager.Instance.ChangeCursor(true);
+            GameManager.Instance.ShowEquipmentPopUp(_equipment, _amount, transform.position + new Vector3(-280.0f, 160.0f, 0.0f));
+        }
     }
 
     public void OnCursorExit()
     {
         GameManager.Instance.ChangeCursor(false);
+        if(GameManager.Instance.CheckIfPopUpShown() == true)
+            GameManager.Instance.HideEquipmentPopUp();
     }
     
     public void TryInteract()

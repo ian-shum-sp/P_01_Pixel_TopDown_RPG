@@ -66,37 +66,57 @@ public static class Common
 
     public enum EquipmentType
     {
+        [Description("Head Armor")]
         HEAD_ARMOR = 0,
+        [Description("Chest Armor")]
         CHEST_ARMOR = 1,
+        [Description("Boots Armor")]
         BOOTS_ARMOR = 2,
+        [Description("Melee Weapon")]
         MELEE_WEAPON = 3,
+        [Description("Ranged Weapon")]
         RANGED_WEAPON = 4,
+        [Description("Potion")]
         POTION = 5
     }
 
     public enum ArmorBuff
     {
+        [Description("Bleeding Resistance")]
         BLEEDING_RESISTANCE = 0,
+        [Description("Knonckback Resistance")]
         KNOCKBACK_RESISTANCE = 1,
+        [Description("Element Resistance")]
         ELEMENT_RESISTANCE = 2,
+        [Description("None")]
         NONE = 4 
     }
 
     public enum PotionBuff
     {
+        [Description("Bleeding Resistance")]
         BLEEDING_RESISTANCE = 0,
+        [Description("Knonckback Resistance")]
         KNOCKBACK_RESISTANCE = 1,
+        [Description("Element Resistance")]
         ELEMENT_RESISTANCE = 2,
+        [Description("Strength")]
         STRENGTH = 3,
+        [Description("Speed")]
         SPEED = 4,
+        [Description("Healing")]
         HEALING = 5
     }
 
     public enum Debuff
     {
+        [Description("Bleeding")]
         BLEEDING = 0,
+        [Description("Knonckback")]
         KNOCKBACK = 1,
+        [Description("Element")]
         ELEMENT = 2,
+        [Description("None")]
         NONE = 3
     }
 

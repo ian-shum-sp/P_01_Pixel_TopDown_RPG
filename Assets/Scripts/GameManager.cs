@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { private set; get; }
 
     #region Scene Management
+    private GameScene _currentGameScene;
+    public GameScene CurrentGameScene
+    {
+        get { return _currentGameScene; }
+        set { _currentGameScene = value; }
+    }
     #endregion
 
     #region Main Menu 
@@ -20,6 +26,7 @@ public class GameManager : MonoBehaviour
     public FloatingTextManager floatingTextManager;
     public DialogManager dialogManager;
     public ConfirmationManager confirmationManager;
+    public WarningManager warningManager;
     public LoadingScreenManager loadingScreenManager;
     public ExperienceManager experienceManager;
     public EquipmentManager equipmentManager;
@@ -124,6 +131,14 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Warning Manager
+    public void ShowWarning(string text, bool isContinueBlockGameAction = false)
+    {
+        _isBlockGameActions = true;
+        warningManager.Show(text, isContinueBlockGameAction);
+    }
+    #endregion
+
     #region Loading Screen Manager
     public void LoadScene(GameScene scene, float delay = 0.0f)
     {
@@ -192,6 +207,16 @@ public class GameManager : MonoBehaviour
         hUD.InitializeHUD();
         hUD.Show();
     }
+
+    public void EquipToPouch(Potion potion, int amount)
+    {
+        hUD.AddToPouchSlot(potion, amount);
+    }
+
+    public void UnequipFromPouch(Equipment equipment)
+    {
+        hUD.RemoveFromPouchSlot(equipment);
+    }
     #endregion
 
     #region Player Menu
@@ -202,7 +227,13 @@ public class GameManager : MonoBehaviour
 
     public void ShowPlayerMenu()
     {
+        _isBlockGameActions = true;
         playerMenu.UpdateOnExpandPlayerMenu();
+    }
+
+    public void HidePlayerMenu()
+    {
+        _isBlockGameActions = false;
     }
 
     public void UpdatePlayerMenuHealthPoints()
@@ -232,9 +263,23 @@ public class GameManager : MonoBehaviour
         playerMenu.RemoveFromDisplaySlot(equipment);
     }
 
-    
+    public void ShowEquipmentPopUp(Equipment equipment, int amount, Vector3 position)
+    {
+        playerMenu.UpdatePopUpInfo(equipment, amount, position);
+        playerMenu.popUpAnimator.SetTrigger("Show");
+        playerMenu.IsPopUpShowing = true;
+    }
 
-    
+    public bool CheckIfPopUpShown()
+    {
+        return playerMenu.IsPopUpShowing;
+    }
+
+    public void HideEquipmentPopUp()
+    {
+        playerMenu.popUpAnimator.SetTrigger("Hide");
+        playerMenu.IsPopUpShowing = false;
+    }
     #endregion
 
 
@@ -255,29 +300,39 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        /*
-        Save with '|' as delimeter 
-        Order of saving
-        1. Player Name
-        2. Experience
-        3. Gold
-        4. Inventory ('&' as delimeter)
-        5. Central Hub Location
-        6. Equipped Head Armor
-        7. Equipped Chest Armor
-        8. Equipped Boot Armor
-        9. Equipped Weapon
-        10. Pouch Item ('&' as delimeter)
-        */
+        if(_currentGameScene.SceneName == Common.SceneName.INTRODUCTORY)
+        {
+            ShowWarning("Please complete the tutorial before saving!");
+        }
+        else
+        {
+            /*
+            Save with '|' as delimeter 
+            Order of saving
+            1. Player Name
+            2. Experience
+            3. Gold
+            4. Inventory ('&' as delimeter)
+            5. Central Hub Location
+            6. Equipped Head Armor
+            7. Equipped Chest Armor
+            8. Equipped Boot Armor
+            9. Equipped Weapon
+            10. Pouch Item ('&' as delimeter)
+            */
 
-        string saveData = "";
+            string saveData = "";
 
-        PlayerPrefs.SetString("P01SaveData", saveData);
-
+            PlayerPrefs.SetString("P01SaveData", saveData);
+        }
     }
 
     public void ShowMainMenu()
     {
+        GameScene mainScene = new GameScene();
+        mainScene.SceneName = Common.SceneName.MAIN_SCENE;
+        mainScene.SceneDisplayName = "";
+        _currentGameScene = mainScene;
         _isBlockGameActions = true;
         mainMenuAnimator.SetTrigger("Show");
         if(!PlayerPrefs.HasKey("P01SaveData"))
@@ -302,6 +357,7 @@ public class GameManager : MonoBehaviour
         mainScene.SceneName = Common.SceneName.MAIN_SCENE;
         mainScene.SceneDisplayName = "";
         LoadScene(mainScene, 0.5f);
+        Invoke("ShowMainMenu", 0.5f); 
     }
 
     public void LoadGame()
@@ -313,6 +369,7 @@ public class GameManager : MonoBehaviour
             GameScene introductoryScene = new GameScene();
             introductoryScene.SceneName = Common.SceneName.INTRODUCTORY;
             introductoryScene.SceneDisplayName = "";
+            _currentGameScene = introductoryScene;
             LoadScene(introductoryScene);
         }
         else
