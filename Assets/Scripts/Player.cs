@@ -1,24 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Movable
 {
     #region class members
-    private Vector3 _originalSize;
     private SpriteRenderer _spriteRenderer;
     private string _name;
     private Common.PlayerGender _gender;
     private int _gold;
     private int _experience;
-    private Vector3 _moveDelta;
-    private BoxCollider2D _boxCollider;
-    private RaycastHit2D _hit;
+    private Weapon _currentEquippedWeapon;
+    private PlayerWeapon _currentEquippedPlayerWeapon;
     public Inventory[] _inventories;
-    public float healthPoints;
-    public float maxHealthPoints;
-    public float xSpeed;
-    public float ySpeed;
+    public GameObject[] allWeapons;
     #endregion
     
     #region accessors
@@ -44,11 +40,22 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
-        _originalSize = transform.localScale;
+        base.Start();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _boxCollider = GetComponent<BoxCollider2D>();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if(_currentEquippedWeapon == null || _isAttacked)
+            return;
+            
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            _currentEquippedPlayerWeapon.TryAttack(_currentDamage);
+        }
     }
 
     private void FixedUpdate()
@@ -56,41 +63,32 @@ public class Player : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
+        //if there is any active dialogs or player menu shown
         if(!GameManager.Instance.IsBlockGameActions)
-            UpdateMotor(new Vector3(x, y, 0.0f));
+        {
+            //if the player does not have a weapon, can move freely
+            if(_currentEquippedPlayerWeapon == null)
+            {
+                UpdateMotor(new Vector3(x, y, 0.0f));
+                return;
+            }   
+                
+            //player cannot move when he is attacking, if he is attacking and at the same time being attacked, knockback is applied
+            if(!_currentEquippedPlayerWeapon._isAttacking || _isAttacked)
+                UpdateMotor(new Vector3(x, y, 0.0f));
+        }
     }
 
-    private void UpdateMotor(Vector3 input)
+    protected override void UpdateDamage()
     {
-        _moveDelta = new Vector3(input.x * xSpeed, input.y * ySpeed, 0.0f);
-
-        //swap sprite direction (right to left)
-        if(_moveDelta.x > 0.0f)
-        {
-            transform.localScale = _originalSize;
-        }
-        else if(_moveDelta.x < 0.0f)
-        {
-            transform.localScale = new Vector3(_originalSize.x * -1.0f, _originalSize.y, _originalSize.z);
-        }
-        
-        //check if player collides with Blocking and Actor layer by casting a box in the expected position first, if colliders is null, means no collision (for x)
-        _hit = Physics2D.BoxCast(transform.position, _boxCollider.size, 0.0f, new Vector2(_moveDelta.x, 0.0f), Mathf.Abs(_moveDelta.x * Time.deltaTime), LayerMask.GetMask("Blocking","Character"));
-        if(_hit.collider == null)
-        {
-            //move
-            transform.Translate(_moveDelta.x * Time.deltaTime, 0.0f, 0.0f);
-        }
-
-        //check if player collides with Blocking and Actor layer by casting a box in the expected position first, if colliders is null, means no collision (for y)
-        _hit = Physics2D.BoxCast(transform.position, _boxCollider.size, 0.0f, new Vector2(0.0f, _moveDelta.y), Mathf.Abs(_moveDelta.y * Time.deltaTime), LayerMask.GetMask("Blocking","Character"));
-        if(_hit.collider == null)
-        {
-            //move
-            transform.Translate(0.0f, _moveDelta.y * Time.deltaTime, 0.0f);
-        }
+        if(_currentProtection.GetTotalStrengthLevel() == 1 || _currentProtection.GetTotalStrengthLevel() == 2)
+            _currentDamage.damagePoints = _currentEquippedWeapon != null ? _currentEquippedWeapon.damagePoints + 5 : 5;
+        else if(_currentProtection.GetTotalSpeedLevel() == 3)
+            _currentDamage.damagePoints = _currentEquippedWeapon != null ? _currentEquippedWeapon.damagePoints + 10 : 10;
+        else
+            _currentDamage.damagePoints = _currentEquippedWeapon != null ? _currentEquippedWeapon.damagePoints : 0;
     }
-    
+
     public void SetPlayerSprite()
     {
         _spriteRenderer.sprite = GameManager.Instance.playerSprites[(int)_gender];
@@ -133,43 +131,138 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void EquipArmor(Armor armor)
+    {
+        _currentProtection.armorPoints += armor.armorPoints;
+        _currentProtection.SetArmorBuffLevel(armor.armorBuff, armor.buffLevel);
+        if(armor.armorBuff == Common.ArmorBuff.KNOCKBACK_RESISTANCE)
+            UpdateKnockbackRecoverySpeed();
+    }
+
+    public void UnequipArmor(Armor armor)
+    {
+        _currentProtection.armorPoints -= armor.armorPoints;
+        _currentProtection.RemoveArmorBuffLevel(armor.armorBuff, armor.buffLevel);
+    }
+
+    public void EquipWeapon(Weapon weapon)
+    {
+        GameObject weaponToEquip = allWeapons.First(x => x.GetComponent<Weapon>().equipmentID == weapon.equipmentID);
+        weaponToEquip.SetActive(true);
+        _currentEquippedWeapon = weaponToEquip.GetComponent<Weapon>();
+
+        if(_currentEquippedWeapon.equipmentType == Common.EquipmentType.MELEE_WEAPON)
+            _currentEquippedPlayerWeapon = weaponToEquip.GetComponent<PlayerWeapon>();
+        else
+            _currentEquippedPlayerWeapon = weaponToEquip.GetComponentInChildren<PlayerWeapon>();
+
+        _currentDamage.isHaveWeapon = true;
+        _currentDamage.isMelee = _currentEquippedWeapon.equipmentType == Common.EquipmentType.MELEE_WEAPON ? true : false;
+        _currentDamage.origin = _currentEquippedWeapon.transform.position;
+        _currentDamage.damagePoints += _currentEquippedWeapon.damagePoints;
+        _currentDamage.knockbackForce = _currentEquippedWeapon.baseKnockbackForce;
+        _currentDamage.cooldown = _currentEquippedWeapon.cooldown;
+        _currentDamage.attackRange = _currentEquippedWeapon.attackRange;
+        _currentDamage.attackSpeed = Mathf.FloorToInt((2.0f - _currentEquippedWeapon.cooldown)*20);
+        _currentDamage.SetWeaponBuffLevel(_currentEquippedWeapon.weaponDebuff, _currentEquippedWeapon.debuffLevel);
+    }
+
+    public void UnequipWeapon(string equipmentID)
+    {
+        GameObject weaponToUnequip = allWeapons.First(x => x.GetComponent<Weapon>().equipmentID == equipmentID);
+        weaponToUnequip.SetActive(false);
+        _currentEquippedWeapon = null;
+        _currentEquippedPlayerWeapon = null;
+        _currentDamage = new Damage();
+        _currentDamage.Initialize();
+    }
+
+    public void AddPotionEffect(Potion potion)
+    {
+        _currentProtection.SetPotionBuffLevel(potion.potionBuff, potion.buffLevel);
+        switch(potion.potionBuff)
+        {
+            case Common.PotionBuff.KNOCKBACK_RESISTANCE:
+            {
+                UpdateKnockbackRecoverySpeed();
+                break;
+            }
+            case Common.PotionBuff.STRENGTH:
+            {
+                UpdateDamage();
+                break;
+            }
+            case Common.PotionBuff.SPEED:
+            {
+                UpdateSpeed();
+                break;
+            }
+            case Common.PotionBuff.HEALING:
+            {
+                if(potion.buffLevel == 1)
+                    Heal(30.0f);
+                else if(potion.buffLevel == 2)
+                    Heal(90.0f);
+                else
+                    Heal(200.0f);
+                break;
+            }
+            default:
+                break;
+        }
+        _inventories[(int)Common.InventoryType.POTION].ReduceEquipmentAmount(potion, 1);
+        GameManager.Instance.UpdateStatusInfo();
+        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
+    }
+
+    public void RemovePotionEffect(Potion potion)
+    {
+        _currentProtection.RemovePotionBuffLevel(potion.potionBuff, potion.buffLevel);
+        switch(potion.potionBuff)
+        {
+            case Common.PotionBuff.KNOCKBACK_RESISTANCE:
+            {
+                UpdateKnockbackRecoverySpeed();
+                break;
+            }
+            case Common.PotionBuff.STRENGTH:
+            {
+                UpdateDamage();
+                break;
+            }
+            case Common.PotionBuff.SPEED:
+            {
+                UpdateSpeed();
+                break;
+            }
+            default:
+                break;
+        }
+        GameManager.Instance.UpdateStatusInfo();
+        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
+    }
+
     public Protection GetArmorInfo()
     {
-        Protection protection = new Protection();
-        protection.InitializeBuffsInfo();
-
-        List<Equipment> armorEquipments = _inventories[(int)Common.InventoryType.ARMOR].GetEquippedEquipments();
-
-        foreach(Equipment equipment in armorEquipments)
-        {
-            Armor armor = equipment as Armor;
-            protection.armorPoints += armor.armorPoints;
-            protection.SetArmorBuffLevel(armor.armorBuff, armor.buffLevel);
-        }
-        
-        return protection;
+        return _currentProtection;
     }
 
     public Damage GetWeaponInfo()
     {
-        Damage damage = new Damage();
-        damage.InitializeDebuffsInfo();
+        return _currentDamage;
+    }
 
-        List<Equipment> weaponEquipments = _inventories[(int)Common.InventoryType.WEAPON].GetEquippedEquipments();
-        
-        foreach(Equipment equipment in weaponEquipments)
-        {
-            Weapon weapon = equipment as Weapon;
-            damage.isMelee = weapon.equipmentType == Common.EquipmentType.MELEE_WEAPON ? true : false;
-            damage.origin = Vector3.zero;
-            damage.damagePoints += weapon.damagePoints;
-            damage.pushForce = weapon.pushForce;
-            damage.attackRange = weapon.attackRange;
-            damage.attackSpeed = Mathf.FloorToInt((2.0f - weapon.cooldown)*20);
-            damage.SetWeaponBuffLevel(weapon.weaponDebuff, weapon.debuffLevel);
-        }
+    public void Heal(float healingAmount)
+    {
+        if(healthPoints == maxHealthPoints)
+            return;
 
-        return damage;
+        healthPoints += healingAmount;
+
+        if(healthPoints > maxHealthPoints)
+            healthPoints = maxHealthPoints;
+
+        GameManager.Instance.ShowFloatingText("+" + healingAmount, 25, Color.green, transform.position, Vector3.up * 25, 3.0f);
     }
 
 }

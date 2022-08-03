@@ -9,7 +9,7 @@ public class Weapon : Equipment
     public Common.Debuff weaponDebuff;
     public int debuffLevel;
     public int attackRange;
-    public float pushForce;
+    public float baseKnockbackForce;
     public float cooldown;
     #endregion
     

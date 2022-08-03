@@ -18,8 +18,25 @@ public class HUD : MonoBehaviour
     #endregion
     
     #region accessors
-
     #endregion
+
+    private void Update()
+    {
+        if(GameManager.Instance.IsBlockGameActions)
+            return;
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+            pouchSlots[0].TryUsePotion();
+        
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+            pouchSlots[1].TryUsePotion();
+
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+            pouchSlots[2].TryUsePotion();
+
+        if(Input.GetKeyDown(KeyCode.Alpha4))
+            pouchSlots[3].TryUsePotion();
+    }
    
     public void InitializeHUD()
     {
@@ -51,6 +68,23 @@ public class HUD : MonoBehaviour
         }
     }
 
+    public void UpdateStatusText()
+    {
+        Protection protection = GameManager.Instance.player.GetArmorInfo();
+
+        string statusText = null;
+
+        string strengthText = protection.GetTotalStrengthLevel() != 0 ? "Strength " + protection.GetTotalStrengthLevel() : null;
+        string speedText = protection.GetTotalSpeedLevel() != 0 ? "Speed " + protection.GetTotalSpeedLevel() : null;
+        string bleedingText = protection.GetTotalBleedingResistanceLevel() < 0 ? "Bleeding " + Mathf.Abs(protection.GetTotalBleedingResistanceLevel()) : null;
+        string elementText = protection.GetTotalElementResistanceLevel() < 0 ? "Bleeding " + Mathf.Abs(protection.GetTotalElementResistanceLevel()) : null;
+
+        statusText += strengthText + " " + speedText  + " " +  bleedingText  + " " +  elementText;
+        statusText.Trim();
+
+        statusInfoText.text = statusText;
+    }
+
     public void Show()
     {
         animator.SetTrigger("Show");
@@ -61,8 +95,18 @@ public class HUD : MonoBehaviour
         pouchSlots.First(x => !x.IsOccupied).AddToPouchSlot(potion, amount);
     }
 
-    public void RemoveFromPouchSlot(Equipment equipment)
+    public void RemoveFromPouchSlot(string equipmentID)
     {
-        pouchSlots.First(x => x.Equipment.equipmentID == equipment.equipmentID).RemoveFromPouchSlot();
+        pouchSlots.First(x => x.Equipment.equipmentID == equipmentID).RemoveFromPouchSlot();
+    }
+
+    public void UpdatePouchSlot(string equipmentID, int amount)
+    {
+        PouchSlot pouchSlot = pouchSlots.First(x => x.Equipment.equipmentID == equipmentID);
+
+        if(amount <= 0)
+            RemoveFromPouchSlot(equipmentID);
+        else
+            pouchSlot.UpdateAmount(amount);
     }
 }

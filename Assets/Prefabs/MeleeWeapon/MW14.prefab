@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6825752579256797538}
   - component: {fileID: 6825752579256797537}
   - component: {fileID: 6189292333912185932}
+  - component: {fileID: -7448124477382037361}
   m_Layer: 0
   m_Name: MW14
   m_TagString: Untagged
@@ -108,7 +109,7 @@ MonoBehaviour:
   weaponDebuff: 0
   debuffLevel: 3
   attackRange: 29
-  pushForce: 3.6
+  baseKnockbackForce: 3.6
   cooldown: 0.4
 --- !u!61 &6189292333912185932
 BoxCollider2D:
@@ -117,7 +118,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6825752579256797543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -136,3 +137,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.06, y: 0.29}
   m_EdgeRadius: 0
+--- !u!114 &-7448124477382037361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6825752579256797543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c181cd540854604fa746d46688aa31d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  _isAttacking: 0

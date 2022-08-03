@@ -208,14 +208,24 @@ public class GameManager : MonoBehaviour
         hUD.Show();
     }
 
+    public void UpdateStatusInfo()
+    {
+        hUD.UpdateStatusText();
+    }
+
     public void EquipToPouch(Potion potion, int amount)
     {
         hUD.AddToPouchSlot(potion, amount);
     }
 
-    public void UnequipFromPouch(Equipment equipment)
+    public void UnequipFromPouch(string equipmentID)
     {
-        hUD.RemoveFromPouchSlot(equipment);
+        hUD.RemoveFromPouchSlot(equipmentID);
+    }
+
+    public void UpdatePouchSlot(string equipmentID, int amount)
+    {
+        hUD.UpdatePouchSlot(equipmentID, amount);
     }
     #endregion
 
@@ -251,6 +261,12 @@ public class GameManager : MonoBehaviour
     {
         playerMenu.UpdateExperience();
         playerMenu.UpdateInventoryUpgradeStatus();
+    }
+
+    public void UpdatePlayerMenuEquipmentInfo()
+    {
+        playerMenu.UpdateWeaponStatInfoText();
+        playerMenu.UpdateArmorStatInfoText();
     }
 
     public void AddToDisplaySlot(Equipment equipment)

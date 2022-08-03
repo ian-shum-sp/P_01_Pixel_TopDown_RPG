@@ -44,13 +44,43 @@ public class InventorySlot : Slot
 
         if(GameManager.Instance.GetConfirmationResult() == true)
         {
-            if(_equipment.equipmentType == Common.EquipmentType.POTION)
+            switch(_equipment.equipmentType)
             {
-                _inventory.slots.First(x => x._isEquipped).UnequipPotions();
-                Potion potion = _equipment as Potion;
-                _inventory.slots.First(x => !x._isEquipped).EquipPotions(potion, _amount);
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+                //if it is an armor, unequip from the player gameobject first
+                case Common.EquipmentType.CHEST_ARMOR:
+                case Common.EquipmentType.HEAD_ARMOR:
+                case Common.EquipmentType.BOOTS_ARMOR:
+                {
+                    //unequip old armor from player object and equip current armor
+                    GameManager.Instance.player.UnequipArmor(_inventory.slots.First(x => x._isEquipped).Equipment as Armor);
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
+                    break;
+                }
+                //if it is a weapon, unequip from the player gameobject first
+                case Common.EquipmentType.MELEE_WEAPON:
+                case Common.EquipmentType.RANGED_WEAPON:
+                {
+                    //unequip old weapon from player object and equip current weapon
+                    GameManager.Instance.player.UnequipWeapon(_inventory.slots.First(x => x._isEquipped).Equipment.equipmentID);
+                    Weapon weapon = _equipment as Weapon;
+                    GameManager.Instance.player.EquipWeapon(weapon);
+                    break;
+                }
+                //if it is a potion, unequip from the pouch
+                case Common.EquipmentType.POTION:
+                {
+                    //unequip old potion from the pouch and equip current potion to the pouch
+                    _inventory.slots.First(x => x._isEquipped).UnequipPotions();
+                    Potion potion = _equipment as Potion;
+                    _inventory.slots.First(x => !x._isEquipped).EquipPotions(potion, _amount);
+                    _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+                    break;
+                }
+                default: 
+                    break;
             }
+
             _inventory.slots.First(x => x._isEquipped).UnequipEquipments();
             EquipEquipments();
         }
@@ -69,27 +99,48 @@ public class InventorySlot : Slot
             {
                 _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
                 if(_inventory.slots.Count(x => x._isEquipped == true && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.CHEST_ARMOR)) > 0)
+                {
                     GameManager.Instance.ShowConfirmation("Do you want to change your chest armor?");
+                }
                 else
+                {
+                    //equip to the player game object
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
                     EquipEquipments();
+                }
                 break;
             }
             case Common.EquipmentType.HEAD_ARMOR:
             {
                 _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
                 if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.HEAD_ARMOR)) > 0)
+                {
                     GameManager.Instance.ShowConfirmation("Do you want to change your head armor?");
+                }
                 else
+                {
+                    //equip to the player game object
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
                     EquipEquipments();
+                }
                 break;
             }
             case Common.EquipmentType.BOOTS_ARMOR:
             {
                 _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
                 if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.BOOTS_ARMOR)) > 0)
+                {
                     GameManager.Instance.ShowConfirmation("Do you want to change your boots armor?");
+                }   
                 else
+                {
+                     //equip to the player game object
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
                     EquipEquipments();
+                }
                 break;
             }
             case Common.EquipmentType.MELEE_WEAPON:
@@ -97,9 +148,16 @@ public class InventorySlot : Slot
             {
                 _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
                 if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && (x._equipment.equipmentType == Common.EquipmentType.MELEE_WEAPON || x._equipment.equipmentType == Common.EquipmentType.RANGED_WEAPON))) > 0)
+                {
                     GameManager.Instance.ShowConfirmation("Do you want to change your weapon?");
+                }
                 else
+                {
+                    //equip to the player game object
+                    Weapon weapon = _equipment as Weapon;
+                    GameManager.Instance.player.EquipWeapon(weapon);
                     EquipEquipments();
+                }
                 break;
             }
             case Common.EquipmentType.POTION:
@@ -113,7 +171,9 @@ public class InventorySlot : Slot
                 else
                 {
                     Potion potion = _equipment as Potion;
+                    //equip potion to the pouch
                     _inventory.slots.First(x => !x._isOccupied).EquipPotions(potion, _amount);
+                    //equip in the potion inventory
                     EquipEquipments();
                 }
                 break;
@@ -157,10 +217,9 @@ public class InventorySlot : Slot
         GameManager.Instance.EquipToPouch(potion, _amount);
     }
 
-
     private void UnequipPotions()
     {
-        GameManager.Instance.UnequipFromPouch(_equipment);
+        GameManager.Instance.UnequipFromPouch(_equipment.equipmentID);
         base.RemoveFromSlot();
         _amount = 0;
         _isEquipped = false;
@@ -169,6 +228,21 @@ public class InventorySlot : Slot
         equipmentText.text = "Empty";
     }
 
+    private void UpdatePotionsAmount(int amount)
+    {
+        _amount -= amount;
+        GameManager.Instance.UpdatePouchSlot(_equipment.equipmentID, _amount);
+        if(_amount > 0)
+            equipmentText.text = "x" + _amount;
+        else
+        {
+            //Unequip from the potion inventory if the usable reach 0
+            Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+            potionInventory.slots.First(x => x.Equipment.equipmentID == _equipment.equipmentID).UnequipEquipments();
+            _amount = 0;
+            ResetSlot();
+        }
+    }
 
     protected override void ResetSlot()
     {
@@ -242,12 +316,58 @@ public class InventorySlot : Slot
             TryEquip();
         else
         {
+            switch(_equipment.equipmentType)
+            {
+                //if it is an armor, unequip from the player gameobject first
+                case Common.EquipmentType.CHEST_ARMOR:
+                case Common.EquipmentType.HEAD_ARMOR:
+                case Common.EquipmentType.BOOTS_ARMOR:
+                {
+                    GameManager.Instance.player.UnequipArmor(_equipment as Armor);
+                    break;
+                }
+                //if it is a weapon, unequip from the player gameobject first
+                case Common.EquipmentType.MELEE_WEAPON:
+                case Common.EquipmentType.RANGED_WEAPON:
+                {
+                    GameManager.Instance.player.UnequipWeapon(_equipment.equipmentID);
+                    break;
+                }
+                //if it is a potion, unequip from the pouch
+                case Common.EquipmentType.POTION:
+                {
+                    _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+                    _inventory.slots.First(x => x._equipment.equipmentID == _equipment.equipmentID).UnequipPotions();
+                    break;
+                }
+                default: 
+                    break;
+            }
+
+            //if it is a weapon, unequip from the player gameobject first
+            if(_equipment.equipmentType == Common.EquipmentType.MELEE_WEAPON || _equipment.equipmentType == Common.EquipmentType.RANGED_WEAPON)
+                GameManager.Instance.player.UnequipWeapon(_equipment.equipmentID);
+
+            //if it is a potion, unequip from the pouch
             if(_equipment.equipmentType == Common.EquipmentType.POTION)
             {
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-                _inventory.slots.First(x => x._equipment.equipmentID == _equipment.equipmentID).UnequipPotions();
+                
             }
             UnequipEquipments();
         }
+    }
+
+    public void ReduceAmount(int amount)
+    {
+        _amount -= amount;
+
+        if(_equipment.equipmentType == Common.EquipmentType.POTION)
+        {
+            Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+            pouchInventory.slots.First(x => x.Equipment.equipmentID == _equipment.equipmentID).UpdatePotionsAmount(amount);
+        }
+        
+        if(_amount <= 0)
+            RemoveFromSlot();
     }
 }

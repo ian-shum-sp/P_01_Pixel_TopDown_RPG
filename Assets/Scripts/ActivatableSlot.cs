@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class ActivatableSlot : Slot
 {
-    public abstract void ActivateSlot();
+    protected abstract void ActivateSlot();
 }

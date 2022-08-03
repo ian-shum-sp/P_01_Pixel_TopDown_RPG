@@ -37,43 +37,11 @@ public class PlayerMenu : MonoBehaviour
         get { return _isPopUpShowing; }
         set { _isPopUpShowing = value; }
     }
-
-    private void Update() 
-    {
-        
-    }
     
     private void UpdateUpgradeButtonText(TextMeshProUGUI text, string upgradeText, Color color)
     {
             text.text = upgradeText;
             text.color = color;
-    }
-
-    private void UpdateArmorStatInfoText()
-    {
-        //Order: Armor, Damage Reduction, Bleeding Resistance, Knockback Resistance, Element Resistance
-        Protection protection = GameManager.Instance.player.GetArmorInfo();
-
-        equipmentArmorStatInfoText.text = "\n" + 
-                                        protection.armorPoints.ToString() + "\n" + 
-                                        protection.armorPoints.ToString() + "%\n" + 
-                                        protection.armorBuffsLevels[0].ToString() + "\n" +
-                                        protection.armorBuffsLevels[1].ToString() + "\n" +
-                                        protection.armorBuffsLevels[2].ToString();
-    }
-
-    private void UpdateWeaponStatInfoText()
-    {
-        //Order: Weapon Type, Damage Points, Attack Range, Attack Speed, Bleeding, Knockback, Element
-        Damage damage = GameManager.Instance.player.GetWeaponInfo();
-
-        equipmentWeaponStatInfoText.text = (damage.damagePoints == 0 ? "-" : (damage.isMelee ? "Melee" : "Range")) + "\n" + 
-                                            damage.damagePoints.ToString() + "\n" + 
-                                            damage.attackRange.ToString() + "\n" +
-                                            damage.attackSpeed.ToString() + "\n" +
-                                            damage.weaponDebuffsLevels[0].ToString() + "\n" +
-                                            damage.weaponDebuffsLevels[1].ToString() + "\n" +
-                                            damage.weaponDebuffsLevels[2].ToString();
     }
 
     private void ResetPopUpSprite()
@@ -182,6 +150,34 @@ public class PlayerMenu : MonoBehaviour
             string upgradeText = "Require Level " + pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel].ToString();
             UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, Color.red);
         }
+    }
+
+    public void UpdateArmorStatInfoText()
+    {
+        //Order: Movement Speed, Armor, Damage Reduction, Bleeding Resistance, Knockback Resistance, Element Resistance
+        Protection protection = GameManager.Instance.player.GetArmorInfo();
+
+        equipmentArmorStatInfoText.text = "\n" + 
+                                        protection.movementSpeed.ToString() + "\n" +
+                                        protection.armorPoints.ToString() + "\n" + 
+                                        protection.armorPoints.ToString() + "%\n" + 
+                                        protection.GetTotalBleedingResistanceLevel().ToString() + "\n" +
+                                        protection.GetTotalKnockbackResistanceLevel().ToString() + "\n" +
+                                        protection.GetTotalElementResistanceLevel().ToString();
+    }
+
+    public void UpdateWeaponStatInfoText()
+    {
+        //Order: Weapon Type, Damage Points, Attack Range, Attack Speed, Bleeding, Knockback, Element
+        Damage damage = GameManager.Instance.player.GetWeaponInfo();
+
+        equipmentWeaponStatInfoText.text = (damage.isHaveWeapon ? (damage.isMelee ? "Melee" : "Range") : "-") + "\n" + 
+                                            (damage.isHaveWeapon ? damage.damagePoints.ToString() : "0") + "\n" + 
+                                            damage.attackRange.ToString() + "\n" +
+                                            damage.attackSpeed.ToString() + "\n" +
+                                            damage.weaponDebuffsLevels[0].ToString() + "\n" +
+                                            damage.weaponDebuffsLevels[1].ToString() + "\n" +
+                                            damage.weaponDebuffsLevels[2].ToString();
     }
 
     public void AddToDisplaySlot(Equipment equipment)

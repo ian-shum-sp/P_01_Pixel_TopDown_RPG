@@ -108,7 +108,7 @@ MonoBehaviour:
   weaponDebuff: 2
   debuffLevel: 1
   attackRange: 100
-  pushForce: 2.2
+  baseKnockbackForce: 2.2
   cooldown: 1.1
 --- !u!1 &6451778441723654275
 GameObject:
@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 6451778441723654274}
   - component: {fileID: 6451778441723654273}
   - component: {fileID: 5844729538400092471}
+  - component: {fileID: 4034726492181943385}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -221,3 +222,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.07, y: 0.21}
   m_EdgeRadius: 0
+--- !u!114 &4034726492181943385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6451778441723654275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c181cd540854604fa746d46688aa31d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  _isAttacking: 0

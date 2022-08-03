@@ -70,26 +70,31 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public List<Equipment> GetEquippedEquipments()
+    public void ReduceEquipmentAmount(Equipment equipment, int amount)
     {
-        List<Equipment> equippedEquipments = new List<Equipment>();
-        List<InventorySlot> equippedSlots = slots.Where(x => x.IsEquipped).ToList();
-        foreach(InventorySlot slot in equippedSlots)
-        {
-            equippedEquipments.Add(slot.Equipment);
-        }
-        return equippedEquipments;
+        slots.First(x => x.Equipment.equipmentID == equipment.equipmentID).ReduceAmount(amount);
     }
+   
+    // public List<Equipment> GetEquippedEquipments()
+    // {
+    //     List<Equipment> equippedEquipments = new List<Equipment>();
+    //     List<InventorySlot> equippedSlots = slots.Where(x => x.IsEquipped).ToList();
+    //     foreach(InventorySlot slot in equippedSlots)
+    //     {
+    //         equippedEquipments.Add(slot.Equipment);
+    //     }
+    //     return equippedEquipments;
+    // }
 
-    public bool CheckIsInventoryFull()
-    {
-        InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsOccupied == false);
+    // public bool CheckIsInventoryFull()
+    // {
+    //     InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsOccupied == false);
 
-        if(unoccupiedSlot == null)
-            return true;
+    //     if(unoccupiedSlot == null)
+    //         return true;
 
-        return false;
-    }
+    //     return false;
+    // }
 
     public void UpgradeInventory()
     {

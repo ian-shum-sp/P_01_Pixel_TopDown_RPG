@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8541084436340286387}
   - component: {fileID: 8541084436340286380}
   - component: {fileID: 7005565797528997647}
+  - component: {fileID: -2206264343039757111}
   m_Layer: 0
   m_Name: MW18
   m_TagString: Untagged
@@ -108,7 +109,7 @@ MonoBehaviour:
   weaponDebuff: 1
   debuffLevel: 1
   attackRange: 30
-  pushForce: 3.8
+  baseKnockbackForce: 3.8
   cooldown: 0.8
 --- !u!61 &7005565797528997647
 BoxCollider2D:
@@ -117,7 +118,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8541084436340286382}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -136,3 +137,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.12, y: 0.3}
   m_EdgeRadius: 0
+--- !u!114 &-2206264343039757111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8541084436340286382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c181cd540854604fa746d46688aa31d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  _isAttacking: 0

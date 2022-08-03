@@ -6,6 +6,8 @@ Equipment System
 		- Bleeding: Deals damage per second for a fixed duration of time
 		- Knockback: Push enemy further away
 		- Elements (Fire, Wind, Ice, Thunder): Deals damage per second for a fixed duration of time
+		- Debuffs only apply to level higher or equal to applied Debuff 
+		- For example: if player is already affected with Bleeding II, Bleeding I will not be apply and time will not be reset for the player, only applying Bleeding II or higher level will refresh the time
 	Buffs:
 		- Bleeding Resistance: Reduce damage per second caused by Bleeding
 		- Knockback Resistance: Reduce push distance caused by Knockback

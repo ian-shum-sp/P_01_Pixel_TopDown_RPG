@@ -4,17 +4,28 @@ using UnityEngine;
 
 public struct Damage
 {
+    public bool isHaveWeapon;
     public bool isMelee;
     public Vector3 origin;
     public int damagePoints;
-    public float pushForce;
+    public float knockbackForce;
     public int attackRange;
+    public float cooldown;
     public int attackSpeed;
     public Common.Debuff[] weaponDebuffs;
     public int[] weaponDebuffsLevels;
 
-    public void InitializeDebuffsInfo()
+    public void Initialize()
     {
+        isHaveWeapon = false;
+        isMelee = false;
+        origin = Vector3.zero;
+        damagePoints = 0;
+        knockbackForce = 0.0f;
+        attackRange = 0;
+        cooldown = 0.0f;
+        attackSpeed = 0;
+
         weaponDebuffs = new Common.Debuff[3];
         weaponDebuffs[0] = Common.Debuff.BLEEDING;
         weaponDebuffs[1] = Common.Debuff.KNOCKBACK;

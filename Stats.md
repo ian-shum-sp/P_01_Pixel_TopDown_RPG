@@ -1,6 +1,6 @@
 # Buffs
 **Equipment ID, Duration, Cost, Cooldown and Maximum Amount at Pouch are only applicable to Potions**<br/>
-**For Knockback Resistance, secondary effects only applies if you have extra Levels**
+**For Knockback Resistance, secondary effects only applies if you have active Levels**
 | EquipmentID   | Type                 	| Level 	| Effect                                    	| Duration   	| Cost 	    | Cooldown   	| Maximum Amount at Pouch 	|
 | :--------:    |----------------------	|:-----:	|-------------------------------------------	|------------	|:----:	    |------------	|:-----------------------:	|
 | P01           | Strength             	| 1     	| +5 Damage                                 	| 30 seconds 	| 100    	| 90 seconds 	| 10                      	|
@@ -16,24 +16,24 @@
 | P11           | Bleeding Resistance  	| 2     	| -2 Level Bleeding                         	| 45 seconds 	| 150    	| 60 seconds 	| 8                       	|
 | P12           | Bleeding Resistance  	| 3     	| -3 Level Bleeding                         	| 60 seconds 	| 300    	| 45 seconds 	| 5                       	|
 | P13           | Knockback Resistance 	| 1     	| -1 Level Knockback / x1.2 Recovery Speed  	| 30 seconds 	| 100    	| 90 seconds 	| 10                      	|
-| P14           | Knockback Resistance 	| 2     	| -2 Level Knockback / x1.6 Recovery Speed  	| 45 seconds 	| 150    	| 60 seconds 	| 8                       	|
-| P15           | Knockback Resistance 	| 3     	| -3 Level Knockback / x1.8 Recovery Speed  	| 60 seconds 	| 300    	| 45 seconds 	| 5                       	|
+| P14           | Knockback Resistance 	| 2     	| -2 Level Knockback / x1.4 Recovery Speed  	| 45 seconds 	| 150    	| 60 seconds 	| 8                       	|
+| P15           | Knockback Resistance 	| 3     	| -3 Level Knockback / x1.6 Recovery Speed  	| 60 seconds 	| 300    	| 45 seconds 	| 5                       	|
 | P16           | Element Resistance   	| 1     	| -1 Level Element                          	| 30 seconds 	| 100    	| 90 seconds 	| 10                      	|
 | P17           | Element Resistance   	| 2     	| -2 Level Element                          	| 45 seconds 	| 150    	| 60 seconds 	| 8                       	|
 | P18           | Element Resistance   	| 3     	| -3 Level Element                          	| 60 seconds 	| 300    	| 45 seconds 	| 5                       	|
 
 # Debuffs
-| Type      	| Level 	| Effect             	| Duration   	| Immunity Time 	|
-|-----------	|:-----:	|--------------------	|------------	|---------------	|
-| Bleeding  	| 1     	| 1 DP2S, Speed x0.9  	| 6 seconds  	| 30 seconds    	|
-| Bleeding  	| 2     	| 2 DP2S, Speed x0.9  	| 10 seconds 	| 45 seconds    	|
-| Bleeding  	| 3     	| 3 DP2S, Speed x0.8  	| 20 seconds 	| 60 seconds    	|
-| Knockback 	| 1     	| x1.1 Push Force 	    | -          	| -             	|
-| Knockback 	| 2     	| x1.25 Push Force   	| -          	| -             	|
-| Knockback 	| 3     	| x1.5 Push Force    	| -          	| -             	|
-| Element   	| 1     	| 1 DP2S, Damage x0.9 	| 6 seconds  	| 30 seconds    	|
-| Element   	| 2     	| 2 DP2S, Damage x0.9 	| 10 seconds 	| 45 seconds    	|
-| Element   	| 3     	| 3 DP2S, Damage x0.8 	| 20 seconds 	| 60 seconds    	|
+| Type      	| Level 	| Effect             	| Duration   	|
+|-----------	|:-----:	|--------------------	|------------	|
+| Bleeding  	| 1     	| 1 DP2S, Speed x0.9  	| 6 seconds  	|
+| Bleeding  	| 2     	| 2 DP2S, Speed x0.9  	| 10 seconds 	|
+| Bleeding  	| 3     	| 3 DP2S, Speed x0.8  	| 20 seconds 	|
+| Knockback 	| 1     	| x1.1 Push Force 	    | -          	|
+| Knockback 	| 2     	| x1.25 Push Force   	| -          	|
+| Knockback 	| 3     	| x1.5 Push Force    	| -          	|
+| Element   	| 1     	| 1 DP2S, Damage x0.9 	| 6 seconds  	|
+| Element   	| 2     	| 2 DP2S, Damage x0.9 	| 10 seconds 	|
+| Element   	| 3     	| 3 DP2S, Damage x0.8 	| 20 seconds 	|
 
 # Chest Armor 
 **Sorted By Level Requirement -> Buffs (None -> Bleeding -> Knockback -> Element) -> Buffs Level -> Cost**
