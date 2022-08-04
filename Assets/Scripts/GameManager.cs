@@ -156,6 +156,13 @@ public class GameManager : MonoBehaviour
     {
         return experienceManager.GetAccumulatedExperienceOfLevel(level);
     }
+
+    public void AddExperienceToPlayer(int experience)
+    {
+        experienceManager.AddExperience(experience);
+        UpdateHUDExperience();
+        UpdatePlayerMenuExperience();
+    }
     #endregion
 
     #region Equipment Manager
@@ -207,6 +214,16 @@ public class GameManager : MonoBehaviour
         hUD.InitializeHUD();
         hUD.Show();
     }
+
+    public void UpdateHUDHealthPoints()
+    {
+        hUD.UpdateHealthPoints();
+    }   
+
+    public void UpdateHUDExperience()
+    {
+        hUD.UpdateExperience();
+    } 
 
     public void UpdateStatusInfo()
     {

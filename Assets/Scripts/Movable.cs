@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Movable : Fighter
 {
-    private Vector3 _originalSize;
     private Vector3 _moveDelta;
-    private BoxCollider2D _boxCollider;
     private RaycastHit2D _hit;
+    private BoxCollider2D _boxCollider;
+    protected Vector3 _originalSize;
     protected float _originalXSpeed;
     protected float _originalYSpeed;
     public float xSpeed = 1.0f;
@@ -32,7 +32,6 @@ public class Movable : Fighter
         {
             transform.localScale = _originalSize;
         }
-
         else if(_moveDelta.x < 0.0f)
         {
             transform.localScale = new Vector3(_originalSize.x * -1.0f, _originalSize.y, _originalSize.z);

@@ -40,6 +40,22 @@ public class HUD : MonoBehaviour
    
     public void InitializeHUD()
     {
+        playerNameText.text = GameManager.Instance.player.Name;
+        statusInfoText.text = null;
+        UpdateExperience();
+        UpdateHealthPoints();
+        Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+        for(int i = 0; i < pouchInventory.maxLevel; i++)
+        {
+            if(i < pouchInventory.InventoryLevel)
+                pouchSlots[i].UnlockSlot();
+            else
+                pouchSlots[i].LockSlot();
+        }
+    }
+
+    public void UpdateExperience()
+    {
         int playerLevel = GameManager.Instance.GetPlayerLevel();
         levelText.text = "Lvl " + playerLevel.ToString();
 
@@ -50,22 +66,12 @@ public class HUD : MonoBehaviour
         int currentPlayerExperienceIntoLevel = GameManager.Instance.player.Experience - previousLevelAccumulatedExperience;
         float experienceRatio = (float)currentPlayerExperienceIntoLevel / (float)experienceNeededToReachNextLevel;
         levelProgressBarMask.fillAmount = experienceRatio;
+    }
 
-        playerNameText.text = GameManager.Instance.player.Name;
-        statusInfoText.text = null;
-
+    public void UpdateHealthPoints()
+    {
         float healthPointsRatio = GameManager.Instance.player.healthPoints / GameManager.Instance.player.maxHealthPoints;
         healthBarMask.fillAmount = healthPointsRatio;
-
-        Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-
-        for(int i = 0; i < pouchInventory.maxLevel; i++)
-        {
-            if(i < pouchInventory.InventoryLevel)
-                pouchSlots[i].UnlockSlot();
-            else
-                pouchSlots[i].LockSlot();
-        }
     }
 
     public void UpdateStatusText()

@@ -40,6 +40,39 @@ public class Player : Movable
     }
     #endregion
 
+    private void FixedUpdate()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+
+        //if there is any active dialogs or player menu shown
+        if(!GameManager.Instance.IsBlockGameActions)
+        {
+            //if the player does not have a weapon, can move freely
+            if(_currentEquippedPlayerWeapon == null)
+            {
+                UpdateMotor(new Vector3(x, y, 0.0f));
+                return;
+            }   
+                
+            //player cannot move when he is attacking, if he is attacking and at the same time being attacked, knockback is applied
+            if(!_currentEquippedPlayerWeapon._isAttacking)
+            {
+                UpdateMotor(new Vector3(x, y, 0.0f));
+                return;
+            }
+
+            if(_isAttacked)
+            {
+                UpdateMotor(new Vector3(0.0f, 0.0f, 0.0f));
+                return;
+            }
+
+            // if(!_currentEquippedPlayerWeapon._isAttacking || _isAttacked)
+            //     UpdateMotor(new Vector3(x, y, 0.0f));
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -58,26 +91,13 @@ public class Player : Movable
         }
     }
 
-    private void FixedUpdate()
+    protected override void ReceiveDamage(Damage damage)
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-
-        //if there is any active dialogs or player menu shown
-        if(!GameManager.Instance.IsBlockGameActions)
-        {
-            //if the player does not have a weapon, can move freely
-            if(_currentEquippedPlayerWeapon == null)
-            {
-                UpdateMotor(new Vector3(x, y, 0.0f));
-                return;
-            }   
-                
-            //player cannot move when he is attacking, if he is attacking and at the same time being attacked, knockback is applied
-            if(!_currentEquippedPlayerWeapon._isAttacking || _isAttacked)
-                UpdateMotor(new Vector3(x, y, 0.0f));
-        }
+        base.ReceiveDamage(damage);
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
     }
+
 
     protected override void UpdateDamage()
     {
@@ -262,7 +282,24 @@ public class Player : Movable
         if(healthPoints > maxHealthPoints)
             healthPoints = maxHealthPoints;
 
-        GameManager.Instance.ShowFloatingText("+" + healingAmount, 25, Color.green, transform.position, Vector3.up * 25, 3.0f);
+        GameManager.Instance.ShowFloatingText("+" + healingAmount, 25, Color.green, transform.position, Vector3.up * 30, 2.0f);
+    }
+
+    public void LevelUp()
+    {
+        int playerLevel = GameManager.Instance.GetPlayerLevel();
+        if(playerLevel <= 9)
+            maxHealthPoints += 5;
+        else if(playerLevel >= 10 && playerLevel <= 20)
+            maxHealthPoints += 10;
+        else if(playerLevel >= 21 && playerLevel <= 24)
+            maxHealthPoints += 15;
+        else if(playerLevel == 25)
+            maxHealthPoints += 40;
+        
+        healthPoints += healthPoints * 0.1f;
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
     }
 
 }

@@ -75,7 +75,7 @@ public class PlayerMenu : MonoBehaviour
 
     public void UpdateHealthPoints()
     {
-        healthPointsText.text = "Health Points: " + GameManager.Instance.player.healthPoints.ToString() + "/" + GameManager.Instance.player.maxHealthPoints.ToString();
+        healthPointsText.text = "Health Points: " + Mathf.CeilToInt(GameManager.Instance.player.healthPoints).ToString() + "/" + Mathf.CeilToInt(GameManager.Instance.player.maxHealthPoints).ToString();
     }
 
     public void UpdateGold()
@@ -161,9 +161,9 @@ public class PlayerMenu : MonoBehaviour
                                         protection.movementSpeed.ToString() + "\n" +
                                         protection.armorPoints.ToString() + "\n" + 
                                         protection.armorPoints.ToString() + "%\n" + 
-                                        protection.GetTotalBleedingResistanceLevel().ToString() + "\n" +
-                                        protection.GetTotalKnockbackResistanceLevel().ToString() + "\n" +
-                                        protection.GetTotalElementResistanceLevel().ToString();
+                                        (protection.GetTotalBleedingResistanceLevel() < 0 ? "0" : protection.GetTotalBleedingResistanceLevel().ToString()) + "\n" +
+                                        (protection.GetTotalKnockbackResistanceLevel() < 0 ? "0" : protection.GetTotalKnockbackResistanceLevel().ToString()) + "\n" +
+                                        (protection.GetTotalElementResistanceLevel() < 0 ? "0" : protection.GetTotalElementResistanceLevel().ToString());
     }
 
     public void UpdateWeaponStatInfoText()

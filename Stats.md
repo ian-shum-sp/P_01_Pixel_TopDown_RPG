@@ -210,49 +210,49 @@
 |       	|        	|                 	|                  	| **Total**     	| 4400                             	|
 
 # Mobs
-| Type   	| Level 	| Health 	| Armor 	| Buffs 	| Buffs Level 	| Speed X 	| Speed Y 	| Recovery Speed 	| Damage 	| Weapon Type 	| Reach 	| Push Force 	| Debuffs   	| Debuffs Level 	|
-|--------	|:-----:	|:------:	|:-----:	|-------	|:-----------:	|:-------:	|:-------:	|:--------------:	|:------:	|-------------	|:-----:	|:----------:	|-----------	|:-------------:	|
-| Small  	| 1     	| 5      	| 0     	| -     	| -           	| 0.6     	| 0.45   	| 0.1            	| 5      	| Melee       	| 15    	| 2.1        	| -         	| -             	|
-| Small  	| 2     	| 6      	| 2     	| -     	| -           	| 0.6     	| 0.45   	| 0.1            	| 7      	| Melee       	| 21    	| 2.1        	| -         	| -             	|
-| Small  	| 3     	| 10     	| 4     	| -         | -           	| 0.7     	| 0.525   	| 0.1            	| 10     	| Melee       	| 24    	| 2.3        	| -         	| -             	|
-| Small  	| 3     	| 10     	| 4     	| Knockback | 1           	| 0.7     	| 0.525   	| 0.1            	| 7     	| Melee       	| 24    	| 2.3        	| Bleeding      | 1             	|
-| Small  	| 3     	| 8      	| 3     	| -         | -           	| 0.6     	| 0.45   	| 0.1            	| 6      	| Ranged      	| 60    	| 1.7        	| Knockback     | 1             	|
-| Small  	| 3     	| 8      	| 3     	| Element   | 1           	| 0.6     	| 0.45   	| 0.1            	| 4      	| Ranged      	| 60    	| 1.7        	| Element       | 1             	|
-| Medium 	| 1     	| 16     	| 6     	| -     	| -           	| 0.8     	| 0.6     	| 0.2            	| 12     	| Melee       	| 24    	| 2.8        	| -         	| -             	|
-| Medium 	| 2     	| 20     	| 9     	| -     	| -           	| 0.8     	| 0.6     	| 0.2            	| 15     	| Melee       	| 27    	| 2.8        	| -         	| -             	|
-| Medium 	| 2     	| 20     	| 9     	| Knockback | 1           	| 0.8     	| 0.6     	| 0.2            	| 11     	| Melee       	| 27    	| 2.8        	| Bleeding      | 2             	|
-| Medium 	| 2     	| 18     	| 8     	| Bleeding  | 1           	| 0.7     	| 0.525   	| 0.2            	| 13     	| Ranged      	| 80    	| 1.9        	| -         	| -             	|
-| Medium 	| 2     	| 18     	| 8     	| Knockback | 2           	| 0.7     	| 0.525   	| 0.2            	| 11     	| Ranged      	| 80    	| 1.9        	| Knockback     | 3             	|
-| Medium 	| 2     	| 18     	| 8     	| Element   | 2           	| 0.7     	| 0.525   	| 0.2            	| 11     	| Ranged      	| 80    	| 1.9        	| Element       | 1             	|
-| Medium 	| 3     	| 24     	| 12    	| -     	| -           	| 0.8     	| 0.6     	| 0.2            	| 17     	| Melee       	| 29    	| 3.0        	| -         	| -             	|
-| Medium 	| 3     	| 24     	| 12    	| Knockback | 2           	| 0.8     	| 0.6     	| 0.2            	| 15     	| Melee       	| 29    	| 3.0        	| Bleeding      | 1             	|
-| Medium 	| 3     	| 24     	| 12    	| Knockback | 2           	| 0.8     	| 0.6     	| 0.2            	| 13     	| Melee       	| 29    	| 3.0        	| Bleeding      | 2             	|
-| Medium 	| 3     	| 24     	| 12    	| Bleeding  | 2           	| 0.8     	| 0.6     	| 0.2            	| 13     	| Melee       	| 29    	| 3.0        	| Element       | 2             	|
-| Medium 	| 3     	| 22     	| 10    	| Element   | 1           	| 1.0     	| 0.75    	| 0.2            	| 15     	| Ranged      	| 100   	| 2.2        	| -         	| -             	|
-| Medium 	| 3     	| 22     	| 10    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.2            	| 11     	| Ranged      	| 100   	| 2.2        	| Bleeding      | 1             	|
-| Medium 	| 4     	| 30     	| 15    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.2            	| 22     	| Melee       	| 30    	| 3.2        	| -         	| -             	|
-| Medium 	| 4     	| 30     	| 15    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.2            	| 17     	| Melee       	| 30    	| 3.2        	| Bleeding      | 2             	|
-| Medium 	| 4     	| 30     	| 15    	| Knockback | 1           	| 1.0     	| 0.75    	| 0.2            	| 18     	| Melee       	| 30    	| 3.2        	| Knockback     | 1             	|
-| Medium 	| 4     	| 30     	| 15    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.2            	| 20     	| Melee       	| 30    	| 3.2        	| Knockback     | 2             	|
-| Big    	| 1     	| 40     	| 18    	| Knockback | 3           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 25    	| 3.2        	| -         	| -             	|
-| Big    	| 1     	| 40     	| 18    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.3            	| 25     	| Melee       	| 25    	| 3.2        	| Knockback     | 2             	|
-| Big    	| 1     	| 40     	| 18    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 22     	| Melee       	| 25    	| 3.2        	| Element       | 2             	|
-| Big    	| 2     	| 60     	| 21    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.3            	| 33     	| Melee       	| 30    	| 3.3        	| -         	| -             	|
-| Big    	| 2     	| 60     	| 21    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 30    	| 3.3        	| Bleeding      | 2             	|
-| Big    	| 2     	| 60     	| 21    	| Element   | 3           	| 1.0     	| 0.75    	| 0.3            	| 26     	| Melee       	| 30    	| 3.3        	| Bleeding      | 3             	|
-| Big    	| 2     	| 60     	| 21    	| Bleeding  | 3           	| 1.0     	| 0.75    	| 0.3            	| 29     	| Melee       	| 30    	| 3.3        	| Knockback     | 3             	|
-| Big    	| 3     	| 80     	| 25    	| Knockback | 2           	| 1.1     	| 0.825   	| 0.3            	| 39     	| Melee       	| 27    	| 2.7        	| -         	| -             	|
-| Big    	| 3     	| 80     	| 25    	| Bleeding  | 2           	| 1.1     	| 0.825   	| 0.3            	| 33     	| Melee       	| 27    	| 2.7        	| Bleeding      | 3             	|
-| Big    	| 3     	| 70     	| 23    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 36     	| Ranged      	| 120   	| 3.5        	| -         	| -             	|
-| Big    	| 3     	| 70     	| 23    	| Element   | 2           	| 1.2     	| 0.9     	| 0.3            	| 31     	| Ranged      	| 120   	| 3.5        	| Element       | 2             	|
-| Big    	| 3     	| 70     	| 23    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 28     	| Ranged      	| 120   	| 3.5        	| Element       | 3             	|
-| Big    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 43     	| Melee       	| 28    	| 3.7        	| -         	| -             	|
-| Big    	| 4     	| 100    	| 30    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 36     	| Melee       	| 28    	| 3.7        	| Bleeding      | 3             	|
-| Big    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 40     	| Melee       	| 28    	| 3.7        	| Knockback     | 3             	|
-| Big    	| 4     	| 100    	| 30    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 35     	| Melee       	| 28    	| 3.7        	| Element       | 3             	|
-| Boss   	| -     	| 500    	| 50    	| Knockback | 3           	| 1.4     	| 0.75    	| 0.5            	| 50     	| Melee       	| 40    	| 5.0        	| Bleeding  	| 3             	|
-| Boss   	| -     	| 500    	| 50    	| Bleeding  | 3           	| 1.4     	| 0.75    	| 0.5            	| 50     	| Melee       	| 40    	| 5.0        	| Element   	| 3             	|
-| Boss   	| -     	| 500    	| 50    	| Element   | 3           	| 1.4     	| 0.75    	| 0.5            	| 50     	| Ranged      	| 160   	| 5.0        	| Knockback 	| 3             	|
+| Type   	| Level 	| Health 	| Armor 	| Buffs 	| Buffs Level 	| Speed X 	| Speed Y 	| Recovery Speed 	| Damage 	| Weapon Type 	| Reach 	| Push Force 	| Debuffs   	| Debuffs Level 	| Cooldown  |
+|--------	|:-----:	|:------:	|:-----:	|-------	|:-----------:	|:-------:	|:-------:	|:--------------:	|:------:	|-------------	|:-----:	|:----------:	|-----------	|:-------------:	|:------:	|
+| Small  	| 1     	| 5      	| 0     	| -     	| -           	| 0.6     	| 0.45   	| 0.1            	| 5      	| Melee       	| 15    	| 2.1        	| -         	| -             	| 0.8       |
+| Small  	| 2     	| 6      	| 2     	| -     	| -           	| 0.6     	| 0.45   	| 0.1            	| 7      	| Melee       	| 21    	| 2.1        	| -         	| -             	| 0.8       |
+| Small  	| 3     	| 10     	| 4     	| -         | -           	| 0.7     	| 0.525   	| 0.1            	| 10     	| Melee       	| 24    	| 2.3        	| -         	| -             	| 0.7       |
+| Small  	| 3     	| 10     	| 4     	| Knockback | 1           	| 0.7     	| 0.525   	| 0.1            	| 7     	| Melee       	| 24    	| 2.3        	| Bleeding      | 1             	| 0.9       |
+| Small  	| 3     	| 8      	| 3     	| -         | -           	| 0.6     	| 0.45   	| 0.1            	| 6      	| Ranged      	| 60    	| 1.7        	| Knockback     | 1             	| 1.4       |
+| Small  	| 3     	| 8      	| 3     	| Element   | 1           	| 0.6     	| 0.45   	| 0.1            	| 4      	| Ranged      	| 60    	| 1.7        	| Element       | 1             	| 1.2       |
+| Medium 	| 1     	| 16     	| 6     	| -     	| -           	| 0.8     	| 0.6     	| 0.2            	| 12     	| Melee       	| 24    	| 2.8        	| -         	| -             	| 0.8       |
+| Medium 	| 2     	| 20     	| 9     	| -     	| -           	| 0.8     	| 0.6     	| 0.2            	| 15     	| Melee       	| 27    	| 2.8        	| -         	| -             	| 0.8       |
+| Medium 	| 2     	| 20     	| 9     	| Knockback | 1           	| 0.8     	| 0.6     	| 0.2            	| 11     	| Melee       	| 27    	| 2.8        	| Bleeding      | 2             	| 0.7       |
+| Medium 	| 2     	| 18     	| 8     	| Bleeding  | 1           	| 0.7     	| 0.525   	| 0.2            	| 13     	| Ranged      	| 80    	| 1.9        	| -         	| -             	| 1.1       |
+| Medium 	| 2     	| 18     	| 8     	| Knockback | 2           	| 0.7     	| 0.525   	| 0.2            	| 11     	| Ranged      	| 80    	| 1.9        	| Knockback     | 3             	| 1.2       |
+| Medium 	| 2     	| 18     	| 8     	| Element   | 2           	| 0.7     	| 0.525   	| 0.2            	| 11     	| Ranged      	| 80    	| 1.9        	| Element       | 1             	| 1.3       |
+| Medium 	| 3     	| 24     	| 12    	| -     	| -           	| 0.8     	| 0.6     	| 0.2            	| 17     	| Melee       	| 29    	| 3.0        	| -         	| -             	| 0.7       |
+| Medium 	| 3     	| 24     	| 12    	| Knockback | 2           	| 0.8     	| 0.6     	| 0.2            	| 15     	| Melee       	| 29    	| 3.0        	| Bleeding      | 1             	| 0.7       |
+| Medium 	| 3     	| 24     	| 12    	| Knockback | 2           	| 0.8     	| 0.6     	| 0.2            	| 13     	| Melee       	| 29    	| 3.0        	| Bleeding      | 2             	| 0.7       |
+| Medium 	| 3     	| 24     	| 12    	| Bleeding  | 2           	| 0.8     	| 0.6     	| 0.2            	| 13     	| Melee       	| 29    	| 3.0        	| Element       | 2             	| 0.7       |
+| Medium 	| 3     	| 22     	| 10    	| Element   | 1           	| 1.0     	| 0.75    	| 0.2            	| 15     	| Ranged      	| 100   	| 2.2        	| -         	| -             	| 1.1       |
+| Medium 	| 3     	| 22     	| 10    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.2            	| 11     	| Ranged      	| 100   	| 2.2        	| Bleeding      | 1             	| 1.2       |
+| Medium 	| 4     	| 30     	| 15    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.2            	| 22     	| Melee       	| 30    	| 3.2        	| -         	| -             	| 0.6       |
+| Medium 	| 4     	| 30     	| 15    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.2            	| 17     	| Melee       	| 30    	| 3.2        	| Bleeding      | 2             	| 0.7       |
+| Medium 	| 4     	| 30     	| 15    	| Knockback | 1           	| 1.0     	| 0.75    	| 0.2            	| 18     	| Melee       	| 30    	| 3.2        	| Knockback     | 1             	| 0.6       |
+| Medium 	| 4     	| 30     	| 15    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.2            	| 20     	| Melee       	| 30    	| 3.2        	| Knockback     | 2             	| 0.7       |
+| Big    	| 1     	| 40     	| 18    	| Knockback | 3           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 25    	| 3.2        	| -         	| -             	| 0.6       |
+| Big    	| 1     	| 40     	| 18    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.3            	| 25     	| Melee       	| 25    	| 3.2        	| Knockback     | 2             	| 0.7       |
+| Big    	| 1     	| 40     	| 18    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 22     	| Melee       	| 25    	| 3.2        	| Element       | 2             	| 0.8       |
+| Big    	| 2     	| 60     	| 21    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.3            	| 33     	| Melee       	| 30    	| 3.3        	| -         	| -             	| 0.5       |
+| Big    	| 2     	| 60     	| 21    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 30    	| 3.3        	| Bleeding      | 2             	| 0.5       |
+| Big    	| 2     	| 60     	| 21    	| Element   | 3           	| 1.0     	| 0.75    	| 0.3            	| 26     	| Melee       	| 30    	| 3.3        	| Bleeding      | 3             	| 0.6       |
+| Big    	| 2     	| 60     	| 21    	| Bleeding  | 3           	| 1.0     	| 0.75    	| 0.3            	| 29     	| Melee       	| 30    	| 3.3        	| Knockback     | 3             	| 0.7       |
+| Big    	| 3     	| 80     	| 25    	| Knockback | 2           	| 1.1     	| 0.825   	| 0.3            	| 39     	| Melee       	| 27    	| 2.7        	| -         	| -             	| 0.6       |
+| Big    	| 3     	| 80     	| 25    	| Bleeding  | 2           	| 1.1     	| 0.825   	| 0.3            	| 33     	| Melee       	| 27    	| 2.7        	| Bleeding      | 3             	| 0.6       |
+| Big    	| 3     	| 70     	| 23    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 36     	| Ranged      	| 120   	| 3.5        	| -         	| -             	| 0.9       |
+| Big    	| 3     	| 70     	| 23    	| Element   | 2           	| 1.2     	| 0.9     	| 0.3            	| 31     	| Ranged      	| 120   	| 3.5        	| Element       | 2             	| 1.1       |
+| Big    	| 3     	| 70     	| 23    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 28     	| Ranged      	| 120   	| 3.5        	| Element       | 3             	| 1.2       |
+| Big    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 43     	| Melee       	| 28    	| 3.7        	| -         	| -             	| 0.4       |
+| Big    	| 4     	| 100    	| 30    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 36     	| Melee       	| 28    	| 3.7        	| Bleeding      | 3             	| 0.4       |
+| Big    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 40     	| Melee       	| 28    	| 3.7        	| Knockback     | 3             	| 0.6       |
+| Big    	| 4     	| 100    	| 30    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 35     	| Melee       	| 28    	| 3.7        	| Element       | 3             	| 0.4       |
+| Boss   	| -     	| 500    	| 50    	| Knockback | 3           	| 1.4     	| 0.75    	| 0.5            	| 50     	| Melee       	| 40    	| 5.0        	| Bleeding  	| 3             	| 0.4       |
+| Boss   	| -     	| 500    	| 50    	| Bleeding  | 3           	| 1.4     	| 0.75    	| 0.5            	| 50     	| Melee       	| 40    	| 5.0        	| Element   	| 3             	| 0.4       |
+| Boss   	| -     	| 500    	| 50    	| Element   | 3           	| 1.4     	| 0.75    	| 0.5            	| 50     	| Ranged      	| 160   	| 5.0        	| Knockback 	| 3             	| 0.8       |
 
 | Type   	| Level 	| Gold Drop 	| Xp Drop 	| First Appear at Level 	|
 |--------	|:-----:	|:---------:	|:-------:	|:---------------------:	|

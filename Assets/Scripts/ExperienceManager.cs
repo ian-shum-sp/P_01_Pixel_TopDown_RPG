@@ -40,4 +40,16 @@ public class ExperienceManager : MonoBehaviour
 
         return totalExperience;
     }
+
+    public void AddExperience(int experience)
+    {
+        int levelBeforeAddingExperience = CalculateLevelFromExperience();
+        GameManager.Instance.player.Experience += experience;
+        int levelAfterAddingExperience  = CalculateLevelFromExperience();
+        if (levelAfterAddingExperience > levelBeforeAddingExperience)
+        {
+            GameManager.Instance.player.LevelUp();
+            GameManager.Instance.ShowFloatingText("Level Up!", 30, Color.magenta, GameManager.Instance.player.transform.position + new Vector3(0.0f, 0.32f, 0.0f), Vector3.up * 30, 2.0f);
+        }
+    }
 }

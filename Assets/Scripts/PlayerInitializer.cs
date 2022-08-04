@@ -61,8 +61,8 @@ public class PlayerInitializer : MonoBehaviour
 
     private void InitializePlayerStats()
     {
-        GameManager.Instance.player.healthPoints = 20.0f;
-        GameManager.Instance.player.maxHealthPoints = 20.0f;
+        GameManager.Instance.player.healthPoints = 100.0f;
+        GameManager.Instance.player.maxHealthPoints = 100.0f;
         GameManager.Instance.player.Experience = 0;
         GameManager.Instance.player.Name = inputField.text;
         GameManager.Instance.player.InitializeInventory(Common.InventoryType.ARMOR, 1);

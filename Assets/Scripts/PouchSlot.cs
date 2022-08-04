@@ -84,7 +84,7 @@ public class PouchSlot : ActivatableSlot
 
         if(!_isOccupied)
         {
-            GameManager.Instance.ShowFloatingText("No potions equipped!", 25, Color.red, GameManager.Instance.player.transform.position, Vector3.up * 25, 3.0f);
+            GameManager.Instance.ShowFloatingText("No potions equipped!", 25, Color.red, GameManager.Instance.player.transform.position, Vector3.up * 30, 3.0f);
             return;
         }
 
@@ -94,13 +94,13 @@ public class PouchSlot : ActivatableSlot
         {
             float timeElapsed = Time.time - _activateTime;
             int effectRemainingTime =  Mathf.CeilToInt(_potion.duration - timeElapsed);
-            GameManager.Instance.ShowFloatingText("Potion effect still in place for " + effectRemainingTime.ToString() + " seconds!", 25, Color.yellow, GameManager.Instance.player.transform.position, Vector3.up * 25, 3.0f);
+            GameManager.Instance.ShowFloatingText("Potion effect still in place for " + effectRemainingTime.ToString() + " seconds!", 25, Color.yellow, GameManager.Instance.player.transform.position, Vector3.up * 30, 3.0f);
         }
         else if(!_isActivated && _isOnCooldown)
         {
             float timeElapsed = Time.time - _cooldownStartTime;
             int cooldownRemainingTime = Mathf.CeilToInt(_potion.cooldown - timeElapsed);
-            GameManager.Instance.ShowFloatingText("Ready in " + cooldownRemainingTime.ToString() + " seconds!", 25, Color.red, GameManager.Instance.player.transform.position, Vector3.up * 25, 3.0f);
+            GameManager.Instance.ShowFloatingText("Ready in " + cooldownRemainingTime.ToString() + " seconds!", 25, Color.red, GameManager.Instance.player.transform.position, Vector3.up * 30, 3.0f);
         } 
     }
     

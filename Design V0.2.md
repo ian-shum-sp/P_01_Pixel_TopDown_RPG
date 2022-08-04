@@ -126,3 +126,7 @@ Regions
 		- Normal Gold
 		- Normal Equipment (Armor, Weapon, Potion)
 		- More XP
+
+
+-0.212
+1 tile = 30 atk range

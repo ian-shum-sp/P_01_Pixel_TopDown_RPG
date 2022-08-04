@@ -44,7 +44,9 @@ public class Fighter : MonoBehaviour
         _lastBleedingTime = Time.time;
         float damage = (float)Mathf.Abs(_currentBleedingResistanceLevel);
         healthPoints -= damage;
-        GameManager.Instance.ShowFloatingText(damage.ToString(), 10, Color.red, transform.position, Vector3.zero, 0.5f);
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
+        GameManager.Instance.ShowFloatingText(damage.ToString(), 20, Color.red, transform.position + new Vector3(-0.08f, 0.04f, 0.0f), Vector3.zero, 0.5f);
     }
 
     //element damage = element level
@@ -54,7 +56,9 @@ public class Fighter : MonoBehaviour
         _lastElementBlightedTime = Time.time;
         float damage = (float)Mathf.Abs(_currentElementResistanceLevel);
         healthPoints -= damage;
-        GameManager.Instance.ShowFloatingText(damage.ToString(), 10, Color.red, transform.position, Vector3.zero, 0.5f);
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
+        GameManager.Instance.ShowFloatingText(damage.ToString(), 20, Color.red, transform.position + new Vector3(-0.08f, 0.04f, 0.0f), Vector3.zero, 0.5f);
     }
 
     private void StopBleeding()
@@ -120,18 +124,17 @@ public class Fighter : MonoBehaviour
             _currentProtection.ApplyDebuffLevel(damage.weaponDebuffs[1], damage.weaponDebuffsLevels[1]);
             int knockbackLevel = _currentProtection.GetTotalKnockbackResistanceLevel();
             UpdateKnockbackRecoverySpeed();
+            float knockbackForce = damage.knockbackForce;
             if(knockbackLevel < 0)
             {
-                float knockbackForce = damage.knockbackForce;
                 if(Mathf.Abs(knockbackLevel) == 1)
                     knockbackForce *= 1.1f;
                 if(Mathf.Abs(knockbackLevel) == 2)
                     knockbackForce *= 1.25f;
                 else if(Mathf.Abs(knockbackLevel) == 3)
                     knockbackForce *= 1.5f;
-
-                _knockbackDirection = (transform.position - damage.origin).normalized * knockbackForce;
             }
+            _knockbackDirection = (transform.position - damage.origin).normalized * knockbackForce;
 
             bool isRefreshElement = _currentProtection.ApplyDebuffLevel(damage.weaponDebuffs[2], damage.weaponDebuffsLevels[2]);
             _currentElementResistanceLevel = _currentProtection.GetTotalElementResistanceLevel();
