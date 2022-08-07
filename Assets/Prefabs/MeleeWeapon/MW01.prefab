@@ -111,7 +111,7 @@ MonoBehaviour:
   debuffLevel: 0
   attackRange: 13
   baseKnockbackForce: 2.5
-  cooldown: 0.7
+  cooldown: 1.1
 --- !u!61 &1399561667357324250
 BoxCollider2D:
   m_ObjectHideFlags: 0

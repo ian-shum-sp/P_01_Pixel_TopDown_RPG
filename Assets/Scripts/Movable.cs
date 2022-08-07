@@ -83,6 +83,7 @@ public class Movable : Fighter
 
         if(_isBleeding)
         {
+            _currentBleedingResistanceLevel = _currentProtection.GetTotalBleedingResistanceLevel();
             int bleedingLevel = Mathf.Abs(_currentBleedingResistanceLevel);
             if(bleedingLevel == 1 || bleedingLevel == 2)
             {

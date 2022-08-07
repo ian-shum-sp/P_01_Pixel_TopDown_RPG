@@ -269,4 +269,4 @@ MonoBehaviour:
   debuffLevel: 0
   attackRange: 100
   baseKnockbackForce: 1.8
-  cooldown: 1.2
+  cooldown: 1.8

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 649296435176506314}
   - component: {fileID: 9138472380030129246}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Detection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ SpriteRenderer:
   m_SortingLayerID: 1910158857
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d35531d8bda9147418cda45478731f9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c4d494432d0210b41a965ce788e079ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -365,7 +365,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.004999999, y: -0.03}
+  m_Offset: {x: 0.005, y: -0.03}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}

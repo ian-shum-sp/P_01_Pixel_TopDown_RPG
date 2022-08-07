@@ -34,6 +34,7 @@ public class PouchSlot : ActivatableSlot
             if(Time.time - _cooldownStartTime > _potion.cooldown)
             {
                 _isOnCooldown = false;
+                cooldownMask.fillAmount = 1.0f;
             }
             else
             {

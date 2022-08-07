@@ -39,14 +39,21 @@ public class Fighter : MonoBehaviour
     //bleeding damage = bleeding level
     private void Bleed()
     {
-        UpdateSpeed();
         _isBleeding = true;
         _lastBleedingTime = Time.time;
+        UpdateSpeed();
         float damage = (float)Mathf.Abs(_currentBleedingResistanceLevel);
         healthPoints -= damage;
+        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
         GameManager.Instance.UpdateHUDHealthPoints();
         GameManager.Instance.UpdatePlayerMenuHealthPoints();
         GameManager.Instance.ShowFloatingText(damage.ToString(), 20, Color.red, transform.position + new Vector3(-0.08f, 0.04f, 0.0f), Vector3.zero, 0.5f);
+        if(healthPoints <= 0)
+        {
+            healthPoints = 0;
+            StopBleeding();
+            Death();
+        }
     }
 
     //element damage = element level
@@ -54,11 +61,19 @@ public class Fighter : MonoBehaviour
     {
         _isElementBlighted = true;
         _lastElementBlightedTime = Time.time;
+        UpdateDamage();
         float damage = (float)Mathf.Abs(_currentElementResistanceLevel);
         healthPoints -= damage;
+        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
         GameManager.Instance.UpdateHUDHealthPoints();
         GameManager.Instance.UpdatePlayerMenuHealthPoints();
         GameManager.Instance.ShowFloatingText(damage.ToString(), 20, Color.red, transform.position + new Vector3(-0.08f, 0.04f, 0.0f), Vector3.zero, 0.5f);
+        if(healthPoints <= 0)
+        {
+            healthPoints = 0;
+            StopElementBlight();
+            Death();
+        }
     }
 
     private void StopBleeding()
@@ -66,6 +81,8 @@ public class Fighter : MonoBehaviour
         _isBleeding = false;
         _currentProtection.RemoveAppliedDebuff(Common.Debuff.BLEEDING);
         UpdateSpeed();
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
         GameManager.Instance.UpdateStatusInfo();
         GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
     }
@@ -74,6 +91,9 @@ public class Fighter : MonoBehaviour
     {
         _isElementBlighted = false;
         _currentProtection.RemoveAppliedDebuff(Common.Debuff.ELEMENT);
+        UpdateDamage();
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
         GameManager.Instance.UpdateStatusInfo();
         GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
     }
@@ -113,7 +133,6 @@ public class Fighter : MonoBehaviour
             _isAttacked = true;
             _lastInvulnerableTime = Time.time;
 
-
             //positive implies buff
             //negative implies debuff
             bool isRefreshBleeding = _currentProtection.ApplyDebuffLevel(damage.weaponDebuffs[0], damage.weaponDebuffsLevels[0]);
@@ -143,7 +162,7 @@ public class Fighter : MonoBehaviour
 
             GameManager.Instance.UpdateStatusInfo();
             //calculate effective damage after element debuff and armor reduction
-            float effectiveDamage = (float)damage.damagePoints;
+            float effectiveDamage = damage.damagePoints;
             if(_isElementBlighted)
             {
                 int elementLevel = Mathf.Abs(_currentElementResistanceLevel);
@@ -153,8 +172,8 @@ public class Fighter : MonoBehaviour
                     effectiveDamage *= 0.8f;
             }
             effectiveDamage *= (1.0f - ((float)_currentProtection.armorPoints/100.0f));
-            healthPoints -= damage.damagePoints;
-            GameManager.Instance.ShowFloatingText(damage.damagePoints.ToString(), 25, Color.red, transform.position, Vector3.zero, 0.5f);
+            healthPoints -= effectiveDamage;
+            GameManager.Instance.ShowFloatingText(Mathf.CeilToInt(effectiveDamage).ToString(), 25, Color.red, transform.position, Vector3.zero, 0.5f);
 
             if(healthPoints <= 0)
             {

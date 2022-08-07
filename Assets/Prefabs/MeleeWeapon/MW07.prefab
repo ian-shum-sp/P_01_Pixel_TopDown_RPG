@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3701033174789815593}
   - component: {fileID: 8768240823595149360}
   - component: {fileID: -6168120772859792876}
+  - component: {fileID: 849386865}
   m_Layer: 0
   m_Name: MW07
   m_TagString: Untagged
@@ -27,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3701033174789815639}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.40673664, w: 0.9135455}
+  m_LocalPosition: {x: 0.06, y: -0.04, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -48}
 --- !u!212 &3701033174789815594
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -110,7 +111,7 @@ MonoBehaviour:
   debuffLevel: 1
   attackRange: 22
   baseKnockbackForce: 3.2
-  cooldown: 0.7
+  cooldown: 1.1
 --- !u!61 &8768240823595149360
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,3 +165,23 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   _isAttacking: 0
+--- !u!95 &849386865
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3701033174789815639}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5af60228f9137e84bb6302a4a5ccc850, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

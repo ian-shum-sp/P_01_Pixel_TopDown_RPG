@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7112811955264402106}
   - component: {fileID: 8254402774560769896}
   - component: {fileID: 1406125188209705636}
+  - component: {fileID: 376128038}
   m_Layer: 0
   m_Name: MW19
   m_TagString: Untagged
@@ -27,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7112811955264402104}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.46174863, w: 0.8870109}
+  m_LocalPosition: {x: -0.03, y: -0.03, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 55}
 --- !u!212 &7112811955264402107
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -110,7 +111,7 @@ MonoBehaviour:
   debuffLevel: 2
   attackRange: 30
   baseKnockbackForce: 3.8
-  cooldown: 0.7
+  cooldown: 1.1
 --- !u!61 &8254402774560769896
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,3 +165,23 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   _isAttacking: 0
+--- !u!95 &376128038
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7112811955264402104}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cc49db0cab2cec44190fdd0ee86ac5f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

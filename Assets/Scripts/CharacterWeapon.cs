@@ -22,7 +22,7 @@ public class CharacterWeapon : Collidable
 
     public void TryAttack(Damage damage)
     {
-        if(Time.time - _lastAttackTime <= damage.cooldown)
+        if(Time.time - _lastAttackTime < damage.cooldown)
             return;
 
         _lastAttackTime = Time.time;

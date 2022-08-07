@@ -36,7 +36,7 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    private void Show(Color? color = null)
+    private void Show(Color? color)
     {
         _isActive = true;
         
@@ -48,7 +48,7 @@ public class DialogManager : MonoBehaviour
         animator.SetTrigger("Show");
     }
 
-    public void ShowFullDialog(Common.NPCType nPCType, Color? color = null)
+    public void ShowFullDialog(Common.NPCType nPCType, Color? color)
     {
         _isShowAllDialogs = true;
         _currentNPCName = GameManager.Instance.GetNPCName(nPCType);
@@ -57,7 +57,7 @@ public class DialogManager : MonoBehaviour
         Show(color);
     }
 
-    public void ShowRunningDialog(Common.NPCType nPCType, Color? color = null)
+    public void ShowRunningDialog(Common.NPCType nPCType, Color? color)
     {
         _isShowAllDialogs = false;
         //Check if is want to continue to show the next dialog of same NPC, if not same NPC then restart from first dialog of the new NPC

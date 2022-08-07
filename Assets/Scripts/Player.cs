@@ -53,23 +53,29 @@ public class Player : Movable
             {
                 UpdateMotor(new Vector3(x, y, 0.0f));
                 return;
-            }   
-                
-            //player cannot move when he is attacking, if he is attacking and at the same time being attacked, knockback is applied
-            if(!_currentEquippedPlayerWeapon._isAttacking)
+            }
+
+            //if melee weapon, can move when attacking
+            if(_currentDamage.isMelee)
             {
                 UpdateMotor(new Vector3(x, y, 0.0f));
                 return;
-            }
-
-            if(_isAttacked)
+            } 
+            else
             {
-                UpdateMotor(new Vector3(0.0f, 0.0f, 0.0f));
-                return;
-            }
+                //player cannot move when he is attacking (in range weapon), if he is attacking and at the same time being attacked, knockback is applied
+                if(!_currentEquippedPlayerWeapon._isAttacking)
+                {
+                    UpdateMotor(new Vector3(x, y, 0.0f));
+                    return;
+                }
 
-            // if(!_currentEquippedPlayerWeapon._isAttacking || _isAttacked)
-            //     UpdateMotor(new Vector3(x, y, 0.0f));
+                if(_isAttacked)
+                {
+                    UpdateMotor(new Vector3(0.0f, 0.0f, 0.0f));
+                    return;
+                }
+            }   
         }
     }
 
@@ -102,11 +108,27 @@ public class Player : Movable
     protected override void UpdateDamage()
     {
         if(_currentProtection.GetTotalStrengthLevel() == 1 || _currentProtection.GetTotalStrengthLevel() == 2)
-            _currentDamage.damagePoints = _currentEquippedWeapon != null ? _currentEquippedWeapon.damagePoints + 5 : 5;
-        else if(_currentProtection.GetTotalSpeedLevel() == 3)
-            _currentDamage.damagePoints = _currentEquippedWeapon != null ? _currentEquippedWeapon.damagePoints + 10 : 10;
+            _currentDamage.damagePoints = _currentEquippedWeapon != null ? (float)_currentEquippedWeapon.damagePoints + 5 : 5;
+        else if(_currentProtection.GetTotalStrengthLevel() == 3)
+            _currentDamage.damagePoints = _currentEquippedWeapon != null ? (float)_currentEquippedWeapon.damagePoints + 10 : 10;
         else
-            _currentDamage.damagePoints = _currentEquippedWeapon != null ? _currentEquippedWeapon.damagePoints : 0;
+            _currentDamage.damagePoints = _currentEquippedWeapon != null ? (float)_currentEquippedWeapon.damagePoints : 0;
+
+        if(_isElementBlighted)
+        {
+            _currentElementResistanceLevel = _currentProtection.GetTotalElementResistanceLevel();
+            int elementLevel = Mathf.Abs(_currentElementResistanceLevel);
+            if(elementLevel == 1 || elementLevel == 2)
+            {
+                _currentDamage.damagePoints *= 0.9f;
+                _currentDamage.damagePoints *= 0.9f;
+            }
+            else
+            {
+                _currentDamage.damagePoints *= 0.8f;
+                _currentDamage.damagePoints *= 0.8f;
+            }
+        }
     }
 
     public void SetPlayerSprite()
@@ -179,12 +201,13 @@ public class Player : Movable
         _currentDamage.isHaveWeapon = true;
         _currentDamage.isMelee = _currentEquippedWeapon.equipmentType == Common.EquipmentType.MELEE_WEAPON ? true : false;
         _currentDamage.origin = _currentEquippedWeapon.transform.position;
-        _currentDamage.damagePoints += _currentEquippedWeapon.damagePoints;
+        _currentDamage.damagePoints += (float)_currentEquippedWeapon.damagePoints;
         _currentDamage.knockbackForce = _currentEquippedWeapon.baseKnockbackForce;
         _currentDamage.cooldown = _currentEquippedWeapon.cooldown;
         _currentDamage.attackRange = _currentEquippedWeapon.attackRange;
         _currentDamage.attackSpeed = Mathf.FloorToInt((2.0f - _currentEquippedWeapon.cooldown)*20);
         _currentDamage.SetWeaponBuffLevel(_currentEquippedWeapon.weaponDebuff, _currentEquippedWeapon.debuffLevel);
+        UpdateDamage();
     }
 
     public void UnequipWeapon(string equipmentID)

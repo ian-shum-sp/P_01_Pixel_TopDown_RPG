@@ -47,7 +47,7 @@ public class PlayerInitializer : MonoBehaviour
     {
         if(string.IsNullOrEmpty(inputField.text) || string.IsNullOrWhiteSpace(inputField.text))
         {
-            GameManager.Instance.ShowWarning("Please enter your name", true);
+            GameManager.Instance.ShowWarning("Please enter your name");
         }
         else
         {

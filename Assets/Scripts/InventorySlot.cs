@@ -90,7 +90,10 @@ public class InventorySlot : Slot
     {
         int playerLevel = GameManager.Instance.GetPlayerLevel();
         if(playerLevel < _equipment.levelRequirement)
+        {
+            GameManager.Instance.ShowWarning("Not enough level!");
             return;
+        }
 
         _isTryEquip = true;
         switch(_equipment.equipmentType)

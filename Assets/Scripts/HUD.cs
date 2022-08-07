@@ -57,15 +57,23 @@ public class HUD : MonoBehaviour
     public void UpdateExperience()
     {
         int playerLevel = GameManager.Instance.GetPlayerLevel();
-        levelText.text = "Lvl " + playerLevel.ToString();
 
-        int previousLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel-1);
-        int currentLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel);
-        int experienceNeededToReachNextLevel = currentLevelAccumulatedExperience - previousLevelAccumulatedExperience;
-        //the experience of the player left after progressed past the previous level
-        int currentPlayerExperienceIntoLevel = GameManager.Instance.player.Experience - previousLevelAccumulatedExperience;
-        float experienceRatio = (float)currentPlayerExperienceIntoLevel / (float)experienceNeededToReachNextLevel;
-        levelProgressBarMask.fillAmount = experienceRatio;
+        if(playerLevel == GameManager.Instance.experienceManager.experienceTable.Count)
+        {
+            levelText.text = "MAX";
+            levelProgressBarMask.fillAmount = 1.0f;
+        }
+        else
+        {
+            levelText.text = "Lvl " + playerLevel.ToString();
+            int previousLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel-1);
+            int currentLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel);
+            int experienceNeededToReachNextLevel = currentLevelAccumulatedExperience - previousLevelAccumulatedExperience;
+            //the experience of the player left after progressed past the previous level
+            int currentPlayerExperienceIntoLevel = GameManager.Instance.player.Experience - previousLevelAccumulatedExperience;
+            float experienceRatio = (float)currentPlayerExperienceIntoLevel / (float)experienceNeededToReachNextLevel;
+            levelProgressBarMask.fillAmount = experienceRatio;
+        }
     }
 
     public void UpdateHealthPoints()
@@ -83,7 +91,7 @@ public class HUD : MonoBehaviour
         string strengthText = protection.GetTotalStrengthLevel() != 0 ? "Strength " + protection.GetTotalStrengthLevel() : null;
         string speedText = protection.GetTotalSpeedLevel() != 0 ? "Speed " + protection.GetTotalSpeedLevel() : null;
         string bleedingText = protection.GetTotalBleedingResistanceLevel() < 0 ? "Bleeding " + Mathf.Abs(protection.GetTotalBleedingResistanceLevel()) : null;
-        string elementText = protection.GetTotalElementResistanceLevel() < 0 ? "Bleeding " + Mathf.Abs(protection.GetTotalElementResistanceLevel()) : null;
+        string elementText = protection.GetTotalElementResistanceLevel() < 0 ? "Element " + Mathf.Abs(protection.GetTotalElementResistanceLevel()) : null;
 
         statusText += strengthText + " " + speedText  + " " +  bleedingText  + " " +  elementText;
         statusText.Trim();

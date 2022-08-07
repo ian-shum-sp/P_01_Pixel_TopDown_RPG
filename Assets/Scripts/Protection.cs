@@ -89,7 +89,8 @@ public struct Protection
         if(debuffLevel >= appliedDebuffsLevels[(int)debuff])  
         {
             appliedDebuffsLevels[(int)debuff] = debuffLevel;
-            appliedDebuffsDuration[(int)debuff] = 15.0f + (debuffLevel * 15.0f);
+            float duration = debuffLevel == 1 ? 6.0f : (debuffLevel == 2 ? 10.0f : 20.0f); 
+            appliedDebuffsDuration[(int)debuff] = duration;
             isRefreshDuration = true;
             return isRefreshDuration;
         }

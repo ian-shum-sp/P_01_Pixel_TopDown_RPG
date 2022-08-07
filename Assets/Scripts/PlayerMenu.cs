@@ -86,14 +86,23 @@ public class PlayerMenu : MonoBehaviour
     public void UpdateExperience()
     {
         int playerLevel = GameManager.Instance.GetPlayerLevel();
-        levelText.text = "Level: " + playerLevel.ToString();
-        int previousLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel-1);
-        int currentLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel);
-        int experienceNeededToReachNextLevel = currentLevelAccumulatedExperience - previousLevelAccumulatedExperience;
-        int currentPlayerExperienceIntoLevel = GameManager.Instance.player.Experience - previousLevelAccumulatedExperience;
-        float experienceRatio = (float)currentPlayerExperienceIntoLevel / (float)experienceNeededToReachNextLevel;
-        experienceText.text = currentPlayerExperienceIntoLevel.ToString() + "/" + experienceNeededToReachNextLevel.ToString();
-        experienceBarMask.fillAmount = experienceRatio;
+        if(playerLevel == GameManager.Instance.experienceManager.experienceTable.Count)
+        {
+            levelText.text = "Level: 25 (MAX LEVEL)";
+            experienceText.text = "Total Experience Points: " + GameManager.Instance.player.Experience.ToString() + " Experience";
+            experienceBarMask.fillAmount = 1.0f;
+        }
+        else
+        {
+            levelText.text = "Level: " + playerLevel.ToString();
+            int previousLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel-1);
+            int currentLevelAccumulatedExperience = GameManager.Instance.GetAccumulatedExperienceOfLevel(playerLevel);
+            int experienceNeededToReachNextLevel = currentLevelAccumulatedExperience - previousLevelAccumulatedExperience;
+            int currentPlayerExperienceIntoLevel = GameManager.Instance.player.Experience - previousLevelAccumulatedExperience;
+            float experienceRatio = (float)currentPlayerExperienceIntoLevel / (float)experienceNeededToReachNextLevel;
+            experienceText.text = currentPlayerExperienceIntoLevel.ToString() + "/" + experienceNeededToReachNextLevel.ToString();
+            experienceBarMask.fillAmount = experienceRatio;
+        }
     }
 
     public void UpdateInventoryUpgradeStatus()
@@ -103,7 +112,7 @@ public class PlayerMenu : MonoBehaviour
         if(playerLevel >= armorInventory.upgradeLevelRequirements[armorInventory.InventoryLevel])
         {
             string upgradeText = armorInventory.upgradePrices[armorInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
+            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
             UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
@@ -116,7 +125,7 @@ public class PlayerMenu : MonoBehaviour
         if(playerLevel >= weaponInventory.upgradeLevelRequirements[weaponInventory.InventoryLevel])
         {
             string upgradeText = weaponInventory.upgradePrices[weaponInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
+            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
             UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
@@ -129,7 +138,7 @@ public class PlayerMenu : MonoBehaviour
         if(playerLevel >= potionInventory.upgradeLevelRequirements[potionInventory.InventoryLevel])
         {
             string upgradeText = potionInventory.upgradePrices[potionInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
+            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
             UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
@@ -142,7 +151,7 @@ public class PlayerMenu : MonoBehaviour
         if(playerLevel >= pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel])
         {
             string upgradeText = pouchInventory.upgradePrices[pouchInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.white : Color.red;
+            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
             UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, textColor);
         }
         else
@@ -172,7 +181,7 @@ public class PlayerMenu : MonoBehaviour
         Damage damage = GameManager.Instance.player.GetWeaponInfo();
 
         equipmentWeaponStatInfoText.text = (damage.isHaveWeapon ? (damage.isMelee ? "Melee" : "Range") : "-") + "\n" + 
-                                            (damage.isHaveWeapon ? damage.damagePoints.ToString() : "0") + "\n" + 
+                                            (damage.isHaveWeapon ? Mathf.CeilToInt(damage.damagePoints).ToString() : "0") + "\n" + 
                                             damage.attackRange.ToString() + "\n" +
                                             damage.attackSpeed.ToString() + "\n" +
                                             damage.weaponDebuffsLevels[0].ToString() + "\n" +

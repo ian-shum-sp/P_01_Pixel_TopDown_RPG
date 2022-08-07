@@ -7,7 +7,7 @@ public struct Damage
     public bool isHaveWeapon;
     public bool isMelee;
     public Vector3 origin;
-    public int damagePoints;
+    public float damagePoints;
     public float knockbackForce;
     public int attackRange;
     public float cooldown;

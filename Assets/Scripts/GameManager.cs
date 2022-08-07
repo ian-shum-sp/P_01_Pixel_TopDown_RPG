@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Warning Manager
-    public void ShowWarning(string text, bool isContinueBlockGameAction = false)
+    public void ShowWarning(string text, bool isContinueBlockGameAction = true)
     {
         _isBlockGameActions = true;
         warningManager.Show(text, isContinueBlockGameAction);

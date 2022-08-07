@@ -18,7 +18,7 @@ public class WarningManager : MonoBehaviour
             GameManager.Instance.IsBlockGameActions = false;
     }
 
-    public void Show(string text, bool isContinueBlockGameAction = false)
+    public void Show(string text, bool isContinueBlockGameAction)
     {
         _isContinueBlockGameAction = isContinueBlockGameAction;
         warningText.text = text;

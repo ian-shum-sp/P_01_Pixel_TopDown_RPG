@@ -33,9 +33,9 @@ public class Mobs : Movable
         _startingPosition = transform.position;
         //set the info into the combat struct
         _currentDamage.isHaveWeapon = true;
-        _currentDamage.isMelee = attackRange >= 60 ? true : false;
+        _currentDamage.isMelee = attackRange >= 60 ? false : true;
         _currentDamage.origin = enemyWeapon.transform.position;
-        _currentDamage.damagePoints = damagePoints;
+        _currentDamage.damagePoints = (float)damagePoints;
         _currentDamage.knockbackForce = knockbackForce;
         _currentDamage.cooldown = attackCooldown;
         _currentDamage.attackRange = attackRange;
@@ -46,6 +46,37 @@ public class Mobs : Movable
     }
 
     private void FixedUpdate()
+    {
+        //if there is any active dialogs or player menu shown
+        if(!GameManager.Instance.IsBlockGameActions)
+        {
+            //if melee weapon, can move when attacking
+            if(_currentDamage.isMelee)
+            {
+                Move();
+                return;
+            } 
+            else
+            {
+                //player cannot move when he is attacking (in range weapon), if he is attacking and at the same time being attacked, knockback is applied
+                if(!enemyWeapon._isAttacking)
+                {
+                    Move();
+                    return;
+                }
+
+                if(_isAttacked)
+                {
+                    UpdateMotor(new Vector3(0.0f, 0.0f, 0.0f));
+                    return;
+                }
+            }   
+        }
+
+        
+    }
+
+    private void Move()
     {
         //Check if the player is in range
         if(Vector3.Distance(_playerTransform.position, _startingPosition) < chaseLength)
@@ -62,11 +93,13 @@ public class Mobs : Movable
                 else
                     enemyWeapon.TryAttack(_currentDamage);
             }
+            //return to starting position
             else
             {
                 UpdateMotor(_startingPosition - transform.position);
             }
         }
+        //return to starting position
         else
         {
             UpdateMotor(_startingPosition - transform.position);
@@ -83,6 +116,14 @@ public class Mobs : Movable
 
             if(_hits[i].tag == "Fighter" && _hits[i].name == "Player")
             {
+                if((_playerTransform.position - transform.position).x > 0.0f)
+                {
+                    transform.localScale = _originalSize;
+                }
+                else if((_playerTransform.position - transform.position).x < 0.0f)
+                {
+                    transform.localScale = new Vector3(_originalSize.x * -1.0f, _originalSize.y, _originalSize.z);
+                }
                 _isWithinAttackRange = true;
             }
 
