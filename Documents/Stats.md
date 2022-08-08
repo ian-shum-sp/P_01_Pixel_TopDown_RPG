@@ -113,8 +113,8 @@
 | MW06          | Rusty Sword      	| 14      	| -         	| -             	| 14                 	| 330    	| 21    	| 3.2          	| 1.2       |
 | MW07          | Machete          	| 11      	| Bleeding      | 1             	| 14                 	| 330    	| 22    	| 3.2          	| 1.1       |
 | MW08          | Mace             	| 12      	| Knockback     | 2             	| 14                 	| 330    	| 24    	| 3.2          	| 1.2       |
-| MW09          | Big Hammer       	| 18      	| -         	| -             	| 16                 	| 480    	| 37    	| 3.4          	| 1.8       |
-| MW10          | Big Hammer       	| 15      	| Knockback     | 3             	| 16                 	| 480    	| 37    	| 3.4          	| 2.3       |
+| MW09          | Large Hammer       	| 18      	| -         	| -             	| 16                 	| 480    	| 37    	| 3.4          	| 1.8       |
+| MW10          | Large Hammer       	| 15      	| Knockback     | 3             	| 16                 	| 480    	| 37    	| 3.4          	| 2.3       |
 | MW11          | Spear            	| 15      	| Bleeding      | 1             	| 16                 	| 480    	| 30    	| 3.4          	| 1.7       |
 | MW12          | Spear            	| 16      	| Knockback     | 2             	| 16                	| 480   	| 30    	| 3.4          	| 1.7       |
 | MW13          | Regular Sword    	| 23      	| -         	| -             	| 17                 	| 590    	| 21    	| 3.5          	| 1.2       |
@@ -210,6 +210,32 @@
 
 # Mobs
 **Base Speed Y=0.75**<br/>
+**1 block = 0.16**<br/>
+## Melee
+Small Mobs:
+- Trigger 3 block 
+- Chase 5 block
+
+Medium Mobs:
+- Trigger 4 block
+- Chase 6 block
+
+Large Mobs:
+- Trigger 5 block
+- Chase 7 block
+
+Boss Mobs:
+- Trigger 8 block
+- Chase 10 block
+
+## Ranged
+- All depends on the attack range
+- Trigger length should be the X1.5 attack range length
+- Chase length is x1.5 of the trigger length
+- If the trigger length is smaller than the melee mobs trigger length, then it will take the melee mob trigger length
+- Same applies to chase length
+
+
 | Type   	| Level 	| Health 	| Armor 	| Buffs 	| Buffs Level 	| Speed X 	| Speed Y 	| Recovery Speed 	| Damage 	| Weapon Type 	| Reach 	| Push Force 	| Debuffs   	| Debuffs Level 	| Cooldown  |
 |--------	|:-----:	|:------:	|:-----:	|-------	|:-----------:	|:-------:	|:-------:	|:--------------:	|:------:	|-------------	|:-----:	|:----------:	|-----------	|:-------------:	|:------:	|
 | Small  	| 1     	| 5      	| 0     	| -     	| -           	| 0.6     	| 0.45   	| 0.1            	| 5      	| Melee       	| 15    	| 2.1        	| -         	| -             	| 1.4       |
@@ -234,22 +260,22 @@
 | Medium 	| 4     	| 30     	| 15    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.2            	| 17     	| Melee       	| 30    	| 3.2        	| Bleeding      | 2             	| 1.3       |
 | Medium 	| 4     	| 30     	| 15    	| Knockback | 1           	| 1.0     	| 0.75    	| 0.2            	| 18     	| Melee       	| 30    	| 3.2        	| Knockback     | 1             	| 1.1       |
 | Medium 	| 4     	| 30     	| 15    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.2            	| 20     	| Melee       	| 30    	| 3.2        	| Knockback     | 2             	| 1.3       |
-| Big    	| 1     	| 40     	| 18    	| Knockback | 3           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 25    	| 3.2        	| -         	| -             	| 1.1       |
-| Big    	| 1     	| 40     	| 18    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.3            	| 25     	| Melee       	| 25    	| 3.2        	| Knockback     | 2             	| 1.3       |
-| Big    	| 1     	| 40     	| 18    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 22     	| Melee       	| 25    	| 3.2        	| Element       | 2             	| 1.4       |
-| Big    	| 2     	| 60     	| 21    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.3            	| 33     	| Melee       	| 30    	| 3.3        	| -         	| -             	| 0.9       |
-| Big    	| 2     	| 60     	| 21    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 30    	| 3.3        	| Bleeding      | 2             	| 0.9       |
-| Big    	| 2     	| 60     	| 21    	| Element   | 3           	| 1.0     	| 0.75    	| 0.3            	| 26     	| Melee       	| 30    	| 3.3        	| Bleeding      | 3             	| 1.1       |
-| Big    	| 2     	| 60     	| 21    	| Bleeding  | 3           	| 1.0     	| 0.75    	| 0.3            	| 29     	| Melee       	| 30    	| 3.3        	| Knockback     | 3             	| 1.3       |
-| Big    	| 3     	| 80     	| 25    	| Knockback | 2           	| 1.1     	| 0.825   	| 0.3            	| 39     	| Melee       	| 27    	| 3.5        	| -         	| -             	| 1.1       |
-| Big    	| 3     	| 80     	| 25    	| Bleeding  | 2           	| 1.1     	| 0.825   	| 0.3            	| 33     	| Melee       	| 27    	| 3.5        	| Bleeding      | 3             	| 1.1       |
-| Big    	| 3     	| 70     	| 23    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 34     	| Ranged      	| 120   	| 2.7        	| Knockback     | 2             	| 1.4       |
-| Big    	| 3     	| 70     	| 23    	| Element   | 2           	| 1.2     	| 0.9     	| 0.3            	| 31     	| Ranged      	| 120   	| 2.7        	| Element       | 2             	| 2.0       |
-| Big    	| 3     	| 70     	| 23    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 28     	| Ranged      	| 120   	| 2.7        	| Element       | 3             	| 2.2       |
-| Big    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 43     	| Melee       	| 28    	| 3.7        	| -         	| -             	| 0.7       |
-| Big    	| 4     	| 100    	| 30    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 36     	| Melee       	| 28    	| 3.7        	| Bleeding      | 3             	| 0.7       |
-| Big    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 40     	| Melee       	| 28    	| 3.7        	| Knockback     | 3             	| 1.1       |
-| Big    	| 4     	| 100    	| 30    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 35     	| Melee       	| 28    	| 3.7        	| Element       | 3             	| 0.7       |
+| Large    	| 1     	| 40     	| 18    	| Knockback | 3           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 25    	| 3.2        	| -         	| -             	| 1.1       |
+| Large    	| 1     	| 40     	| 18    	| Knockback | 2           	| 1.0     	| 0.75    	| 0.3            	| 25     	| Melee       	| 25    	| 3.2        	| Knockback     | 2             	| 1.3       |
+| Large    	| 1     	| 40     	| 18    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 22     	| Melee       	| 25    	| 3.2        	| Element       | 2             	| 1.4       |
+| Large    	| 2     	| 60     	| 21    	| Bleeding  | 2           	| 1.0     	| 0.75    	| 0.3            	| 33     	| Melee       	| 30    	| 3.3        	| -         	| -             	| 0.9       |
+| Large    	| 2     	| 60     	| 21    	| Element   | 2           	| 1.0     	| 0.75    	| 0.3            	| 27     	| Melee       	| 30    	| 3.3        	| Bleeding      | 2             	| 0.9       |
+| Large    	| 2     	| 60     	| 21    	| Element   | 3           	| 1.0     	| 0.75    	| 0.3            	| 26     	| Melee       	| 30    	| 3.3        	| Bleeding      | 3             	| 1.1       |
+| Large    	| 2     	| 60     	| 21    	| Bleeding  | 3           	| 1.0     	| 0.75    	| 0.3            	| 29     	| Melee       	| 30    	| 3.3        	| Knockback     | 3             	| 1.3       |
+| Large    	| 3     	| 80     	| 25    	| Knockback | 2           	| 1.1     	| 0.825   	| 0.3            	| 39     	| Melee       	| 27    	| 3.5        	| -         	| -             	| 1.1       |
+| Large    	| 3     	| 80     	| 25    	| Bleeding  | 2           	| 1.1     	| 0.825   	| 0.3            	| 33     	| Melee       	| 27    	| 3.5        	| Bleeding      | 3             	| 1.1       |
+| Large    	| 3     	| 70     	| 23    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 34     	| Ranged      	| 120   	| 2.7        	| Knockback     | 2             	| 2.0       |
+| Large    	| 3     	| 70     	| 23    	| Element   | 2           	| 1.2     	| 0.9     	| 0.3            	| 31     	| Ranged      	| 120   	| 2.7        	| Element       | 2             	| 2.0       |
+| Large    	| 3     	| 70     	| 23    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 28     	| Ranged      	| 120   	| 2.7        	| Element       | 3             	| 2.2       |
+| Large    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 43     	| Melee       	| 28    	| 3.7        	| -         	| -             	| 0.7       |
+| Large    	| 4     	| 100    	| 30    	| Element   | 3           	| 1.2     	| 0.9     	| 0.3            	| 36     	| Melee       	| 28    	| 3.7        	| Bleeding      | 3             	| 0.7       |
+| Large    	| 4     	| 100    	| 30    	| Bleeding  | 3           	| 1.2     	| 0.9     	| 0.3            	| 40     	| Melee       	| 28    	| 3.7        	| Knockback     | 3             	| 1.1       |
+| Large    	| 4     	| 100    	| 30    	| Knockback | 3           	| 1.2     	| 0.9     	| 0.3            	| 35     	| Melee       	| 28    	| 3.7        	| Element       | 3             	| 0.7       |
 | Boss   	| -     	| 500    	| 50    	| Knockback | 3           	| 1.4     	| 1.05    	| 0.5            	| 50     	| Melee       	| 40    	| 5.0        	| Bleeding  	| 3             	| 0.7       |
 | Boss   	| -     	| 500    	| 50    	| Bleeding  | 3           	| 1.4     	| 1.05    	| 0.5            	| 50     	| Melee       	| 40    	| 5.0        	| Element   	| 3             	| 0.7       |
 | Boss   	| -     	| 500    	| 50    	| Element   | 3           	| 1.4     	| 1.05    	| 0.5            	| 50     	| Ranged      	| 160   	| 4.0        	| Knockback 	| 3             	| 1.4       |
@@ -265,8 +291,8 @@
 | Medium 	| 2     	| 43         	| 6       	| 8                     	|
 | Medium 	| 3     	| 55         	| 9       	| 10                    	|
 | Medium 	| 4     	| 63         	| 12      	| 12                    	|
-| Big    	| 1     	| 83         	| 17      	| 14                    	|
-| Big    	| 2     	| 130         	| 22      	| 16                    	|
-| Big    	| 3     	| 205         	| 30      	| 18                    	|
-| Big    	| 4     	| 285         	| 50      	| 20                    	|
+| Large    	| 1     	| 83         	| 17      	| 14                    	|
+| Large    	| 2     	| 130         	| 22      	| 16                    	|
+| Large    	| 3     	| 205         	| 30      	| 18                    	|
+| Large    	| 4     	| 285         	| 50      	| 20                    	|
 | Boss   	| -     	| 945         	| 200     	| 23                    	|

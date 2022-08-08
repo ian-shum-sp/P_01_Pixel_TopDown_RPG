@@ -146,31 +146,52 @@ public class Player : Movable
         return _inventories[(int)inventoryType];
     }
 
-    public void AddEquipmentToInventory(Equipment equipment, int? amount = null)
+    public bool AddEquipmentToInventory(Equipment equipment, int? amount = null)
     {
+        bool isAdded = false;
         switch(equipment.equipmentType)
         {
             case Common.EquipmentType.HEAD_ARMOR:
             case Common.EquipmentType.CHEST_ARMOR:
             case Common.EquipmentType.BOOTS_ARMOR:
             {
-                _inventories[(int)Common.InventoryType.ARMOR].AddEquipmentToInventory(equipment, amount);
+                if(_inventories[(int)Common.InventoryType.ARMOR].CheckIsInventoryFull() == true)
+                    GameManager.Instance.ShowWarning("Inventory is full!", false);
+                else
+                {
+                    _inventories[(int)Common.InventoryType.ARMOR].AddEquipmentToInventory(equipment, amount);
+                    isAdded = true;
+                }
                 break;
             }  
             case Common.EquipmentType.MELEE_WEAPON:
             case Common.EquipmentType.RANGED_WEAPON:
             {
-                _inventories[(int)Common.InventoryType.WEAPON].AddEquipmentToInventory(equipment, amount);
+                if(_inventories[(int)Common.InventoryType.WEAPON].CheckIsInventoryFull() == true)
+                    GameManager.Instance.ShowWarning("Inventory is full!", false);
+                else
+                {
+                    _inventories[(int)Common.InventoryType.WEAPON].AddEquipmentToInventory(equipment, amount);
+                    isAdded = true;
+                }
                 break;
             }   
             case Common.EquipmentType.POTION:
             {
-                _inventories[(int)Common.InventoryType.POTION].AddEquipmentToInventory(equipment, amount);
+                if(_inventories[(int)Common.InventoryType.POTION].CheckIsInventoryFull() == true)
+                    GameManager.Instance.ShowWarning("Inventory is full!", false);
+                else
+                {
+                    _inventories[(int)Common.InventoryType.POTION].AddEquipmentToInventory(equipment, amount);
+                    isAdded = true;
+                }
                 break;
             } 
             default: 
                 break;
         }
+
+        return isAdded;
     }
 
     public void EquipArmor(Armor armor)

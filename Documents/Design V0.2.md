@@ -127,14 +127,3 @@ Regions
 		- Normal Equipment (Armor, Weapon, Potion)
 		- More XP
 
-
--0.212
-1 tile = 30 atk range
-now the ranged weapon too op? the animation time too short to travel very far (maybe increase the cooldown ??)
-the chase length need update
-drink potion should update bleeding status/element status (reduce level of debuff-> set the _currentBleedingResistanceLevel) -done
-
-need update xp table
-need update mobs drop and attack speed (all x1.8)
-player's weapon all x1.5
-backswing reduce to 0.1

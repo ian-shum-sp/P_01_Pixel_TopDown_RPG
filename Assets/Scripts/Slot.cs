@@ -11,6 +11,11 @@ public abstract class Slot : MonoBehaviour
     #endregion
 
     #region accessors
+    public bool IsUnlocked
+    {
+        get { return _isUnlocked; }
+        set { _isUnlocked = value; }
+    }
     public bool IsOccupied
     {
         get { return _isOccupied; }

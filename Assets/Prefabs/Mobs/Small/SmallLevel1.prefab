@@ -344,7 +344,7 @@ MonoBehaviour:
   enemyWeapon: {fileID: 6312959977912343582}
   damagePoints: 5
   knockbackForce: 2.1
-  attackCooldown: 0.8
+  attackCooldown: 1.4
   attackRange: 15
   weaponDebuff: 3
   debuffLevel: 0

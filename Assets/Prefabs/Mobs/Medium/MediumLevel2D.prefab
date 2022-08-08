@@ -146,13 +146,13 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   experience: 6
-  gold: 48
-  triggerLength: 0.56
-  chaseLength: 0.88
+  gold: 43
+  triggerLength: 0.64
+  chaseLength: 0.96
   enemyWeapon: {fileID: 1895642795711620319}
   damagePoints: 11
   knockbackForce: 1.9
-  attackCooldown: 1.2
+  attackCooldown: 2.2
   attackRange: 80
   weaponDebuff: 1
   debuffLevel: 3

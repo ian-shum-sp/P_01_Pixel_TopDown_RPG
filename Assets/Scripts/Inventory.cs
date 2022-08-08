@@ -86,18 +86,45 @@ public class Inventory : MonoBehaviour
     //     return equippedEquipments;
     // }
 
-    // public bool CheckIsInventoryFull()
-    // {
-    //     InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsOccupied == false);
-
-    //     if(unoccupiedSlot == null)
-    //         return true;
-
-    //     return false;
-    // }
-
-    public void UpgradeInventory()
+    public bool CheckIsInventoryFull()
     {
-        
+        InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsUnlocked && !x.IsOccupied);
+
+        if(unoccupiedSlot == null)
+            return true;
+
+        return false;
+    }
+
+    public void TryUpgradeInventory()
+    {
+        if(_inventoryLevel == maxLevel)
+            return;
+
+        int playerLevel = GameManager.Instance.GetPlayerLevel();
+
+        if(playerLevel >= upgradeLevelRequirements[_inventoryLevel])
+        {
+            if(GameManager.Instance.player.Gold >= upgradePrices[_inventoryLevel])
+            {
+                GameManager.Instance.player.Gold -= upgradePrices[_inventoryLevel];
+                _inventoryLevel++;
+                int oldUnlockedInventorySlot = _unlockedInventorySlots;
+                _unlockedInventorySlots = _inventoryLevel * _inventoryBaseNumberOfSlots;
+                for (int i = oldUnlockedInventorySlot; i < _unlockedInventorySlots; i++)
+                {
+                    slots[i].UnlockSlot();
+                }
+                GameManager.Instance.UpdatePlayerMenuGold();
+            }
+            else
+            {
+                GameManager.Instance.ShowWarning("Not enough gold!");
+            }
+        }
+        else
+        {
+            GameManager.Instance.ShowWarning("Not enough level!");
+        }
     }
 }

@@ -21,56 +21,56 @@ public class EquipmentManager : MonoBehaviour
         
 
         #region For testing only -> uncomment if unneeded
-        Equipment starterMeleeWeaponTest1 = equipments.First(x => x.equipmentID == "MW01");
-        Equipment starterMeleeWeaponTest2 = equipments.First(x => x.equipmentID == "MW02");
-        Equipment starterMeleeWeaponTest3 = equipments.First(x => x.equipmentID == "MW03");
-        Equipment starterMeleeWeaponTest4 = equipments.First(x => x.equipmentID == "MW04");
-        Equipment starterMeleeWeaponTest5 = equipments.First(x => x.equipmentID == "MW05");
-        Equipment starterMeleeWeaponTest6 = equipments.First(x => x.equipmentID == "MW06");
-        Equipment starterMeleeWeaponTest7 = equipments.First(x => x.equipmentID == "MW07");
-        Equipment starterMeleeWeaponTest8 = equipments.First(x => x.equipmentID == "MW08");
+        // Equipment starterMeleeWeaponTest1 = equipments.First(x => x.equipmentID == "MW01");
+        // Equipment starterMeleeWeaponTest2 = equipments.First(x => x.equipmentID == "MW02");
+        // Equipment starterMeleeWeaponTest3 = equipments.First(x => x.equipmentID == "MW03");
+        // Equipment starterMeleeWeaponTest4 = equipments.First(x => x.equipmentID == "MW04");
+        // Equipment starterMeleeWeaponTest5 = equipments.First(x => x.equipmentID == "MW05");
+        // Equipment starterMeleeWeaponTest6 = equipments.First(x => x.equipmentID == "MW06");
+        // Equipment starterMeleeWeaponTest7 = equipments.First(x => x.equipmentID == "MW07");
+        // Equipment starterMeleeWeaponTest8 = equipments.First(x => x.equipmentID == "MW08");
 
-        Equipment starterMeleeWeaponTest9 = equipments.First(x => x.equipmentID == "MW09");
-        Equipment starterMeleeWeaponTest10 = equipments.First(x => x.equipmentID == "MW10");
-        Equipment starterMeleeWeaponTest11 = equipments.First(x => x.equipmentID == "MW11");
-        Equipment starterMeleeWeaponTest12 = equipments.First(x => x.equipmentID == "MW12");
-        Equipment starterMeleeWeaponTest13 = equipments.First(x => x.equipmentID == "MW13");
-        Equipment starterMeleeWeaponTest14 = equipments.First(x => x.equipmentID == "MW14");
-        Equipment starterMeleeWeaponTest15 = equipments.First(x => x.equipmentID == "MW15");
-        Equipment starterMeleeWeaponTest16 = equipments.First(x => x.equipmentID == "MW16");
+        // Equipment starterMeleeWeaponTest9 = equipments.First(x => x.equipmentID == "MW09");
+        // Equipment starterMeleeWeaponTest10 = equipments.First(x => x.equipmentID == "MW10");
+        // Equipment starterMeleeWeaponTest11 = equipments.First(x => x.equipmentID == "MW11");
+        // Equipment starterMeleeWeaponTest12 = equipments.First(x => x.equipmentID == "MW12");
+        // Equipment starterMeleeWeaponTest13 = equipments.First(x => x.equipmentID == "MW13");
+        // Equipment starterMeleeWeaponTest14 = equipments.First(x => x.equipmentID == "MW14");
+        // Equipment starterMeleeWeaponTest15 = equipments.First(x => x.equipmentID == "MW15");
+        // Equipment starterMeleeWeaponTest16 = equipments.First(x => x.equipmentID == "MW16");
 
-        Equipment starterMeleeWeaponTest17 = equipments.First(x => x.equipmentID == "MW17");
-        Equipment starterMeleeWeaponTest18 = equipments.First(x => x.equipmentID == "MW18");
-        Equipment starterMeleeWeaponTest19 = equipments.First(x => x.equipmentID == "MW19");
-        Equipment starterMeleeWeaponTest20 = equipments.First(x => x.equipmentID == "MW20");
-        Equipment starterMeleeWeaponTest21 = equipments.First(x => x.equipmentID == "MW21");
-        Equipment starterMeleeWeaponTest22 = equipments.First(x => x.equipmentID == "MW22");
-        Equipment starterMeleeWeaponTest23 = equipments.First(x => x.equipmentID == "MW23");
-        Equipment starterMeleeWeaponTest24 = equipments.First(x => x.equipmentID == "MW24");
+        // Equipment starterMeleeWeaponTest17 = equipments.First(x => x.equipmentID == "MW17");
+        // Equipment starterMeleeWeaponTest18 = equipments.First(x => x.equipmentID == "MW18");
+        // Equipment starterMeleeWeaponTest19 = equipments.First(x => x.equipmentID == "MW19");
+        // Equipment starterMeleeWeaponTest20 = equipments.First(x => x.equipmentID == "MW20");
+        // Equipment starterMeleeWeaponTest21 = equipments.First(x => x.equipmentID == "MW21");
+        // Equipment starterMeleeWeaponTest22 = equipments.First(x => x.equipmentID == "MW22");
+        // Equipment starterMeleeWeaponTest23 = equipments.First(x => x.equipmentID == "MW23");
+        // Equipment starterMeleeWeaponTest24 = equipments.First(x => x.equipmentID == "MW24");
 
-        Equipment starterMeleeWeaponTest25 = equipments.First(x => x.equipmentID == "MW25");
-        Equipment starterMeleeWeaponTest26 = equipments.First(x => x.equipmentID == "MW26");
-        Equipment starterMeleeWeaponTest27 = equipments.First(x => x.equipmentID == "MW27");
-        Equipment starterMeleeWeaponTest28 = equipments.First(x => x.equipmentID == "MW28");
-        Equipment starterRangedWeaponTest1 = equipments.First(x => x.equipmentID == "RW01");
-        Equipment starterRangedWeaponTest2 = equipments.First(x => x.equipmentID == "RW02");
-        Equipment starterRangedWeaponTest3 = equipments.First(x => x.equipmentID == "RW03");
-        Equipment starterRangedWeaponTest4 = equipments.First(x => x.equipmentID == "RW04");
+        // Equipment starterMeleeWeaponTest25 = equipments.First(x => x.equipmentID == "MW25");
+        // Equipment starterMeleeWeaponTest26 = equipments.First(x => x.equipmentID == "MW26");
+        // Equipment starterMeleeWeaponTest27 = equipments.First(x => x.equipmentID == "MW27");
+        // Equipment starterMeleeWeaponTest28 = equipments.First(x => x.equipmentID == "MW28");
+        // Equipment starterRangedWeaponTest1 = equipments.First(x => x.equipmentID == "RW01");
+        // Equipment starterRangedWeaponTest2 = equipments.First(x => x.equipmentID == "RW02");
+        // Equipment starterRangedWeaponTest3 = equipments.First(x => x.equipmentID == "RW03");
+        // Equipment starterRangedWeaponTest4 = equipments.First(x => x.equipmentID == "RW04");
 
-        Equipment starterRangedWeaponTest5 = equipments.First(x => x.equipmentID == "RW05");
-        Equipment starterRangedWeaponTest6 = equipments.First(x => x.equipmentID == "RW06");
-        Equipment starterRangedWeaponTest7 = equipments.First(x => x.equipmentID == "RW07");
-        Equipment starterRangedWeaponTest8 = equipments.First(x => x.equipmentID == "RW08");
-        Equipment starterRangedWeaponTest9 = equipments.First(x => x.equipmentID == "RW09");
-        Equipment starterRangedWeaponTest10 = equipments.First(x => x.equipmentID == "RW10");
-        Equipment starterRangedWeaponTest11 = equipments.First(x => x.equipmentID == "RW11");
-        Equipment starterRangedWeaponTest12 = equipments.First(x => x.equipmentID == "RW12");
+        // Equipment starterRangedWeaponTest5 = equipments.First(x => x.equipmentID == "RW05");
+        // Equipment starterRangedWeaponTest6 = equipments.First(x => x.equipmentID == "RW06");
+        // Equipment starterRangedWeaponTest7 = equipments.First(x => x.equipmentID == "RW07");
+        // Equipment starterRangedWeaponTest8 = equipments.First(x => x.equipmentID == "RW08");
+        // Equipment starterRangedWeaponTest9 = equipments.First(x => x.equipmentID == "RW09");
+        // Equipment starterRangedWeaponTest10 = equipments.First(x => x.equipmentID == "RW10");
+        // Equipment starterRangedWeaponTest11 = equipments.First(x => x.equipmentID == "RW11");
+        // Equipment starterRangedWeaponTest12 = equipments.First(x => x.equipmentID == "RW12");
 
-        Equipment starterRangedWeaponTest13 = equipments.First(x => x.equipmentID == "RW13");
-        Equipment starterRangedWeaponTest14 = equipments.First(x => x.equipmentID == "RW14");
-        Equipment starterRangedWeaponTest15 = equipments.First(x => x.equipmentID == "RW15");
-        Equipment starterRangedWeaponTest16 = equipments.First(x => x.equipmentID == "RW16");
-        Equipment starterRangedWeaponTest17 = equipments.First(x => x.equipmentID == "RW17");
+        // Equipment starterRangedWeaponTest13 = equipments.First(x => x.equipmentID == "RW13");
+        // Equipment starterRangedWeaponTest14 = equipments.First(x => x.equipmentID == "RW14");
+        // Equipment starterRangedWeaponTest15 = equipments.First(x => x.equipmentID == "RW15");
+        // Equipment starterRangedWeaponTest16 = equipments.First(x => x.equipmentID == "RW16");
+        // Equipment starterRangedWeaponTest17 = equipments.First(x => x.equipmentID == "RW17");
 
         // Equipment starterPotionTest1 = equipments.First(x => x.equipmentID == "P01");
         // Equipment starterPotionTest2 = equipments.First(x => x.equipmentID == "P02");
@@ -145,14 +145,14 @@ public class EquipmentManager : MonoBehaviour
         // starterEquipments.Add(starterRangedWeaponTest11);
         // starterEquipments.Add(starterRangedWeaponTest12);
 
-        starterEquipments.Add(starterRangedWeaponTest10);
-        starterEquipments.Add(starterRangedWeaponTest11);
-        starterEquipments.Add(starterRangedWeaponTest12);
-        starterEquipments.Add(starterRangedWeaponTest13);
-        starterEquipments.Add(starterRangedWeaponTest14);
-        starterEquipments.Add(starterRangedWeaponTest15);
-        starterEquipments.Add(starterRangedWeaponTest16);
-        starterEquipments.Add(starterRangedWeaponTest17);
+        // starterEquipments.Add(starterRangedWeaponTest10);
+        // starterEquipments.Add(starterRangedWeaponTest11);
+        // starterEquipments.Add(starterRangedWeaponTest12);
+        // starterEquipments.Add(starterRangedWeaponTest13);
+        // starterEquipments.Add(starterRangedWeaponTest14);
+        // starterEquipments.Add(starterRangedWeaponTest15);
+        // starterEquipments.Add(starterRangedWeaponTest16);
+        // starterEquipments.Add(starterRangedWeaponTest17);
 
         #endregion
 
@@ -163,21 +163,21 @@ public class EquipmentManager : MonoBehaviour
     public Equipment GetRandomArmor()
     {
         List<Equipment> armors = equipments.Where(x => x.equipmentType == Common.EquipmentType.BOOTS_ARMOR || x.equipmentType == Common.EquipmentType.CHEST_ARMOR || x.equipmentType == Common.EquipmentType.HEAD_ARMOR).ToList();
-        int randomIndex = Random.Range(0, armors.Count + 1);
+        int randomIndex = Random.Range(0, armors.Count);
         return armors[randomIndex];
     }
 
     public Equipment GetRandomWeapon()
     {
         List<Equipment> weapons = equipments.Where(x => x.equipmentType == Common.EquipmentType.MELEE_WEAPON || x.equipmentType == Common.EquipmentType.RANGED_WEAPON).ToList();
-        int randomIndex = Random.Range(0, weapons.Count + 1);
+        int randomIndex = Random.Range(0, weapons.Count);
         return weapons[randomIndex];
     }
 
     public Equipment GetRandomPotion()
     {
         List<Equipment> potions = equipments.Where(x => x.equipmentType == Common.EquipmentType.POTION).ToList();
-        int randomIndex = Random.Range(0, potions.Count + 1);
+        int randomIndex = Random.Range(0, potions.Count);
         return potions[randomIndex];
     }
 }

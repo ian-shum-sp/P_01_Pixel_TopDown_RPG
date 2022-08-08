@@ -109,55 +109,83 @@ public class PlayerMenu : MonoBehaviour
     {
         int playerLevel = GameManager.Instance.GetPlayerLevel();
         Inventory armorInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
-        if(playerLevel >= armorInventory.upgradeLevelRequirements[armorInventory.InventoryLevel])
+        if(armorInventory.InventoryLevel == armorInventory.maxLevel)
         {
-            string upgradeText = armorInventory.upgradePrices[armorInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
-            UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, textColor);
-        }
+            UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, "FULLY UPGRADED", Color.black);
+        }   
         else
         {
-            string upgradeText = "Require Level " + armorInventory.upgradeLevelRequirements[armorInventory.InventoryLevel].ToString();
-            UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, Color.red);
+            if(playerLevel >= armorInventory.upgradeLevelRequirements[armorInventory.InventoryLevel])
+            {
+                string upgradeText = armorInventory.upgradePrices[armorInventory.InventoryLevel].ToString() + " Gold";
+                Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
+                UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, textColor);
+            }
+            else
+            {
+                string upgradeText = "Require Level " + armorInventory.upgradeLevelRequirements[armorInventory.InventoryLevel].ToString();
+                UpdateUpgradeButtonText(armorInventoryUpgradeButtonText, upgradeText, Color.red);
+            }
         }
 
         Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
-        if(playerLevel >= weaponInventory.upgradeLevelRequirements[weaponInventory.InventoryLevel])
+        if(weaponInventory.InventoryLevel == weaponInventory.maxLevel)
         {
-            string upgradeText = weaponInventory.upgradePrices[weaponInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
-            UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, textColor);
-        }
+            UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, "FULLY UPGRADED", Color.black);
+        }  
         else
         {
-            string upgradeText = "Require Level " + weaponInventory.upgradeLevelRequirements[weaponInventory.InventoryLevel].ToString();
-            UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, Color.red);
+            if(playerLevel >= weaponInventory.upgradeLevelRequirements[weaponInventory.InventoryLevel])
+            {
+                string upgradeText = weaponInventory.upgradePrices[weaponInventory.InventoryLevel].ToString() + " Gold";
+                Color textColor = GameManager.Instance.player.Gold >= weaponInventory.upgradePrices[weaponInventory.InventoryLevel] ? Color.black : Color.red;
+                UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, textColor);
+            }
+            else
+            {
+                string upgradeText = "Require Level " + weaponInventory.upgradeLevelRequirements[weaponInventory.InventoryLevel].ToString();
+                UpdateUpgradeButtonText(weaponInventoryUpgradeButtonText, upgradeText, Color.red);
+            }
         }
 
         Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
-        if(playerLevel >= potionInventory.upgradeLevelRequirements[potionInventory.InventoryLevel])
+        if(potionInventory.InventoryLevel == potionInventory.maxLevel)
         {
-            string upgradeText = potionInventory.upgradePrices[potionInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
-            UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, textColor);
-        }
+            UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, "FULLY UPGRADED", Color.black);
+        } 
         else
         {
-            string upgradeText = "Require Level " + potionInventory.upgradeLevelRequirements[potionInventory.InventoryLevel].ToString();
-            UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, Color.red);
+            if(playerLevel >= potionInventory.upgradeLevelRequirements[potionInventory.InventoryLevel])
+            {
+                string upgradeText = potionInventory.upgradePrices[potionInventory.InventoryLevel].ToString() + " Gold";
+                Color textColor = GameManager.Instance.player.Gold >= potionInventory.upgradePrices[potionInventory.InventoryLevel] ? Color.black : Color.red;
+                UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, textColor);
+            }
+            else
+            {
+                string upgradeText = "Require Level " + potionInventory.upgradeLevelRequirements[potionInventory.InventoryLevel].ToString();
+                UpdateUpgradeButtonText(potionInventoryUpgradeButtonText, upgradeText, Color.red);
+            }
         }
 
         Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-        if(playerLevel >= pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel])
+        if(pouchInventory.InventoryLevel == pouchInventory.maxLevel)
         {
-            string upgradeText = pouchInventory.upgradePrices[pouchInventory.InventoryLevel].ToString() + " Gold";
-            Color textColor = GameManager.Instance.player.Gold >= armorInventory.upgradePrices[armorInventory.InventoryLevel] ? Color.black : Color.red;
-            UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, textColor);
-        }
+            UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, "FULLY UPGRADED", Color.black);
+        } 
         else
         {
-            string upgradeText = "Require Level " + pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel].ToString();
-            UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, Color.red);
+            if(playerLevel >= pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel])
+            {
+                string upgradeText = pouchInventory.upgradePrices[pouchInventory.InventoryLevel].ToString() + " Gold";
+                Color textColor = GameManager.Instance.player.Gold >= pouchInventory.upgradePrices[pouchInventory.InventoryLevel] ? Color.black : Color.red;
+                UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, textColor);
+            }
+            else
+            {
+                string upgradeText = "Require Level " + pouchInventory.upgradeLevelRequirements[pouchInventory.InventoryLevel].ToString();
+                UpdateUpgradeButtonText(pouchInventoryUpgradeButtonText, upgradeText, Color.red);
+            }
         }
     }
 
