@@ -33,11 +33,17 @@ public static class Common
     public enum NPCType
     {
         GUIDE = 0,
-        ARMORER = 1,
-        WEAPONSMITH  = 2,
-        POTION_BREWER = 3,
-        SIGN = 4,
-        WARNING_SIGN = 5
+        DUNGEON_ARMORER = 1,
+        DUNGEON_WEAPONSMITH = 2,
+        DUNGEON_POTION_BREWER = 3,
+        ENCHANTED_FOREST_ARMORER = 4,
+        ENCHANTED_FOREST_WEAPONSMITH = 5,
+        ENCHANTED_FOREST_POTION_BREWER = 6,
+        FANTASY_ARMORER = 7,
+        FANTASY_WEAPONSMITH = 8,
+        FANTASY_POTION_BREWER = 9,
+        SIGN = 10,
+        WARNING_SIGN = 11
     }
 
     public enum InventoryType
@@ -136,6 +142,9 @@ public static class Common
     public static readonly Color UnoccupiedSlotImageBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
     public static readonly Color EquippedSlotBackgroundColor = new Color(211.0f/255.0f, 191.0f/255.0f, 169.0f/255.0f, 1.0f);
     public static readonly Color UnequippedSlotBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);
+    public static readonly Color BuySlotSelectedSlotBackgroundColor = new Color(151.0f/255.0f, 218.0f/255.0f, 63.0f/255.0f, 1.0f);
+    public static readonly Color SellSlotSelectedSlotBackgroundColor = new Color(114.0f/255.0f, 214.0f/255.0f, 206.0f/255.0f, 1.0f);
+    public static readonly Color NotSelectedSlotBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);
 
     public static string GetEnumDescription(Enum value)
     {

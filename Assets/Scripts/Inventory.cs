@@ -30,6 +30,12 @@ public class Inventory : MonoBehaviour
         get { return _unlockedInventorySlots; }
         set { _unlockedInventorySlots = value; }
     }
+
+    public int MaxNumberOfInventorySlots
+    {
+        get { return _maxNumberOfInventorySlots; }
+        set { _maxNumberOfInventorySlots = value; }
+    }
     #endregion
 
     public void InitializeInventory(int inventoryLevel)
@@ -53,21 +59,29 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddEquipmentToInventory(Equipment equipment, int? amount = null)
+    public string AddEquipmentToInventory(Equipment equipment, int? amount = null)
     {
+        string inventorySlotID = null;
         if(equipment.equipmentType != Common.EquipmentType.POTION)
         {
-            InventorySlot slot = slots.First(x => x.IsOccupied == false);
-            slot.AddEquipmentToSlot(equipment, amount);
+            InventorySlot slot = slots.First(x => !x.IsOccupied);
+            inventorySlotID = slot.AddEquipmentToSlot(equipment, amount);
         }
         else
         {
             InventorySlot slot = slots.FirstOrDefault(x => x.Equipment != null && x.Equipment.equipmentID == equipment.equipmentID);
             if(slot == null)
-                slot = slots.First(x => x.IsOccupied == false);
+                slot = slots.First(x => !x.IsOccupied);
             
-            slot.AddEquipmentToSlot(equipment, amount);
+            inventorySlotID = slot.AddEquipmentToSlot(equipment, amount);
         }
+        return inventorySlotID;
+    }
+
+    public void RemoveEquipmentFromInventory(string inventorySlotID)
+    {
+        InventorySlot slot = slots.First(x => x.inventorySlotID == inventorySlotID);
+        slot.RemoveFromSlot();
     }
 
     public void ReduceEquipmentAmount(Equipment equipment, int amount)
@@ -116,6 +130,7 @@ public class Inventory : MonoBehaviour
                     slots[i].UnlockSlot();
                 }
                 GameManager.Instance.UpdatePlayerMenuGold();
+                GameManager.Instance.UpdateShopSellSection();
             }
             else
             {

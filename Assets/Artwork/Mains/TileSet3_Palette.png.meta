@@ -376,7 +376,7 @@ TextureImporter:
         width: 1
         height: 1
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -397,7 +397,7 @@ TextureImporter:
         width: 1
         height: 1
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -405,6 +405,48 @@ TextureImporter:
       bones: []
       spriteID: 455054345fbd1ef44a93012a45d771b9
       internalID: -36087087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: color_15
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 2
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7cf01982abbcd14d8d659bb426498e7
+      internalID: -1826173795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: color_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe2b0f7c6f49a3e47a33d575c775806a
+      internalID: 251697538
       vertices: []
       indices: 
       edges: []
@@ -421,6 +463,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       color_11: 43666096
+      color_15: -1826173795
       color_8: -1191972817
       color_14: -36087087
       color_0: 391168372
@@ -432,6 +475,7 @@ TextureImporter:
       color_13: 1537292926
       color_6: -858336995
       color_4: -1442065059
+      color_16: 251697538
       color_12: -1126485412
       color_7: -838644961
   spritePackingTag: 

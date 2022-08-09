@@ -23,14 +23,33 @@ Congratulation! You have finished the tutorial part!
 Once you go through the door, the game will be automatically saved for the first time and your adventure begins!
 I will see you around! Good luck adventurer!
 
-ARMORER
-Welcome! What is your pick for today?
+DUNGEON ARMORER (Alchemist)
+Welcome! Looking for some bleeding resistance armor today?
 
-WEAPONSMITH
-Welcome! What is your pick for today?
+ENCHANTED FOREST ARMORER (Townsfolk Female)
+Welcome! Looking for some knockback resistance armor today?
 
-POTION_BREWER
-Welcome! What is your pick for today?
+FANTASY ARMORER (Mage)
+Welcome! Looking for some element resistance armor today?
+
+DUNGEON WEAPONSMITH (Blacksmith)
+Welcome! Looking for some bleeding weapon today?
+
+ENCHANTED FOREST WEAPONSMITH (Ranger)
+Welcome! Looking for some knockback weapon today?
+
+FANTASY WEAPONSMITH (Elven Knight)
+Welcome! Looking for some element weapon today?
+
+DUNGEON POTION BREWER (Merchant)
+Welcome! Looking for some bleeding resistance potion today?
+
+ENCHANTED FOREST POTION BREWER (Magic Shopkeeper)
+Welcome! Looking for some knockback resistance potion today?
+
+FANTASY POTION BREWER (Wizard Female)
+Welcome! Looking for some element resistance potion today?
+
 
 SIGN
 Move to the next room when you are ready!

@@ -146,9 +146,10 @@ public class Player : Movable
         return _inventories[(int)inventoryType];
     }
 
-    public bool AddEquipmentToInventory(Equipment equipment, int? amount = null)
+    public AddEquipmentActionResult AddEquipmentToInventory(Equipment equipment, int? amount = null, bool isContinueBlockGameAction = true)
     {
         bool isAdded = false;
+        string inventorySlotID = null;
         switch(equipment.equipmentType)
         {
             case Common.EquipmentType.HEAD_ARMOR:
@@ -156,10 +157,10 @@ public class Player : Movable
             case Common.EquipmentType.BOOTS_ARMOR:
             {
                 if(_inventories[(int)Common.InventoryType.ARMOR].CheckIsInventoryFull() == true)
-                    GameManager.Instance.ShowWarning("Inventory is full!", false);
+                    GameManager.Instance.ShowWarning("Inventory is full!", isContinueBlockGameAction);
                 else
                 {
-                    _inventories[(int)Common.InventoryType.ARMOR].AddEquipmentToInventory(equipment, amount);
+                    inventorySlotID = _inventories[(int)Common.InventoryType.ARMOR].AddEquipmentToInventory(equipment, amount);
                     isAdded = true;
                 }
                 break;
@@ -168,10 +169,10 @@ public class Player : Movable
             case Common.EquipmentType.RANGED_WEAPON:
             {
                 if(_inventories[(int)Common.InventoryType.WEAPON].CheckIsInventoryFull() == true)
-                    GameManager.Instance.ShowWarning("Inventory is full!", false);
+                    GameManager.Instance.ShowWarning("Inventory is full!", isContinueBlockGameAction);
                 else
                 {
-                    _inventories[(int)Common.InventoryType.WEAPON].AddEquipmentToInventory(equipment, amount);
+                    inventorySlotID = _inventories[(int)Common.InventoryType.WEAPON].AddEquipmentToInventory(equipment, amount);
                     isAdded = true;
                 }
                 break;
@@ -179,10 +180,10 @@ public class Player : Movable
             case Common.EquipmentType.POTION:
             {
                 if(_inventories[(int)Common.InventoryType.POTION].CheckIsInventoryFull() == true)
-                    GameManager.Instance.ShowWarning("Inventory is full!", false);
+                    GameManager.Instance.ShowWarning("Inventory is full!", isContinueBlockGameAction);
                 else
                 {
-                    _inventories[(int)Common.InventoryType.POTION].AddEquipmentToInventory(equipment, amount);
+                    inventorySlotID = _inventories[(int)Common.InventoryType.POTION].AddEquipmentToInventory(equipment, amount);
                     isAdded = true;
                 }
                 break;
@@ -191,7 +192,41 @@ public class Player : Movable
                 break;
         }
 
-        return isAdded;
+        AddEquipmentActionResult result = new AddEquipmentActionResult();
+        result.isAdded = isAdded;
+        result.inventorySlotID = inventorySlotID;
+
+        if(isAdded)
+            GameManager.Instance.AddToShopSellSection(equipment, inventorySlotID, amount);
+
+        return result;
+    }
+
+    public void RemoveEquipmentFromInventory(Equipment equipment, string inventorySlotID)
+    {
+        switch(equipment.equipmentType)
+        {
+            case Common.EquipmentType.HEAD_ARMOR:
+            case Common.EquipmentType.CHEST_ARMOR:
+            case Common.EquipmentType.BOOTS_ARMOR:
+            {
+                _inventories[(int)Common.InventoryType.ARMOR].RemoveEquipmentFromInventory(inventorySlotID);
+                break;
+            }  
+            case Common.EquipmentType.MELEE_WEAPON:
+            case Common.EquipmentType.RANGED_WEAPON:
+            {
+                _inventories[(int)Common.InventoryType.WEAPON].RemoveEquipmentFromInventory(inventorySlotID);
+                break;
+            }   
+            case Common.EquipmentType.POTION:
+            {
+                _inventories[(int)Common.InventoryType.POTION].RemoveEquipmentFromInventory(inventorySlotID);
+                break;
+            } 
+            default: 
+                break;
+        }
     }
 
     public void EquipArmor(Armor armor)

@@ -5,17 +5,38 @@ using UnityEngine;
 
 public class NPCManager : MonoBehaviour
 {
-    public Sprite[] guideSprites;
+    private bool _isInteracted = false;
+    private NPC _interactedNPC = null;
     private List<NPC> nPCs = new List<NPC>();
+    public Sprite[] guideSprites;
 
     private void Update()
     {
-        foreach(NPC nPC in nPCs)
+        if(!_isInteracted)
         {
-            if(Input.GetKeyDown(KeyCode.I))
-                nPC.TryInteract();
+            foreach(NPC nPC in nPCs)
+            {
+                if(Input.GetKeyDown(KeyCode.I))
+                {
+                    _isInteracted = nPC.TryInteract();
+                    _interactedNPC = nPC;
+                }
 
-            nPC.ResetInteractability();
+                nPC.ResetInteractability();
+
+                if(_isInteracted == true)
+                    break;
+            }
+        }   
+
+        if(_isInteracted && !GameManager.Instance.IsBlockGameActions)
+        {
+            if(_interactedNPC.isShopNPC)
+            {
+                GameManager.Instance.ShowShop(_interactedNPC.nPCType);
+                _isInteracted = false;
+                _interactedNPC = null;
+            }
         }
     }
 

@@ -27,6 +27,12 @@ public class InventorySlot : Slot
         get { return _isEquipped; }
         set { _isEquipped = value; }
     }
+
+    public int Amount
+    {
+        get { return _amount; }
+        set { _amount = value; }
+    }
     #endregion
 
     private void Start() 
@@ -251,6 +257,7 @@ public class InventorySlot : Slot
     {
         base.ResetSlot();
         _isEquipped = false;
+        _amount = 0;
         equipmentSprite.sprite = null;
         equipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
         if(slotType == Common.InventorySlotType.POUCH)
@@ -288,10 +295,11 @@ public class InventorySlot : Slot
         ResetSlot();
     }
 
-    public void AddEquipmentToSlot(Equipment equipment, int? amount = null)
+    public string AddEquipmentToSlot(Equipment equipment, int? amount = null)
     {
         AddToSlot(equipment);
         _amount += amount != null ? (int)amount : 1;
+        return inventorySlotID;
     }
 
     public void OnCursorEnter()
@@ -351,11 +359,6 @@ public class InventorySlot : Slot
             if(_equipment.equipmentType == Common.EquipmentType.MELEE_WEAPON || _equipment.equipmentType == Common.EquipmentType.RANGED_WEAPON)
                 GameManager.Instance.player.UnequipWeapon(_equipment.equipmentID);
 
-            //if it is a potion, unequip from the pouch
-            if(_equipment.equipmentType == Common.EquipmentType.POTION)
-            {
-                
-            }
             UnequipEquipments();
         }
     }

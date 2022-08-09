@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2344947483551136643}
   - component: {fileID: 4616453182044116568}
   m_Layer: 6
-  m_Name: Guide
+  m_Name: DungeonArmorer
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 1910158857
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a1e192134abaa51469e82edcee9b2c9a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e6806a9dd0c9b194091b83f26bbf9e42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -112,54 +112,11 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  nPCType: 0
-  isShopNPC: 0
-  nPCName: Brad
+  nPCType: 1
+  isShopNPC: 1
+  nPCName: Norman
   dialogs:
-  - 'Welcome to First RPG!
-
-    I will guide you through this tutorial, so please
-    follow closely!
-
-    First of all, the movement is controlled by the Arrow Buttons.
-    You can also use W A S D buttons.
-
-    Try to move around the room and go to
-    the next room when you are ready!'
-  - 'Move closer to the signs or NPCs and press button I to interact with them!
-
-    Chest
-    will be auto opened.'
-  - 'At top left of your screen, you can see your current Level, Level Progress,
-    Health and Status.
-
-    At bottom left of your screen, you can see your pouch
-    with equipped potions.
-
-    Click on the bag icon at the bottom right of your
-    screen to open up the Player Menu.
-
-    In the Player Menu, you can view your
-    stats and inventory, save the game or go back to the Main Menu screen.'
-  - 'You can equip/unequip armors, weapons and potions by clicking on them.
-
-    Inventory
-    slots and pouch (for potions) are unlocked by levelling up and spending gold.'
-  - 'Press Space to attack!
-
-    To use the equipped potions in the pouch, press
-    button 1, 2, 3 and 4 for respective potion slots.
-
-    Note: You can only use
-    equipped potions during adventure mode, and you cannot change equipped potion
-    during adventure mode.'
-  - 'Congratulation! You have finished the tutorial part!
-
-    Once you go through
-    the door, the game will be automatically saved for the first time and your adventure
-    begins!
-
-    I will see you around! Good luck adventurer!'
+  - Welcome! Looking for some bleeding resistance armor today?
 --- !u!61 &4616453182044116568
 BoxCollider2D:
   m_ObjectHideFlags: 0

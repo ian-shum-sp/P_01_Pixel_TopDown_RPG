@@ -27,7 +27,8 @@ public class Chest : Collidable
             return;
 
         _isCollected = true;
-        bool isAdded = true; 
+        AddEquipmentActionResult result = new AddEquipmentActionResult(); 
+        result.isAdded = true;
 
         switch(chestType)
         {
@@ -39,17 +40,7 @@ public class Chest : Collidable
                 GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[2]);
                 GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
                 GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[5], 15);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[3]);
-                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[4]);
+                GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[5], 1);
                 #region For testing only -> uncomment if unneeded
                 // GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[6]);
                 // GameManager.Instance.player.AddEquipmentToInventory(starterEquipments[7]);
@@ -80,24 +71,24 @@ public class Chest : Collidable
             case Common.ChestType.ARMOR_CHEST:
             {
                 Equipment armor = GameManager.Instance.GenerateRandomArmor();
-                isAdded = GameManager.Instance.player.AddEquipmentToInventory(armor);
-                if(isAdded)
+                result = GameManager.Instance.player.AddEquipmentToInventory(armor, isContinueBlockGameAction: false);
+                if(result.isAdded)
                     GameManager.Instance.ShowFloatingText("Acquire " + armor.equipmentName + "!", 30, Color.blue, GameManager.Instance.player.transform.position + new Vector3(0.0f, 0.16f, 0.0f), Vector3.up * 25, 2.0f);
                 break;
             }
             case Common.ChestType.WEAPON_CHEST:
             {
                 Equipment weapon = GameManager.Instance.GenerateRandomWeapon();
-                isAdded = GameManager.Instance.player.AddEquipmentToInventory(weapon);
-                if(isAdded)
+                result = GameManager.Instance.player.AddEquipmentToInventory(weapon, isContinueBlockGameAction: false);
+                if(result.isAdded)
                     GameManager.Instance.ShowFloatingText("Acquire " + weapon.equipmentName + "!", 30, Color.blue, GameManager.Instance.player.transform.position + new Vector3(0.0f, 0.16f, 0.0f), Vector3.up * 25, 2.0f);
                 break;
             }
             case Common.ChestType.POTION_CHEST:
             {
                 Equipment potion = GameManager.Instance.GenerateRandomPotion();
-                isAdded = GameManager.Instance.player.AddEquipmentToInventory(potion, 1);
-                if(isAdded)
+                result = GameManager.Instance.player.AddEquipmentToInventory(potion, 1, false);
+                if(result.isAdded)
                     GameManager.Instance.ShowFloatingText("Acquire " + potion.equipmentName + "!", 30, Color.blue, GameManager.Instance.player.transform.position + new Vector3(0.0f, 0.16f, 0.0f), Vector3.up * 25, 2.0f);
                 break;
             }
@@ -105,7 +96,7 @@ public class Chest : Collidable
                 break;
         }
 
-        if(isAdded)
+        if(result.isAdded)
             _spriteRender.sprite = emptyChestSprite;
     }
 }

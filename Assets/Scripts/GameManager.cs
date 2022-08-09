@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public LoadingScreenManager loadingScreenManager;
     public ExperienceManager experienceManager;
     public EquipmentManager equipmentManager;
+    public ShopManager shopManager;
     public NPCManager nPCManager;
     public HUD hUD;
     public PlayerMenu playerMenu;
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour
             Destroy(loadingScreenManager.gameObject);
             Destroy(experienceManager.gameObject);
             Destroy(equipmentManager.gameObject);
+            Destroy(shopManager.gameObject);
             Destroy(nPCManager.gameObject);
             Destroy(hUD.gameObject);
             Destroy(playerMenu.gameObject);
@@ -183,6 +185,57 @@ public class GameManager : MonoBehaviour
     public Equipment GenerateRandomPotion()
     {
         return equipmentManager.GetRandomPotion();
+    }
+    #endregion
+
+    #region Shop Manager
+    public void InitializeShops()
+    {
+        shopManager.InitializeShops();
+    }
+
+    public void ShowShop(Common.NPCType shopOwner)
+    {
+        _isBlockGameActions = true;
+        shopManager.ShowShop(shopOwner);
+    }
+
+    public void HideShop()
+    {
+        _isBlockGameActions = false;
+        shopManager.HideShop();
+    }
+
+    public void DeselectAnyActiveBuySlot()
+    {
+        shopManager.DeselectAnyActiveBuySlot();
+    }
+
+    public void UpdateSelectedEquipmentToBuyDisplayInfo(Equipment equipment)
+    {
+        shopManager.DeselectAnyActiveBuySlot();
+        shopManager.SetSelectedBuyEquipment(equipment);
+    }
+
+    public void DeselectAnyActiveSellSlot()
+    {
+        shopManager.DeselectAnyActiveSellSlot();
+    }
+
+    public void UpdateSelectedEquipmentForSaleDisplayInfo(Equipment equipment, int amount, string inventorySlotID)
+    {
+        shopManager.DeselectAnyActiveSellSlot();
+        shopManager.SetSelectedSellEquipment(equipment, amount, inventorySlotID);
+    }
+
+    public void UpdateShopSellSection()
+    {
+        shopManager.UpdateSellSlots();
+    }
+
+    public void AddToShopSellSection(Equipment equipment, string inventorySlotID, int? amount = null)
+    {
+        shopManager.AddToSellSlots(equipment, inventorySlotID, amount);
     }
     #endregion
 
