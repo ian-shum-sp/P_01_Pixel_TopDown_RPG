@@ -90,15 +90,11 @@ public class DialogManager : MonoBehaviour
         if(_isShowAllDialogs)
         {
             dialogText.text = _currentNPCDialogs[_fullDialogCurrentNPCDialogIndex];
-            //clean the array
-            _currentNPCDialogs[_fullDialogCurrentNPCDialogIndex] = null;
             _fullDialogCurrentNPCDialogIndex++;
         }
         else
         {
             dialogText.text = _currentNPCDialogs[_runningDialogCurrentNPCDialogIndex];
-            //clean the array
-            _currentNPCDialogs[_runningDialogCurrentNPCDialogIndex] = null;
             _runningDialogCurrentNPCDialogIndex++;
         }
     }

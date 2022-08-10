@@ -43,7 +43,7 @@ public class InventorySlot : Slot
             _inventorySlotImage = GetComponent<Image>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(!_isTryEquip)
             return;
@@ -58,9 +58,10 @@ public class InventorySlot : Slot
                 case Common.EquipmentType.BOOTS_ARMOR:
                 {
                     //unequip old armor from player object and equip current armor
-                    GameManager.Instance.player.UnequipArmor(_inventory.slots.First(x => x._isEquipped).Equipment as Armor);
+                    GameManager.Instance.player.UnequipArmor(_inventory.slots.First(x => x._isEquipped && x._equipment.equipmentType == _equipment.equipmentType).Equipment as Armor);
                     Armor armor = _equipment as Armor;
                     GameManager.Instance.player.EquipArmor(armor);
+                    _inventory.slots.First(x => x._isEquipped && x._equipment.equipmentType == _equipment.equipmentType).UnequipEquipments();
                     break;
                 }
                 //if it is a weapon, unequip from the player gameobject first
@@ -71,6 +72,7 @@ public class InventorySlot : Slot
                     GameManager.Instance.player.UnequipWeapon(_inventory.slots.First(x => x._isEquipped).Equipment.equipmentID);
                     Weapon weapon = _equipment as Weapon;
                     GameManager.Instance.player.EquipWeapon(weapon);
+                    _inventory.slots.First(x => x._isEquipped).UnequipEquipments();
                     break;
                 }
                 //if it is a potion, unequip from the pouch
@@ -81,14 +83,20 @@ public class InventorySlot : Slot
                     Potion potion = _equipment as Potion;
                     _inventory.slots.First(x => !x._isEquipped).EquipPotions(potion, _amount);
                     _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+                    _inventory.slots.First(x => x._isEquipped).UnequipEquipments();
                     break;
                 }
                 default: 
                     break;
             }
 
-            _inventory.slots.First(x => x._isEquipped).UnequipEquipments();
             EquipEquipments();
+        }
+
+        if(GameManager.Instance.GetConfirmationResult() == false && !GameManager.Instance.IsBlockGameActions)
+        {
+            _isTryEquip = false;
+            GameManager.Instance.IsBlockGameActions = true;
         }
     }
 
@@ -354,11 +362,6 @@ public class InventorySlot : Slot
                 default: 
                     break;
             }
-
-            //if it is a weapon, unequip from the player gameobject first
-            if(_equipment.equipmentType == Common.EquipmentType.MELEE_WEAPON || _equipment.equipmentType == Common.EquipmentType.RANGED_WEAPON)
-                GameManager.Instance.player.UnequipWeapon(_equipment.equipmentID);
-
             UnequipEquipments();
         }
     }

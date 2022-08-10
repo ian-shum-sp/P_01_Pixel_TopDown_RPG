@@ -47,6 +47,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Game
+    private bool _isTryLoadMainMenu;
+    public bool IsTryLoadMainMenu
+    {
+        get { return _isTryLoadMainMenu; }
+        set { _isTryLoadMainMenu = value; }
+    }
     private bool _isBlockGameActions;
     public bool IsBlockGameActions
     {
@@ -206,26 +212,26 @@ public class GameManager : MonoBehaviour
         shopManager.HideShop();
     }
 
-    public void DeselectAnyActiveBuySlot()
+    public void ResetSelectedEquipmentToBuyDisplayInfo()
     {
-        shopManager.DeselectAnyActiveBuySlot();
+        shopManager.ResetBuyEquipmentInfo();
     }
 
     public void UpdateSelectedEquipmentToBuyDisplayInfo(Equipment equipment)
     {
         shopManager.DeselectAnyActiveBuySlot();
-        shopManager.SetSelectedBuyEquipment(equipment);
+        shopManager.SetSelectedBuyEquipmentInfo(equipment);
     }
 
-    public void DeselectAnyActiveSellSlot()
+    public void ResetSelectedEquipmentForSaleDisplayInfo()
     {
-        shopManager.DeselectAnyActiveSellSlot();
+        shopManager.ResetSellEquipmentInfo();
     }
 
     public void UpdateSelectedEquipmentForSaleDisplayInfo(Equipment equipment, int amount, string inventorySlotID)
     {
         shopManager.DeselectAnyActiveSellSlot();
-        shopManager.SetSelectedSellEquipment(equipment, amount, inventorySlotID);
+        shopManager.SetSelectedSellEquipmentInfo(equipment, amount, inventorySlotID);
     }
 
     public void UpdateShopSellSection()
@@ -266,6 +272,11 @@ public class GameManager : MonoBehaviour
     {
         hUD.InitializeHUD();
         hUD.Show();
+    }
+
+    public void HideHUD()
+    {
+        hUD.Hide();
     }
 
     public void UpdateHUDHealthPoints()
@@ -314,6 +325,7 @@ public class GameManager : MonoBehaviour
     public void HidePlayerMenu()
     {
         _isBlockGameActions = false;
+        playerMenu.Hide();
     }
 
     public void UpdatePlayerMenuHealthPoints()
@@ -411,6 +423,23 @@ public class GameManager : MonoBehaviour
 
             PlayerPrefs.SetString("P01SaveData", saveData);
         }
+    }
+
+    public void TryReturnToMainMenu()
+    {
+        _isTryLoadMainMenu = true;
+        ShowConfirmation("Return to main menu? All unsaved changes will be discarded");
+    }
+
+    public void ReturnToMainMenu()
+    {
+        GameScene mainScene = new GameScene();
+        mainScene.SceneName = Common.SceneName.MAIN_SCENE;
+        mainScene.SceneDisplayName = "";
+        LoadScene(mainScene, 0.5f);
+        Invoke("ShowMainMenu", 1.0f); 
+        Invoke("HidePlayerMenu", 1.0f); 
+        Invoke("HideHUD", 1.0f); 
     }
 
     public void ShowMainMenu()

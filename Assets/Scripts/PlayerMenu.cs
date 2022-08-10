@@ -73,6 +73,11 @@ public class PlayerMenu : MonoBehaviour
         UpdateWeaponStatInfoText();
     }
 
+    public void Hide()
+    {
+        animator.SetTrigger("Hide");
+    }
+
     public void UpdateHealthPoints()
     {
         healthPointsText.text = "Health Points: " + Mathf.CeilToInt(GameManager.Instance.player.healthPoints).ToString() + "/" + Mathf.CeilToInt(GameManager.Instance.player.maxHealthPoints).ToString();
@@ -339,7 +344,7 @@ public class PlayerMenu : MonoBehaviour
                 popUpEquipmentText.text = potion.equipmentName;
                 popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
                                             "Duration: " + potion.duration.ToString() + " seconds\n" +
-                                            "Cooldown: " + potion.cooldown.ToString() + "seconds\n" +
+                                            "Cooldown: " + potion.cooldown.ToString() + " seconds\n" +
                                             "Amount in inventory: " + amount.ToString() + "\n" +
                                             "Max number in pouch: " + potion.maxNumberInPouch.ToString() + "\n" +
                                             "Purchase Price: " + potion.purchasePrice.ToString() + "\n" +

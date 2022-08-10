@@ -104,6 +104,11 @@ public class HUD : MonoBehaviour
         animator.SetTrigger("Show");
     }
 
+    public void Hide()
+    {
+        animator.SetTrigger("Hide");
+    }
+
     public void AddToPouchSlot(Potion potion, int amount)
     {
         pouchSlots.First(x => !x.IsOccupied).AddToPouchSlot(potion, amount);

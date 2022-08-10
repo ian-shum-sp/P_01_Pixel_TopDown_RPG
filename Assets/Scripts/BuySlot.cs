@@ -20,7 +20,7 @@ public class BuySlot : ShopSlot
 
         if(_isSelected)
         {
-            GameManager.Instance.DeselectAnyActiveBuySlot();
+            GameManager.Instance.ResetSelectedEquipmentToBuyDisplayInfo();
             DeselectSlot();
         }
         else

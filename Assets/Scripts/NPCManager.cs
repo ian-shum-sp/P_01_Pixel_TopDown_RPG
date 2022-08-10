@@ -32,20 +32,20 @@ public class NPCManager : MonoBehaviour
         if(_isInteracted && !GameManager.Instance.IsBlockGameActions)
         {
             if(_interactedNPC.isShopNPC)
-            {
                 GameManager.Instance.ShowShop(_interactedNPC.nPCType);
-                _isInteracted = false;
-                _interactedNPC = null;
-            }
+                
+            _isInteracted = false;
+            _interactedNPC = null;
         }
+       
     }
 
     public void AddNPC(NPC nPCToAdd)
     {
-        NPC nPC = nPCs.FirstOrDefault(x => x.nPCType == nPCToAdd.nPCType);
-
-        if(nPC == null)
-            nPCs.Add(nPCToAdd);
+        int index = nPCs.FindIndex(x => x.nPCType == nPCToAdd.nPCType);
+        if(index >= 0)
+            nPCs.RemoveAt(index);
+        nPCs.Add(nPCToAdd);
     }
 
     public string GetNPCName(Common.NPCType nPCType)
@@ -71,7 +71,7 @@ public class NPCManager : MonoBehaviour
     public void UpdateGuide(Common.PlayerGender playerGender)
     {
         int guideIndex = nPCs.FindIndex(x => x.nPCType == Common.NPCType.GUIDE);
-
+        
         if(guideIndex < 0)
             return;
 

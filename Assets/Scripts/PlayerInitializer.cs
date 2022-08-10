@@ -63,8 +63,8 @@ public class PlayerInitializer : MonoBehaviour
     {
         GameManager.Instance.player.healthPoints = 100.0f;
         GameManager.Instance.player.maxHealthPoints = 100.0f;
-        GameManager.Instance.player.Gold = 0;
-        GameManager.Instance.player.Experience = 0;
+        GameManager.Instance.player.Gold = 10000;
+        GameManager.Instance.player.Experience = 5000;
         GameManager.Instance.player.Name = inputField.text;
         GameManager.Instance.player.InitializeInventory(Common.InventoryType.ARMOR, 1);
         GameManager.Instance.player.InitializeInventory(Common.InventoryType.WEAPON, 1);

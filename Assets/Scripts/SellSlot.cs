@@ -47,7 +47,7 @@ public class SellSlot : ShopSlot
 
         if(_isSelected)
         {
-            GameManager.Instance.DeselectAnyActiveBuySlot();
+            GameManager.Instance.ResetSelectedEquipmentForSaleDisplayInfo();
             DeselectSlot();
         }
         else

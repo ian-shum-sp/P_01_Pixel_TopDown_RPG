@@ -32,6 +32,10 @@ public class ConfirmationManager : MonoBehaviour
         {
             GameManager.Instance.ResetGame();
         }
+        if(GameManager.Instance.IsTryLoadMainMenu)
+        {
+            GameManager.Instance.ReturnToMainMenu();
+        }
     }
 
     public void OnNoClicked()
@@ -40,7 +44,14 @@ public class ConfirmationManager : MonoBehaviour
         _isClickedYes = false;
         if(GameManager.Instance.IsTryResetGame)
         {
+            GameManager.Instance.IsBlockGameActions = true;
             GameManager.Instance.IsTryResetGame = false;
+        }
+
+        if(GameManager.Instance.IsTryLoadMainMenu)
+        {
+            GameManager.Instance.IsBlockGameActions = true;
+            GameManager.Instance.IsTryLoadMainMenu = false;
         }
     }
 }

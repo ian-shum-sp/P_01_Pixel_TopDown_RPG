@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
     public int maxLevel;
     public int[] upgradeLevelRequirements;
     public int[] upgradePrices;
-    public InventorySlot[] slots;
+    public List<InventorySlot> slots;
     #endregion
     
     #region accessors
@@ -44,7 +44,7 @@ public class Inventory : MonoBehaviour
         if(_inventoryLevel > maxLevel)
             _inventoryLevel = maxLevel;
 
-        _maxNumberOfInventorySlots = slots.Length;
+        _maxNumberOfInventorySlots = slots.Count;
         _inventoryBaseNumberOfSlots = Mathf.CeilToInt((float)_maxNumberOfInventorySlots / (float)maxLevel);
         _unlockedInventorySlots = _inventoryLevel * _inventoryBaseNumberOfSlots;
         if(_unlockedInventorySlots > _maxNumberOfInventorySlots)

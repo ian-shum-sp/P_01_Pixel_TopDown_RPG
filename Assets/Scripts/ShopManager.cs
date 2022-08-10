@@ -35,7 +35,7 @@ public class ShopManager : MonoBehaviour
     public Button sellButton;
     public Animator animator;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(!_isTryBuy && !_isTrySell)
             return;
@@ -44,13 +44,25 @@ public class ShopManager : MonoBehaviour
         {
             if(GameManager.Instance.GetConfirmationResult() == true)
             {
+                _isTryBuy = false;
                 AddEquipmentActionResult result = GameManager.Instance.player.AddEquipmentToInventory(_selectedBuyEquipment);
                 if(result.isAdded)
                 {
                     GameManager.Instance.player.Gold -= _selectedBuyEquipment.purchasePrice;
                     goldInfoText.text = "Available Gold: " + GameManager.Instance.player.Gold.ToString();
-                    AddToSellSlots(_selectedBuyEquipment, result.inventorySlotID);
+                    //if its potion, need to update the display info for number in inventory
+                    if(_selectedBuyEquipment.equipmentType == Common.EquipmentType.POTION)
+                    {
+                        string currentSelectedInventorySlotID = _sellEquipmentInventoryID;
+                        DeselectAnyActiveSellSlot();
+                        playerPotionSellSlots.First(x => x.InventorySlotID == currentSelectedInventorySlotID).TryInteract();
+                    }
                 }
+            }
+
+            if(GameManager.Instance.GetConfirmationResult() == false && !GameManager.Instance.IsBlockGameActions)
+            {
+                _isTryBuy = false;
             }
         }
         
@@ -58,11 +70,17 @@ public class ShopManager : MonoBehaviour
         {
             if(GameManager.Instance.GetConfirmationResult() == true)
             {
+                _isTrySell = false;
                 GameManager.Instance.player.Gold += Mathf.FloorToInt(_selectedSellEquipment.purchasePrice/2.0f) * _sellEquipmentAmount;
                 goldInfoText.text = "Available Gold: " + GameManager.Instance.player.Gold.ToString();
                 GameManager.Instance.player.RemoveEquipmentFromInventory(_selectedSellEquipment, _sellEquipmentInventoryID);
                 RemoveFromSellSlot();
                 DeselectAnyActiveSellSlot();
+            }
+
+            if(GameManager.Instance.GetConfirmationResult() == false && !GameManager.Instance.IsBlockGameActions)
+            {
+                _isTrySell = false;
             }
         }
     }
@@ -74,8 +92,8 @@ public class ShopManager : MonoBehaviour
             shops[i].gameObject.SetActive(false);
         }
         _currentActiveShop = null;
-        DeselectBuyEquipment();
-        DeselectSellEquipment();
+        ResetBuyEquipmentInfo();
+        ResetSellEquipmentInfo();
         goldInfoText.text = null;
     }
 
@@ -128,36 +146,6 @@ public class ShopManager : MonoBehaviour
         {
             playerPotionSellSlots[i].gameObject.SetActive(false);
         }
-    }
-
-    private void DeselectBuyEquipment()
-    {
-        _selectedBuyEquipment = null;
-        buyEquipmentSprite.sprite = null;
-        buyEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        buyWeaponSprite.sprite = null;
-        buyWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        buyPotionSprite.sprite = null;
-        buyPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        buyEquipmentText.text = "NOT SELECTED";
-        buyEquipmentInfoText.text = "Please select an item to display its info";
-        purchaseButton.gameObject.SetActive(false);
-    }
-
-    private void DeselectSellEquipment()
-    {
-        _selectedSellEquipment = null;
-        _sellEquipmentAmount = 0;
-        _sellEquipmentInventoryID = null;
-        sellEquipmentSprite.sprite = null;
-        sellEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        sellWeaponSprite.sprite = null;
-        sellWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        sellPotionSprite.sprite = null;
-        sellPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        sellEquipmentText.text = "NOT SELECTED";
-        sellEquipmentInfoText.text = "Please select an item to display its info";
-        sellButton.gameObject.SetActive(false);
     }
 
     private void RemoveFromSellSlot()
@@ -263,12 +251,44 @@ public class ShopManager : MonoBehaviour
                 break;
             }
         }
+        DeselectAnyActiveBuySlot();
+        DeselectAnyActiveSellSlot();
         DeactivateAllShops();
     }
 
-    public void SetSelectedBuyEquipment(Equipment equipment)
+    public void ResetBuyEquipmentInfo()
     {
-        DeselectBuyEquipment();
+        _selectedBuyEquipment = null;
+        buyEquipmentSprite.sprite = null;
+        buyEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        buyWeaponSprite.sprite = null;
+        buyWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        buyPotionSprite.sprite = null;
+        buyPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        buyEquipmentText.text = "NOT SELECTED";
+        buyEquipmentInfoText.text = "Please select an item to display its info";
+        purchaseButton.gameObject.SetActive(false);
+    }
+
+    public void ResetSellEquipmentInfo()
+    {
+        _selectedSellEquipment = null;
+        _sellEquipmentAmount = 0;
+        _sellEquipmentInventoryID = null;
+        sellEquipmentSprite.sprite = null;
+        sellEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        sellWeaponSprite.sprite = null;
+        sellWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        sellPotionSprite.sprite = null;
+        sellPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        sellEquipmentText.text = "NOT SELECTED";
+        sellEquipmentInfoText.text = "Please select an item to display its info";
+        sellButton.gameObject.SetActive(false);
+    }
+
+    public void SetSelectedBuyEquipmentInfo(Equipment equipment)
+    {
+        ResetBuyEquipmentInfo();
         _selectedBuyEquipment = equipment;
         purchaseButton.gameObject.SetActive(true);
         switch(_selectedBuyEquipment.equipmentType)
@@ -326,9 +346,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void SetSelectedSellEquipment(Equipment equipment, int amount, string inventorySlotID)
+    public void SetSelectedSellEquipmentInfo(Equipment equipment, int amount, string inventorySlotID)
     {
-        DeselectSellEquipment();
+        ResetSellEquipmentInfo();
         _selectedSellEquipment = equipment;
         _sellEquipmentAmount = amount;
         _sellEquipmentInventoryID = inventorySlotID;
@@ -376,7 +396,7 @@ public class ShopManager : MonoBehaviour
                 sellEquipmentText.text = potion.equipmentName;
                 sellEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
                                             "Duration: " + potion.duration.ToString() + " seconds\n" +
-                                            "Cooldown: " + potion.cooldown.ToString() + "seconds\n" +
+                                            "Cooldown: " + potion.cooldown.ToString() + " seconds\n" +
                                             "Amount in inventory: " + _sellEquipmentAmount.ToString() + "\n" +
                                             "Max number in pouch: " + potion.maxNumberInPouch.ToString() + "\n" +
                                             "Purchase Price: " + potion.purchasePrice.ToString() + "\n" +
@@ -394,6 +414,7 @@ public class ShopManager : MonoBehaviour
         ShopSlot activeBuySlot = _currentActiveShop.shopBuySlots.FirstOrDefault(x => x.IsSelected);
         if(activeBuySlot != null)
             activeBuySlot.DeselectSlot();
+        ResetBuyEquipmentInfo();
     }
 
     public void DeselectAnyActiveSellSlot()
@@ -428,7 +449,7 @@ public class ShopManager : MonoBehaviour
                 break;
             }
         }
-        DeselectSellEquipment();
+        ResetSellEquipmentInfo();
     }
 
     public void AddToSellSlots(Equipment equipment, string inventorySlotID, int? amount = null)
@@ -494,8 +515,11 @@ public class ShopManager : MonoBehaviour
                 if(inventorySlot.IsEquipped)
                     GameManager.Instance.ShowWarning("Item is equipped!");
                 else
+                {
                     _isTrySell = true;
-                    GameManager.Instance.ShowConfirmation("Sell this item for " + _selectedSellEquipment.purchasePrice.ToString() + " gold?");
+                    int sellPrice = Mathf.FloorToInt(_selectedSellEquipment.purchasePrice/2.0f);
+                    GameManager.Instance.ShowConfirmation("Sell this item for " + sellPrice.ToString() + " gold?");
+                }
                 break;
             }  
             case Common.EquipmentType.MELEE_WEAPON:
@@ -507,8 +531,11 @@ public class ShopManager : MonoBehaviour
                 if(inventorySlot.IsEquipped)
                     GameManager.Instance.ShowWarning("Item is equipped!");
                 else
-                    _isTrySell = true;
-                    GameManager.Instance.ShowConfirmation("Sell this item for " + _selectedSellEquipment.purchasePrice.ToString() + " gold?");
+                {
+                     _isTrySell = true;
+                    int sellPrice = Mathf.FloorToInt(_selectedSellEquipment.purchasePrice/2.0f);
+                    GameManager.Instance.ShowConfirmation("Sell this item for " + sellPrice.ToString() + " gold?");
+                }
                 break;
             }   
             case Common.EquipmentType.POTION:
@@ -519,8 +546,11 @@ public class ShopManager : MonoBehaviour
                 if(inventorySlot.IsEquipped)
                     GameManager.Instance.ShowWarning("Item is equipped!");
                 else
+                {
                     _isTrySell = true;
-                    GameManager.Instance.ShowConfirmation("Sell this item for " + _selectedSellEquipment.purchasePrice.ToString() + " gold?");
+                    int sellPrice = Mathf.FloorToInt(_selectedSellEquipment.purchasePrice/2.0f) * _sellEquipmentAmount;
+                    GameManager.Instance.ShowConfirmation("Sell all of this item for " + sellPrice.ToString() + " gold?");
+                }
                 break;
             } 
             default: 
@@ -535,7 +565,6 @@ public class ShopManager : MonoBehaviour
         {
             if(i < armorInventory.UnlockedInventorySlots)
             {
-                Debug.Log(i);
                 playerArmorSellSlots[i].UnlockSlot();
                 if(armorInventory.slots[i].IsOccupied)
                     playerArmorSellSlots[i].AddEquipmentToSlot(armorInventory.slots[i].Equipment, armorInventory.slots[i].inventorySlotID, armorInventory.slots[i].Amount);
