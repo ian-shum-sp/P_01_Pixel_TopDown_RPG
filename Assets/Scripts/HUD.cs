@@ -128,4 +128,16 @@ public class HUD : MonoBehaviour
         else
             pouchSlot.UpdateAmount(amount);
     }
+
+    public void UnlockPouchSlot()
+    {
+        Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+        for(int i = 0; i < pouchInventory.maxLevel; i++)
+        {
+            if(i < pouchInventory.InventoryLevel)
+                pouchSlots[i].UnlockSlot();
+            else
+                pouchSlots[i].LockSlot();
+        }
+    }
 }

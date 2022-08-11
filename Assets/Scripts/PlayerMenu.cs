@@ -63,7 +63,7 @@ public class PlayerMenu : MonoBehaviour
 
     public void UpdateOnExpandPlayerMenu()
     {
-        lastSavedText.text = "Last Saved On: " + GameManager.Instance.LastSavedTimeText;
+        UpdateLastSaveTime();
         UpdateHealthPoints();
         UpdateGold();
         UpdateExperience();
@@ -71,6 +71,11 @@ public class PlayerMenu : MonoBehaviour
         UpdateDisplaySlot();
         UpdateArmorStatInfoText();
         UpdateWeaponStatInfoText();
+    }
+
+    public void UpdateLastSaveTime()
+    {
+        lastSavedText.text = "Last Saved On: " + GameManager.Instance.LastSavedTimeText;
     }
 
     public void Hide()

@@ -180,4 +180,9 @@ public class EquipmentManager : MonoBehaviour
         int randomIndex = Random.Range(0, potions.Count);
         return potions[randomIndex];
     }
+
+    public Equipment GetEquipmentByID(string equipmentID)
+    {
+        return equipments.First(x => x.equipmentID == equipmentID);
+    }
 }

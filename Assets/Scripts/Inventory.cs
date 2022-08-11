@@ -131,6 +131,8 @@ public class Inventory : MonoBehaviour
                 }
                 GameManager.Instance.UpdatePlayerMenuGold();
                 GameManager.Instance.UpdateShopSellSection();
+                if(inventoryType == Common.InventoryType.POUCH)
+                    GameManager.Instance.UnlockPouchSlot();
             }
             else
             {
@@ -141,5 +143,11 @@ public class Inventory : MonoBehaviour
         {
             GameManager.Instance.ShowWarning("Not enough level!");
         }
+    }
+
+    public void InitalizeEquipmentAtInventorySlot(string inventorySlotID, Equipment equipment, int amount)
+    {
+        InventorySlot slot = slots.First(x => x.inventorySlotID == inventorySlotID);
+        slot.AddEquipmentToSlot(equipment, amount);
     }
 }

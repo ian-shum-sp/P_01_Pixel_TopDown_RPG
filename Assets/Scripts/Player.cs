@@ -381,4 +381,15 @@ public class Player : Movable
         GameManager.Instance.UpdatePlayerMenuHealthPoints();
     }
 
+    public void InitializeLevelFromLoadGame()
+    {
+        int playerLevel = GameManager.Instance.GetPlayerLevel();
+        if(playerLevel != 1)
+        {
+            for (int i = 0; i < playerLevel; i++)
+            {
+                LevelUp();
+            }
+        }
+    }
 }

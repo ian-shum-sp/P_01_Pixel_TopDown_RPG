@@ -27,7 +27,13 @@ public static class Common
         [Description("EnchantedForestCentralHub")]
         ENCHANTED_FOREST_CENTRAL_HUB = 3,
         [Description("FantasyCentralHub")]
-        FANTASY_CENTRAL_HUB = 4
+        FANTASY_CENTRAL_HUB = 4,
+        [Description("DungeonAdventureMap")]
+        DUNGEON_ADVENTURE_MAP = 5,
+        [Description("EnchantedForestAdventureMap")]
+        ENCHANTED_FOREST_ADVENTURE_MAP = 6,
+        [Description("FantasyAdventureMap")]
+        FANTASY_ADVENTURE_MAP = 7
     }
 
     public enum NPCType
