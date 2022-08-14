@@ -8,12 +8,13 @@ public class Interactable : Collidable
 
     protected override void OnCollide(Collider2D collider)
     {
-        _isInteractable = true;
+        if(collider.name == "Player")
+            _isInteractable = true;      
     }
 
     protected virtual void Interact()
     {
-        _isInteractable = false;
+
     }
     
     public void ResetInteractability()

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-   #region class members
+    private int _currentBagLevel = 0;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI playerNameText;
     public TextMeshProUGUI statusInfoText;
@@ -15,10 +15,9 @@ public class HUD : MonoBehaviour
     public Image healthBarMask;
     public PouchSlot[] pouchSlots;
     public Animator animator;
-    #endregion
-    
-    #region accessors
-    #endregion
+    public Image bagSprite;
+    public Sprite[] bagSprites;
+    public int[] bagChangeLevelRequirements;
 
     private void Update()
     {
@@ -102,11 +101,13 @@ public class HUD : MonoBehaviour
     public void Show()
     {
         animator.SetTrigger("Show");
+        GameManager.Instance.IsHUDShown = true;
     }
 
     public void Hide()
     {
         animator.SetTrigger("Hide");
+        GameManager.Instance.IsHUDShown = false;
     }
 
     public void AddToPouchSlot(Potion potion, int amount)
@@ -138,6 +139,18 @@ public class HUD : MonoBehaviour
                 pouchSlots[i].UnlockSlot();
             else
                 pouchSlots[i].LockSlot();
+        }
+    }
+
+    public void UpdateBagSprite(int playerLevel)
+    {   
+        if(_currentBagLevel >= bagChangeLevelRequirements.Length)
+            _currentBagLevel = bagChangeLevelRequirements.Length -1;
+
+        if(playerLevel >= bagChangeLevelRequirements[_currentBagLevel])
+        {
+            bagSprite.sprite = bagSprites[_currentBagLevel];
+            _currentBagLevel++;
         }
     }
 }

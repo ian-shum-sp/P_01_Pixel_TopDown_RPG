@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerMenu : MonoBehaviour
 {
+    #region class members
     public Image playerSprite;
     public TextMeshProUGUI playerNameText;
     public TextMeshProUGUI genderText;
@@ -32,11 +33,15 @@ public class PlayerMenu : MonoBehaviour
     public Animator popUpAnimator;
     public Animator animator;
     private bool _isPopUpShowing;
+    #endregion
+
+    #region accessors
     public bool IsPopUpShowing
     {
         get { return _isPopUpShowing; }
         set { _isPopUpShowing = value; }
     }
+    #endregion
     
     private void UpdateUpgradeButtonText(TextMeshProUGUI text, string upgradeText, Color color)
     {

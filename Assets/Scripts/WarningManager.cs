@@ -6,7 +6,7 @@ using UnityEngine;
 public class WarningManager : MonoBehaviour
 {
     private bool _isContinueBlockGameAction = false;
-    public TextMeshProUGUI warningText;
+    public TextMeshProUGUI text;
     public Animator animator;
 
     private void HideWarning()
@@ -18,10 +18,11 @@ public class WarningManager : MonoBehaviour
             GameManager.Instance.IsBlockGameActions = false;
     }
 
-    public void Show(string text, bool isContinueBlockGameAction)
+    public void Show(string text, bool isContinueBlockGameAction, Color color)
     {
         _isContinueBlockGameAction = isContinueBlockGameAction;
-        warningText.text = text;
+        this.text.text = text;
+        this.text.color = color;
         animator.SetTrigger("Show");
         Invoke("HideWarning", 1.5f);
     }

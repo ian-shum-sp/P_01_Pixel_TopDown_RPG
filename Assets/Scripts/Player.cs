@@ -13,6 +13,7 @@ public class Player : Movable
     private int _experience;
     private Weapon _currentEquippedWeapon;
     private PlayerWeapon _currentEquippedPlayerWeapon;
+    private bool _canInteract;
     public Inventory[] _inventories;
     public GameObject[] allWeapons;
     #endregion
@@ -38,12 +39,46 @@ public class Player : Movable
         get { return _gold; }
         set { _gold = value; }
     }
+    public bool CanInteract
+    {
+        get { return _canInteract; }
+        set { _canInteract = value; }
+    }
     #endregion
+
+    protected override void Start()
+    {
+        base.Start();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if(_currentEquippedWeapon == null || _isAttacked)
+            return;
+            
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            _currentEquippedPlayerWeapon.TryAttack(_currentDamage);
+        }
+    }
 
     private void FixedUpdate()
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
+
+        //Player cannot interact with NPCs when moving
+        if(x == 0.0f && y == 0.0f)
+        {
+            _canInteract = true;
+        }
+        else
+        {
+            _canInteract = false;
+            GameManager.Instance.ResetActiveNPC();
+        }
 
         //if there is any active dialogs or player menu shown
         if(!GameManager.Instance.IsBlockGameActions)
@@ -76,24 +111,6 @@ public class Player : Movable
                     return;
                 }
             }   
-        }
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        if(_currentEquippedWeapon == null || _isAttacked)
-            return;
-            
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            _currentEquippedPlayerWeapon.TryAttack(_currentDamage);
         }
     }
 
@@ -157,7 +174,7 @@ public class Player : Movable
             case Common.EquipmentType.BOOTS_ARMOR:
             {
                 if(_inventories[(int)Common.InventoryType.ARMOR].CheckIsInventoryFull() == true)
-                    GameManager.Instance.ShowWarning("Inventory is full!", isContinueBlockGameAction);
+                    GameManager.Instance.ShowNotification("Inventory is full!", Color.red, isContinueBlockGameAction);
                 else
                 {
                     inventorySlotID = _inventories[(int)Common.InventoryType.ARMOR].AddEquipmentToInventory(equipment, amount);
@@ -169,7 +186,7 @@ public class Player : Movable
             case Common.EquipmentType.RANGED_WEAPON:
             {
                 if(_inventories[(int)Common.InventoryType.WEAPON].CheckIsInventoryFull() == true)
-                    GameManager.Instance.ShowWarning("Inventory is full!", isContinueBlockGameAction);
+                    GameManager.Instance.ShowNotification("Inventory is full!", Color.red, isContinueBlockGameAction);
                 else
                 {
                     inventorySlotID = _inventories[(int)Common.InventoryType.WEAPON].AddEquipmentToInventory(equipment, amount);
@@ -180,7 +197,7 @@ public class Player : Movable
             case Common.EquipmentType.POTION:
             {
                 if(_inventories[(int)Common.InventoryType.POTION].CheckIsInventoryFull() == true)
-                    GameManager.Instance.ShowWarning("Inventory is full!", isContinueBlockGameAction);
+                    GameManager.Instance.ShowNotification("Inventory is full!", Color.red, isContinueBlockGameAction);
                 else
                 {
                     inventorySlotID = _inventories[(int)Common.InventoryType.POTION].AddEquipmentToInventory(equipment, amount);
@@ -361,7 +378,9 @@ public class Player : Movable
         if(healthPoints > maxHealthPoints)
             healthPoints = maxHealthPoints;
 
-        GameManager.Instance.ShowFloatingText("+" + healingAmount, 25, Color.green, transform.position, Vector3.up * 30, 2.0f);
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
+        GameManager.Instance.ShowFloatingText("+" + healingAmount + " Health Points", 25, Color.green, transform.position, Vector3.up * 30, 2.0f);
     }
 
     public void LevelUp()
@@ -379,6 +398,7 @@ public class Player : Movable
         healthPoints += healthPoints * 0.1f;
         GameManager.Instance.UpdateHUDHealthPoints();
         GameManager.Instance.UpdatePlayerMenuHealthPoints();
+        GameManager.Instance.UpdateBagSprite(playerLevel);
     }
 
     public void InitializeLevelFromLoadGame()
@@ -391,5 +411,53 @@ public class Player : Movable
                 LevelUp();
             }
         }
+    }
+
+    public void UnequipAllEquipment()
+    {
+        //Unequip any equipped armor from player
+        Inventory armorInventory = _inventories[(int)Common.InventoryType.ARMOR];
+        InventorySlot equippedHeadEquipmentInventorySlot = armorInventory.slots.FirstOrDefault(x => x.IsEquipped && x.Equipment != null && x.Equipment.equipmentType == Common.EquipmentType.HEAD_ARMOR);
+        if(equippedHeadEquipmentInventorySlot != null)
+        {
+            equippedHeadEquipmentInventorySlot.UnequipEquipments();
+            Equipment headEquipment = equippedHeadEquipmentInventorySlot.Equipment;
+            Armor headArmor = headEquipment as Armor;
+            UnequipArmor(headArmor);
+        }
+        InventorySlot equippedChestEquipmentInventorySlot = armorInventory.slots.FirstOrDefault(x => x.IsEquipped && x.Equipment != null && x.Equipment.equipmentType == Common.EquipmentType.CHEST_ARMOR);
+        if(equippedChestEquipmentInventorySlot != null)
+        {
+            equippedChestEquipmentInventorySlot.UnequipEquipments();
+            Equipment chestEquipment = equippedChestEquipmentInventorySlot.Equipment;
+            Armor chestArmor = chestEquipment as Armor;
+            UnequipArmor(chestArmor);
+        }
+        InventorySlot equippedBootsEquipmentInventorySlot = armorInventory.slots.FirstOrDefault(x => x.IsEquipped && x.Equipment != null && x.Equipment.equipmentType == Common.EquipmentType.BOOTS_ARMOR);
+        if(equippedBootsEquipmentInventorySlot != null)
+        {
+            equippedBootsEquipmentInventorySlot.UnequipEquipments();
+            Equipment bootsEquipment = equippedBootsEquipmentInventorySlot.Equipment;
+            Armor bootsArmor = bootsEquipment as Armor;
+            UnequipArmor(bootsArmor);
+        }
+        //Unequip any equipped weapon from player
+        Inventory weaponInventory = _inventories[(int)Common.InventoryType.WEAPON];
+        InventorySlot equippedWeaponEquipmentInventorySlot = weaponInventory.slots.FirstOrDefault(x => x.IsEquipped);
+        if(equippedWeaponEquipmentInventorySlot != null)
+        {
+            equippedWeaponEquipmentInventorySlot.UnequipEquipments();
+            Equipment weaponEquipment = equippedWeaponEquipmentInventorySlot.Equipment;
+            UnequipWeapon(weaponEquipment.equipmentID);
+        }
+        //Unequip any potion from player
+        Inventory potionInventory = _inventories[(int)Common.InventoryType.POTION];
+        InventorySlot equippedPotionInventorySlot = potionInventory.slots.FirstOrDefault(x => x.IsEquipped);
+        if(equippedPotionInventorySlot != null)
+            equippedPotionInventorySlot.UnequipEquipments();
+        Inventory pouchInventory = _inventories[(int)Common.InventoryType.POUCH];
+        InventorySlot equippedPouchInventorySlot = pouchInventory.slots.FirstOrDefault(x => x.IsEquipped);
+        if(equippedPouchInventorySlot != null)
+            equippedPouchInventorySlot.UnequipPotions();
     }
 }

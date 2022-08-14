@@ -24,6 +24,34 @@ public class Fighter : MonoBehaviour
     public float maxHealthPoints;
     public float knockbackRecoverySpeed = 0.2f;
 
+    protected virtual void Start()
+    {
+        _originalKnockbackRecoverySpeed = knockbackRecoverySpeed;
+        _currentProtection.Initialize();
+        _currentDamage.Initialize();
+    }
+
+    protected virtual void Update()
+    {
+        if(_isBleeding)
+        {
+            if(Time.time - _lastBleedingTime > _debuffDamageInterval)
+                Bleed();
+
+            if(Time.time - _startBleedingTime > _currentProtection.GetDebuffDuration(Common.Debuff.BLEEDING))
+                StopBleeding();
+        }
+
+        if(_isElementBlighted)
+        {
+            if(Time.time - _lastElementBlightedTime > _debuffDamageInterval)
+                GetBlighted();
+
+            if(Time.time - _startElementBlightedTime > _currentProtection.GetDebuffDuration(Common.Debuff.ELEMENT))
+                StopElementBlight();
+        }
+    }
+
     private void StartBleeding()
     {
         _startBleedingTime = Time.time;
@@ -96,34 +124,6 @@ public class Fighter : MonoBehaviour
         GameManager.Instance.UpdatePlayerMenuHealthPoints();
         GameManager.Instance.UpdateStatusInfo();
         GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
-    }
-
-    protected virtual void Start()
-    {
-        _originalKnockbackRecoverySpeed = knockbackRecoverySpeed;
-        _currentProtection.Initialize();
-        _currentDamage.Initialize();
-    }
-
-    protected virtual void Update()
-    {
-        if(_isBleeding)
-        {
-            if(Time.time - _lastBleedingTime > _debuffDamageInterval)
-                Bleed();
-
-            if(Time.time - _startBleedingTime > _currentProtection.GetDebuffDuration(Common.Debuff.BLEEDING))
-                StopBleeding();
-        }
-
-        if(_isElementBlighted)
-        {
-            if(Time.time - _lastElementBlightedTime > _debuffDamageInterval)
-                GetBlighted();
-
-            if(Time.time - _startElementBlightedTime > _currentProtection.GetDebuffDuration(Common.Debuff.ELEMENT))
-                StopElementBlight();
-        }
     }
 
     protected virtual void ReceiveDamage(Damage damage)

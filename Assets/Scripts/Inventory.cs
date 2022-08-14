@@ -6,12 +6,12 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     #region class members
-    public Common.InventoryType inventoryType;
     //stores the plain Level (not index)
     private int _inventoryLevel;
     private int _inventoryBaseNumberOfSlots;
     private int _unlockedInventorySlots;
     private int _maxNumberOfInventorySlots;
+    public Common.InventoryType inventoryType;
     public int maxLevel;
     public int[] upgradeLevelRequirements;
     public int[] upgradePrices;
@@ -24,13 +24,11 @@ public class Inventory : MonoBehaviour
         get { return _inventoryLevel; }
         set { _inventoryLevel = value; }
     }
-
     public int UnlockedInventorySlots
     {
         get { return _unlockedInventorySlots; }
         set { _unlockedInventorySlots = value; }
     }
-
     public int MaxNumberOfInventorySlots
     {
         get { return _maxNumberOfInventorySlots; }
@@ -89,17 +87,6 @@ public class Inventory : MonoBehaviour
         slots.First(x => x.Equipment.equipmentID == equipment.equipmentID).ReduceAmount(amount);
     }
    
-    // public List<Equipment> GetEquippedEquipments()
-    // {
-    //     List<Equipment> equippedEquipments = new List<Equipment>();
-    //     List<InventorySlot> equippedSlots = slots.Where(x => x.IsEquipped).ToList();
-    //     foreach(InventorySlot slot in equippedSlots)
-    //     {
-    //         equippedEquipments.Add(slot.Equipment);
-    //     }
-    //     return equippedEquipments;
-    // }
-
     public bool CheckIsInventoryFull()
     {
         InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsUnlocked && !x.IsOccupied);
@@ -136,12 +123,12 @@ public class Inventory : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.ShowWarning("Not enough gold!");
+                GameManager.Instance.ShowNotification("Not enough gold!", Color.red);
             }
         }
         else
         {
-            GameManager.Instance.ShowWarning("Not enough level!");
+            GameManager.Instance.ShowNotification("Not enough level!", Color.red);
         }
     }
 

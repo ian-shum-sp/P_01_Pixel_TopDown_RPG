@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class SellSlot : ShopSlot
 {
+    #region class members
     private int _amount = 0;
     private string _inventorySlotID;
+    #endregion
+
+    #region accessors
     public string InventorySlotID
     {
         get { return _inventorySlotID; }
         set { _inventorySlotID = value; }
     }
+    #endregion
 
     protected override void ResetSlot()
     {

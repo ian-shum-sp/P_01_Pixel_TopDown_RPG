@@ -7,7 +7,6 @@ public class EquipmentManager : MonoBehaviour
 {   
     public List<Equipment> equipments = new List<Equipment>();
     public List<GameObject> weaponPrefabs = new List<GameObject>();
-
     public List<Equipment> GetStarterEquipments()
     {
         List<Equipment> starterEquipments = new List<Equipment>();

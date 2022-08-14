@@ -15,17 +15,8 @@ public class Chest : Collidable
         _spriteRender = GetComponent<SpriteRenderer>();
     }
 
-    protected override void OnCollide(Collider2D collider)
+    private void Collect()
     {
-        if(collider.name == "Player")
-            TryCollect();
-    }
-
-    private void TryCollect()
-    {
-        if(_isCollected)
-            return;
-
         _isCollected = true;
         AddEquipmentActionResult result = new AddEquipmentActionResult(); 
         result.isAdded = true;
@@ -98,5 +89,14 @@ public class Chest : Collidable
 
         if(result.isAdded)
             _spriteRender.sprite = emptyChestSprite;
+    }
+
+    protected override void OnCollide(Collider2D collider)
+    {
+        if(_isCollected)
+            return;
+
+        if(collider.name == "Player")
+            Collect();
     }
 }

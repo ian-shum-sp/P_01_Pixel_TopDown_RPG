@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class CharacterWeapon : Collidable
 {
-    #region class members
     private Animator _animator;
     private float _lastAttackTime;
     protected Damage _currentDamage;
     public bool _isAttacking = false;
-    #endregion
-
-    #region accessors
-    #endregion
 
     protected override void Start()
     {

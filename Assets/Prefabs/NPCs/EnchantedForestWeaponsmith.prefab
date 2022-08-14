@@ -112,6 +112,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  nPCID: NPC07
   nPCType: 5
   isShopNPC: 1
   nPCName: Ellis

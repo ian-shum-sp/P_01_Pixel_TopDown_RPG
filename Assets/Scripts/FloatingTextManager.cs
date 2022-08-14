@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class FloatingTextManager : MonoBehaviour
 {
+    private List<FloatingText> floatingTexts = new List<FloatingText>();
     public GameObject textContainer;
     public GameObject textPrefab;
-    private List<FloatingText> floatingTexts = new List<FloatingText>();
 
     private void Update() 
     {
@@ -16,21 +16,6 @@ public class FloatingTextManager : MonoBehaviour
         {
             floatingText.UpdateFloatingText();
         }
-    }
-
-    public void Show(string message, int fontSize, Color color, Vector3 position, Vector3 motion, float showDuration)
-    {
-        //get an inactive floating text object
-        FloatingText floatingText = GetFloatingText();
-        floatingText.Text.text = message;
-        floatingText.Text.fontSize = fontSize;
-        floatingText.Text.color = color;
-        floatingText.Text.transform.position = Camera.main.WorldToScreenPoint(position);
-        floatingText.Motion = motion;
-        floatingText.ShowDuration = showDuration;
-        floatingText.Text.text = message;
-
-        floatingText.Show();
     }
 
     private FloatingText GetFloatingText()
@@ -53,5 +38,18 @@ public class FloatingTextManager : MonoBehaviour
         return floatingText;
     }
 
+    public void Show(string message, int fontSize, Color color, Vector3 position, Vector3 motion, float showDuration)
+    {
+        //get an inactive floating text object
+        FloatingText floatingText = GetFloatingText();
+        floatingText.Text.text = message;
+        floatingText.Text.fontSize = fontSize;
+        floatingText.Text.color = color;
+        floatingText.Text.transform.position = Camera.main.WorldToScreenPoint(position);
+        floatingText.Motion = motion;
+        floatingText.ShowDuration = showDuration;
+        floatingText.Text.text = message;
 
+        floatingText.Show();
+    }
 }

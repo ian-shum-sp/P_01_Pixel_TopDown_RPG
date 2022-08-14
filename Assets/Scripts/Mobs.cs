@@ -72,8 +72,6 @@ public class Mobs : Movable
                 }
             }   
         }
-
-        
     }
 
     private void Move()

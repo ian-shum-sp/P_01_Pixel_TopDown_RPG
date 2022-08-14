@@ -31,10 +31,14 @@ public class ConfirmationManager : MonoBehaviour
         if(GameManager.Instance.IsTryResetGame)
         {
             GameManager.Instance.ResetGame();
+            GameManager.Instance.IsBlockGameActions = true;
+            GameManager.Instance.IsTryResetGame = false;
         }
         if(GameManager.Instance.IsTryLoadMainMenu)
         {
             GameManager.Instance.ReturnToMainMenu();
+            GameManager.Instance.IsBlockGameActions = true;
+            GameManager.Instance.IsTryLoadMainMenu = false;
         }
     }
 

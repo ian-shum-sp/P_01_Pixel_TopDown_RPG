@@ -490,7 +490,7 @@ public class ShopManager : MonoBehaviour
     {
         if(GameManager.Instance.player.Gold < _selectedBuyEquipment.purchasePrice)
         {
-            GameManager.Instance.ShowWarning("Not enough gold!");
+            GameManager.Instance.ShowNotification("Not enough gold!", Color.red);
             return;
         }
 
@@ -513,7 +513,7 @@ public class ShopManager : MonoBehaviour
                 slot = inventory.slots.First(x => x.inventorySlotID == _sellEquipmentInventoryID);
                 inventorySlot = slot as InventorySlot;
                 if(inventorySlot.IsEquipped)
-                    GameManager.Instance.ShowWarning("Item is equipped!");
+                    GameManager.Instance.ShowNotification("Item is equipped!", Color.red);
                 else
                 {
                     _isTrySell = true;
@@ -529,7 +529,7 @@ public class ShopManager : MonoBehaviour
                 slot = inventory.slots.First(x => x.inventorySlotID == _sellEquipmentInventoryID);
                 inventorySlot = slot as InventorySlot;
                 if(inventorySlot.IsEquipped)
-                    GameManager.Instance.ShowWarning("Item is equipped!");
+                    GameManager.Instance.ShowNotification("Item is equipped!", Color.red);
                 else
                 {
                      _isTrySell = true;
@@ -544,7 +544,7 @@ public class ShopManager : MonoBehaviour
                 slot = inventory.slots.First(x => x.inventorySlotID == _sellEquipmentInventoryID);
                 inventorySlot = slot as InventorySlot;
                 if(inventorySlot.IsEquipped)
-                    GameManager.Instance.ShowWarning("Item is equipped!");
+                    GameManager.Instance.ShowNotification("Item is equipped!", Color.red);
                 else
                 {
                     _isTrySell = true;

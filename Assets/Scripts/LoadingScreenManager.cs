@@ -51,7 +51,6 @@ public class LoadingScreenManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         GameScene sceneToBeLoaded = _scenes.FirstOrDefault(x => x.SceneName == scene.SceneName);
-
         if(sceneToBeLoaded == null)
         {
             sceneToBeLoaded = scene;

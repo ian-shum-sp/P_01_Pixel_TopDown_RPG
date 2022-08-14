@@ -18,7 +18,6 @@ public class InventorySlot : Slot
     public Image equipmentSprite;
     public Common.InventorySlotType slotType;
     public TextMeshProUGUI equipmentText;
-
     #endregion
     
     #region accessors
@@ -27,7 +26,6 @@ public class InventorySlot : Slot
         get { return _isEquipped; }
         set { _isEquipped = value; }
     }
-
     public int Amount
     {
         get { return _amount; }
@@ -105,7 +103,7 @@ public class InventorySlot : Slot
         int playerLevel = GameManager.Instance.GetPlayerLevel();
         if(playerLevel < _equipment.levelRequirement)
         {
-            GameManager.Instance.ShowWarning("Not enough level!");
+            GameManager.Instance.ShowNotification("Not enough level!", Color.red);
             return;
         }
 
@@ -209,15 +207,6 @@ public class InventorySlot : Slot
         _isTryEquip = false;
         _inventory = null;
     }
-   
-    private void UnequipEquipments()
-    {
-        _isEquipped = false;
-        _inventorySlotImage.color = Common.UnequippedSlotBackgroundColor;
-        if(_equipment.equipmentType != Common.EquipmentType.POTION)
-            GameManager.Instance.RemoveFromDisplaySlot(_equipment);
-        _inventory = null;
-    }
 
     private void EquipPotions(Potion potion, int amount)
     {
@@ -232,17 +221,6 @@ public class InventorySlot : Slot
         equipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
         equipmentText.text = "x" + _amount;
         GameManager.Instance.EquipToPouch(potion, _amount);
-    }
-
-    private void UnequipPotions()
-    {
-        GameManager.Instance.UnequipFromPouch(_equipment.equipmentID);
-        base.RemoveFromSlot();
-        _amount = 0;
-        _isEquipped = false;
-        equipmentSprite.sprite = null;
-        equipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        equipmentText.text = "Empty";
     }
 
     private void UpdatePotionsAmount(int amount)
@@ -302,6 +280,27 @@ public class InventorySlot : Slot
     {
         ResetSlot();
     }
+
+    public void UnequipEquipments()
+    {
+        _isEquipped = false;
+        _inventorySlotImage.color = Common.UnequippedSlotBackgroundColor;
+        if(_equipment.equipmentType != Common.EquipmentType.POTION)
+            GameManager.Instance.RemoveFromDisplaySlot(_equipment);
+        _inventory = null;
+    }
+
+    public void UnequipPotions()
+    {
+        GameManager.Instance.UnequipFromPouch(_equipment.equipmentID);
+        base.RemoveFromSlot();
+        _amount = 0;
+        _isEquipped = false;
+        equipmentSprite.sprite = null;
+        equipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        equipmentText.text = "Empty";
+    }
+
 
     public string AddEquipmentToSlot(Equipment equipment, int? amount = null)
     {

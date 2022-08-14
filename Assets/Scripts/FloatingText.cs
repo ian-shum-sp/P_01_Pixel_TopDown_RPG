@@ -13,7 +13,6 @@ public class FloatingText
     private Vector3 _motion;
     private float _showDuration;
     private float _lastShownTime;
-    
     #endregion
     
     #region accessors
@@ -22,32 +21,28 @@ public class FloatingText
         get { return _isActive; }
         set { _isActive = value; }
     }
-
     public GameObject Target
     {
         get { return _target; }
         set { _target = value; }
     }
-
     public TextMeshProUGUI Text
     {
         get { return _text; }
         set { _text = value; }
     }
-
     public Vector3 Motion
     {
         get { return _motion; }
         set { _motion = value; }
     }
-
     public float ShowDuration
     {
         get { return _showDuration; }
         set { _showDuration = value; }
     }
     #endregion
-
+    
     public void Show()
     {
         _isActive = true;

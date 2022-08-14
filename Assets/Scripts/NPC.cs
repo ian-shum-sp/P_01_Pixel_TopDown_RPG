@@ -7,6 +7,7 @@ public class NPC : Interactable
     private SpriteRenderer _spriteRenderer;
     private Transform _playerTransform;
     private Vector3 _originalSize;
+    public string nPCID;
     public Common.NPCType nPCType;
     public bool isShopNPC;
     public string nPCName;
@@ -19,13 +20,21 @@ public class NPC : Interactable
         _playerTransform = GameManager.Instance.player.transform;
         _originalSize = transform.localScale;
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        GameManager.Instance.UpdateNPCManager(this);
+        GameManager.Instance.UpdateNPCManager(gameObject.GetComponent<NPC>());
+    }
+
+    protected override void OnCollide(Collider2D collider)
+    {
+        if(collider.name == "Collision")
+            return;
+
+        base.OnCollide(collider);
+        if(_isInteractable)
+            GameManager.Instance.SetActiveNPC(gameObject.GetComponent<NPC>());
     }
 
     protected override void Interact()
     {
-        base.Interact();
-
         switch(nPCType)
         {
             case Common.NPCType.DUNGEON_ARMORER:
@@ -46,19 +55,14 @@ public class NPC : Interactable
                 {
                     transform.localScale = new Vector3(_originalSize.x * -1.0f, _originalSize.y, _originalSize.z);
                 }
-                GameManager.Instance.ShowFullDialog(nPCType);
+                GameManager.Instance.ShowFullDialog(nPCID);
                 break;
             }
             case Common.NPCType.SIGN:
             {
-                GameManager.Instance.ShowFullDialog(nPCType);
+                GameManager.Instance.ShowFullDialog(nPCID);
                 break;
             }  
-            case Common.NPCType.WARNING_SIGN:
-            {
-                GameManager.Instance.ShowFullDialog(nPCType, Color.red);
-                break;
-            }   
             default: 
                 break;
         }

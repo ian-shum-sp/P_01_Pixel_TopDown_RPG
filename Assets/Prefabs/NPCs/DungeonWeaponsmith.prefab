@@ -112,6 +112,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  nPCID: NPC04
   nPCType: 2
   isShopNPC: 1
   nPCName: Eaton
@@ -141,5 +142,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.21, y: 0.23}
+  m_Size: {x: 0.23, y: 0.23}
   m_EdgeRadius: 0

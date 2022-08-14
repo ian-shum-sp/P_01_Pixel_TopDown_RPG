@@ -20,7 +20,7 @@ To use the equipped potions in the pouch, press button 1, 2, 3 and 4 for respect
 Note: You can only use equipped potions during adventure mode, and you cannot change equipped potion during adventure mode.
 
 Congratulation! You have finished the tutorial part!
-Once you go through the door, the game will be automatically saved for the first time and your adventure begins!
+Once you go through the door, you will get a reset and the game will be automatically saved for the first time and your adventure begins!
 I will see you around! Good luck adventurer!
 
 DUNGEON ARMORER (Alchemist)

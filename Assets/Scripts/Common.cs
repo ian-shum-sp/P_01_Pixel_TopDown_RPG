@@ -48,8 +48,7 @@ public static class Common
         FANTASY_ARMORER = 7,
         FANTASY_WEAPONSMITH = 8,
         FANTASY_POTION_BREWER = 9,
-        SIGN = 10,
-        WARNING_SIGN = 11
+        SIGN = 10
     }
 
     public enum InventoryType

@@ -20,15 +20,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Main Menu 
-    public Animator mainMenuAnimator;
-    #endregion
-
     #region References
     public FloatingTextManager floatingTextManager;
     public DialogManager dialogManager;
     public ConfirmationManager confirmationManager;
-    public WarningManager warningManager;
+    public NotificationManager notificationManager;
     public LoadingScreenManager loadingScreenManager;
     public ExperienceManager experienceManager;
     public EquipmentManager equipmentManager;
@@ -36,6 +32,7 @@ public class GameManager : MonoBehaviour
     public NPCManager nPCManager;
     public HUD hUD;
     public PlayerMenu playerMenu;
+    public MainMenu mainMenu;
     #endregion
 
     #region Reset Game
@@ -69,6 +66,24 @@ public class GameManager : MonoBehaviour
         get { return _lastSavedTimeText; }
         set { _lastSavedTimeText = value; }
     }
+    private bool _isMainMenuShown;
+    public bool IsMainMenuShown
+    {
+        get { return _isMainMenuShown; }
+        set { _isMainMenuShown = value; }
+    }
+    private bool _isHUDShown;
+    public bool IsHUDShown
+    {
+        get { return _isHUDShown; }
+        set { _isHUDShown = value; }
+    }
+    private bool _isDialogShown;
+    public bool IsDialogShown
+    {
+        get { return _isDialogShown; }
+        set { _isDialogShown = value; }
+    }
     #endregion
 
     #region Custom Cursor
@@ -89,8 +104,10 @@ public class GameManager : MonoBehaviour
             Destroy(equipmentManager.gameObject);
             Destroy(shopManager.gameObject);
             Destroy(nPCManager.gameObject);
+            Destroy(notificationManager.gameObject);
             Destroy(hUD.gameObject);
             Destroy(playerMenu.gameObject);
+            Destroy(mainMenu.gameObject);
             Destroy(player.gameObject);
             return;
         }
@@ -101,7 +118,13 @@ public class GameManager : MonoBehaviour
 
     private void Start() 
     {
-        ShowMainMenu();
+        GameScene mainScene = new GameScene();
+        mainScene.SceneName = Common.SceneName.MAIN_SCENE;
+        mainScene.SceneDisplayName = "Main Menu";
+        _currentGameScene = mainScene;
+        _isBlockGameActions = true;
+        SetResetButtonVisibility();
+        ShowMainMenuDisplay();
         ChangeCursor(false);
     }
 
@@ -113,16 +136,22 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Dialog Manager
-    public void ShowFullDialog(Common.NPCType nPCName, Color? color = null)
+    public void ShowFullDialog(string nPCID)
     {
-        _isBlockGameActions = true;
-        dialogManager.ShowFullDialog(nPCName, color);
+        if(!_isDialogShown)
+        {
+            _isBlockGameActions = true;
+            dialogManager.ShowFullDialog(nPCID);
+        }
     }
 
-    public void ShowRunningDialog(Common.NPCType nPCName, Color? color = null)
+    public void ShowRunningDialog(string nPCID, bool isReset)
     {
-        _isBlockGameActions = true;
-        dialogManager.ShowRunningDialog(nPCName, color);
+        if(!_isDialogShown)
+        {
+            _isBlockGameActions = true;
+            dialogManager.ShowRunningDialog(nPCID, isReset);
+        }
     }
     #endregion
 
@@ -141,11 +170,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Warning Manager
-    public void ShowWarning(string text, bool isContinueBlockGameAction = true)
+    #region Notification Manager
+    public void ShowNotification(string text, Color color, bool isContinueBlockGameAction = true)
     {
         _isBlockGameActions = true;
-        warningManager.Show(text, isContinueBlockGameAction);
+        notificationManager.Show(text, isContinueBlockGameAction, color);
     }
     #endregion
 
@@ -212,6 +241,7 @@ public class GameManager : MonoBehaviour
     {
         _isBlockGameActions = false;
         shopManager.HideShop();
+        ResetActiveNPC();
     }
 
     public void ResetSelectedEquipmentToBuyDisplayInfo()
@@ -253,32 +283,56 @@ public class GameManager : MonoBehaviour
         nPCManager.AddNPC(nPC);
     }
 
-    public string GetNPCName(Common.NPCType nPCType)
+    public string GetNPCID(Common.NPCType nPCType)
     {
-        return nPCManager.GetNPCName(nPCType);
+        return nPCManager.GetNPCID(nPCType);
     }
 
-    public string[] GetNPCDialogs(Common.NPCType nPCType)
+    public string GetNPCName(string nPCID)
     {
-        return nPCManager.GetNPCDialogs(nPCType);
+        return nPCManager.GetNPCName(nPCID);
+    }
+
+    public string[] GetNPCDialogs(string nPCID)
+    {
+        return nPCManager.GetNPCDialogs(nPCID);
     }
 
     public void UpdateGuideName(Common.PlayerGender playerGender)
     {
         nPCManager.UpdateGuide(playerGender);
     }
+
+    public void SetActiveNPC(NPC nPC)
+    {
+        nPCManager.ActiveNPC = nPC;
+    }
+
+    public void ResetActiveNPC()
+    {
+        nPCManager.ResetActiveNPC();
+    }
+
+    public void ResetNPCManager()
+    {
+        nPCManager.ResetNPCList();
+    }
     #endregion
 
     #region HUD
     public void ShowHUD()
     {
-        hUD.InitializeHUD();
-        hUD.Show();
+        if(!_isHUDShown) 
+        {
+            hUD.InitializeHUD();
+            hUD.Show();
+        }
     }
 
     public void HideHUD()
     {
-        hUD.Hide();
+        if(_isHUDShown) 
+            hUD.Hide();
     }
 
     public void UpdateHUDHealthPoints()
@@ -314,6 +368,11 @@ public class GameManager : MonoBehaviour
     public void UnlockPouchSlot()
     {
         hUD.UnlockPouchSlot();
+    }
+
+    public void UpdateBagSprite(int playerLevel)
+    {
+        hUD.UpdateBagSprite(playerLevel);
     }
     #endregion
 
@@ -387,6 +446,19 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Main Menu 
+    public void ShowMainMenuDisplay()
+    {
+        if(!_isMainMenuShown) 
+            mainMenu.ShowMenu();
+    }
+
+    public void HideMainMenuDisplay()
+    {
+        if(_isMainMenuShown) 
+            mainMenu.HideMenu();
+    }
+    #endregion
 
     #region Save, Load, Reset Game
     private void SpawnPlayer()
@@ -407,11 +479,11 @@ public class GameManager : MonoBehaviour
     {
         if(_currentGameScene.SceneName == Common.SceneName.INTRODUCTORY)
         {
-            ShowWarning("Please complete the tutorial before saving!");
+            ShowNotification("Please complete the tutorial before saving!", Color.red);
         }
         else if(_currentGameScene.SceneName == Common.SceneName.DUNGEON_ADVENTURE_MAP || _currentGameScene.SceneName == Common.SceneName.ENCHANTED_FOREST_ADVENTURE_MAP ||_currentGameScene.SceneName == Common.SceneName.FANTASY_ADVENTURE_MAP)
         {
-            ShowWarning("You can only save game in central hubs!");
+            ShowNotification("You can only save game in central hubs!", Color.red);
         }
         else
         {
@@ -440,13 +512,14 @@ public class GameManager : MonoBehaviour
                     i. SlotID
                     ii. EquipmentID
                     iii. Amount
-            8. Last Save Location (Scene Name int)
-            9. Last Save Time
-            10. Equipped Head Armor Slot ID
-            11. Equipped Chest Armor Slot ID
-            12. Equipped Boots Armor Slot ID
-            13. Equipped Weapon Slot ID
-            14. Equipped Potions
+            8. PouchInventory Inventory Level
+            9. Last Save Location (Scene Name int)
+            10. Last Save Time
+            11. Equipped Head Armor Slot ID
+            12. Equipped Chest Armor Slot ID
+            13. Equipped Boots Armor Slot ID
+            14. Equipped Weapon Slot ID
+            15. Equipped Potions
                 a. Slots (',' as delimeter between slots, ':' as delimeter between members )
                     i. SlotID
                     ii. Amount
@@ -506,10 +579,14 @@ public class GameManager : MonoBehaviour
             }
             potionSlotsData.TrimEnd(',');
             saveData += potionSlotsData + "|";
+            //Pouch Inventory
+            Inventory pouchInventory = player.GetInventory(Common.InventoryType.POUCH);
+            saveData += pouchInventory.InventoryLevel.ToString() + "|";
             //Last Save Location
             saveData += ((int)_currentGameScene.SceneName).ToString() + "|"; 
             //Last Save Time
             saveData += dateTime.ToString("MM/dd/yyyy h:mm tt") + "|"; 
+            _lastSavedTimeText = dateTime.ToString("MM/dd/yyyy h:mm tt");
             //Equipped Head Armor
             InventorySlot headArmorSlot = armorInventory.slots.FirstOrDefault(x => x.IsOccupied && x.Equipment.equipmentType == Common.EquipmentType.HEAD_ARMOR && x.IsEquipped);
             if(headArmorSlot != null)
@@ -551,9 +628,9 @@ public class GameManager : MonoBehaviour
                 equippedPotionSlotsData.TrimEnd(',');
                 saveData += equippedPotionSlotsData;
             }
-
             PlayerPrefs.SetString("P01SaveData", saveData);
             playerMenu.UpdateLastSaveTime();
+            ShowNotification("Game saved successfully!", Color.black);
         }
     }
 
@@ -565,23 +642,16 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        HidePlayerMenu();
         GameScene mainScene = new GameScene();
         mainScene.SceneName = Common.SceneName.MAIN_SCENE;
-        mainScene.SceneDisplayName = "";
-        LoadScene(mainScene, 0.5f);
-        Invoke("ShowMainMenu", 1.0f); 
-        Invoke("HidePlayerMenu", 1.0f); 
-        Invoke("HideHUD", 1.0f); 
+        mainScene.SceneDisplayName = "Main Menu";
+        _currentGameScene = mainScene;
+        LoadScene(mainScene, 0.5f); 
     }
 
-    public void ShowMainMenu()
+    public void SetResetButtonVisibility()
     {
-        GameScene mainScene = new GameScene();
-        mainScene.SceneName = Common.SceneName.MAIN_SCENE;
-        mainScene.SceneDisplayName = "";
-        _currentGameScene = mainScene;
-        _isBlockGameActions = true;
-        mainMenuAnimator.SetTrigger("Show");
         if(!PlayerPrefs.HasKey("P01SaveData"))
             resetButton.gameObject.SetActive(false);
         else
@@ -602,14 +672,13 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("P01SaveData");
         GameScene mainScene = new GameScene();
         mainScene.SceneName = Common.SceneName.MAIN_SCENE;
-        mainScene.SceneDisplayName = "";
+        mainScene.SceneDisplayName = "Main Menu";
+        _currentGameScene = mainScene;
         LoadScene(mainScene, 0.5f);
-        Invoke("ShowMainMenu", 0.5f); 
     }
 
     public void LoadGame()
     {
-        _isBlockGameActions = false;
         if(!PlayerPrefs.HasKey("P01SaveData"))
         {
             _lastSavedTimeText = "-";
@@ -646,13 +715,14 @@ public class GameManager : MonoBehaviour
                     i. SlotID
                     ii. EquipmentID
                     iii. Amount
-            8. Last Save Location (Scene Name int)
-            9. Last Save Time
-            10. Equipped Head Armor Slot ID
-            11. Equipped Chest Armor Slot ID
-            12. Equipped Boots Armor Slot ID
-            13. Equipped Weapon Slot ID
-            14. Equipped Potions
+            8. PouchInventory Inventory Level
+            9. Last Save Location (Scene Name int)
+            10. Last Save Time
+            11. Equipped Head Armor Slot ID
+            12. Equipped Chest Armor Slot ID
+            13. Equipped Boots Armor Slot ID
+            14. Equipped Weapon Slot ID
+            15. Equipped Potions
                 a. Slots (',' as delimeter between slots, ':' as delimeter between members )
                     i. SlotID
                     ii. Amount
@@ -731,10 +801,13 @@ public class GameManager : MonoBehaviour
                     potionInventory.InitalizeEquipmentAtInventorySlot(slotInfo[0], equipment, int.Parse(slotInfo[2]));
                 }
             }
+            player.InitializeInventory(Common.InventoryType.POUCH, int.Parse(potionInventoryData[0]));
+            //Pouch Inventory
+            player.InitializeInventory(Common.InventoryType.POUCH, int.Parse(saveData[7]));
 
             //Last Save Location
             GameScene lastSavedScene = new GameScene();
-            lastSavedScene.SceneName = (Common.SceneName)(int.Parse(saveData[7]));
+            lastSavedScene.SceneName = (Common.SceneName)(int.Parse(saveData[8]));
             switch(lastSavedScene.SceneName)
             {
                 case Common.SceneName.DUNGEON_CENTRAL_HUB:
@@ -760,29 +833,29 @@ public class GameManager : MonoBehaviour
             }
             _currentGameScene = lastSavedScene;
             //Last Save Time
-            _lastSavedTimeText = saveData[8];
+            _lastSavedTimeText = saveData[9];
             //Equipped Head Armor
-            if(saveData[9] != "NotEquipped")
-            {
-                armorInventory.slots.First(x => x.inventorySlotID == saveData[10]).TryInteract();
-            }
-            //Equipped Chest Armor
             if(saveData[10] != "NotEquipped")
             {
                 armorInventory.slots.First(x => x.inventorySlotID == saveData[10]).TryInteract();
             }
-            //Equipped Boots Armor
+            //Equipped Chest Armor
             if(saveData[11] != "NotEquipped")
             {
-                armorInventory.slots.First(x => x.inventorySlotID == saveData[10]).TryInteract();
+                armorInventory.slots.First(x => x.inventorySlotID == saveData[11]).TryInteract();
             }
-            //Equipped Weapon Armor
+            //Equipped Boots Armor
             if(saveData[12] != "NotEquipped")
             {
-                weaponInventory.slots.First(x => x.inventorySlotID == saveData[10]).TryInteract();
+                armorInventory.slots.First(x => x.inventorySlotID == saveData[12]).TryInteract();
+            }
+            //Equipped Weapon Armor
+            if(saveData[13] != "NotEquipped")
+            {
+                weaponInventory.slots.First(x => x.inventorySlotID == saveData[13]).TryInteract();
             }
             //Equipped Potion
-            string[] equippedPotionSlotsData = saveData[13].Split(',');
+            string[] equippedPotionSlotsData = saveData[14].Split(',');
             if(equippedPotionSlotsData.Length != 1 && equippedPotionSlotsData[0] != "NotEquipped")
             {
                 for (int i = 0; i < equippedPotionSlotsData.Length; i++)
@@ -803,13 +876,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //For first start, on scene loaded will be loaded before start
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        _isBlockGameActions = false;
+        ResetNPCManager();
         SpawnPlayer();
 
-        if(_currentGameScene.SceneName != Common.SceneName.MAIN_SCENE && _currentGameScene.SceneName == Common.SceneName.INTRODUCTORY)
-            ShowHUD();
+        if(_currentGameScene == null)
+            return;
+
+        //If it is not main menu scene, hide the main menu display
+        if(_currentGameScene.SceneName != Common.SceneName.MAIN_SCENE)
+        {
+            HideMainMenuDisplay();
+            //If it is also not introductory (means all other scenes, show the hud)
+            if(_currentGameScene.SceneName != Common.SceneName.INTRODUCTORY)
+            {
+                ShowHUD();
+            }
+        }
+        //If it is main menu scene, hide the hud and show menu display
+        else
+        {
+            SetResetButtonVisibility();
+            ShowMainMenuDisplay();
+            HideHUD();
+        }
+
+        if(PlayerPrefs.HasKey("P01SaveData"))
+            return;
+
+        //if it is the first time entering central hub after completing tutorial, save the game
+        if(_currentGameScene.SceneName == Common.SceneName.DUNGEON_CENTRAL_HUB)
+            SaveGame();
     }
+   
     #endregion
 
     #region Custom Cursor
