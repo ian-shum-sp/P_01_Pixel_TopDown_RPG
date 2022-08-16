@@ -222,23 +222,7 @@ public class InventorySlot : Slot
         equipmentText.text = "x" + _amount;
         GameManager.Instance.EquipToPouch(potion, _amount);
     }
-
-    private void UpdatePotionsAmount(int amount)
-    {
-        _amount -= amount;
-        GameManager.Instance.UpdatePouchSlot(_equipment.equipmentID, _amount);
-        if(_amount > 0)
-            equipmentText.text = "x" + _amount;
-        else
-        {
-            //Unequip from the potion inventory if the usable reach 0
-            Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
-            potionInventory.slots.First(x => x.Equipment.equipmentID == _equipment.equipmentID).UnequipEquipments();
-            _amount = 0;
-            ResetSlot();
-        }
-    }
-
+    
     protected override void ResetSlot()
     {
         base.ResetSlot();
@@ -331,7 +315,19 @@ public class InventorySlot : Slot
             return;
 
         if(!_isEquipped)
-            TryEquip();
+        {
+            if(_equipment.equipmentType != Common.EquipmentType.POTION)
+            {
+                TryEquip();
+            }
+            else
+            {
+                if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                    TryEquip();
+                else
+                    GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+            }
+        }
         else
         {
             switch(_equipment.equipmentType)
@@ -354,8 +350,15 @@ public class InventorySlot : Slot
                 //if it is a potion, unequip from the pouch
                 case Common.EquipmentType.POTION:
                 {
-                    _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-                    _inventory.slots.First(x => x._equipment.equipmentID == _equipment.equipmentID).UnequipPotions();
+                    if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                    {
+                        _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+                        _inventory.slots.First(x => x._equipment.equipmentID == _equipment.equipmentID).UnequipPotions();
+                    }
+                    else
+                    {
+                        GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+                    }
                     break;
                 }
                 default: 
@@ -377,5 +380,23 @@ public class InventorySlot : Slot
         
         if(_amount <= 0)
             RemoveFromSlot();
+
+        GameManager.Instance.UpdateShopSellSection();
+    }
+
+    public void UpdatePotionsAmount(int amount)
+    {
+        _amount -= amount;
+        GameManager.Instance.UpdatePouchSlot(_equipment.equipmentID, _amount);
+        if(_amount > 0)
+            equipmentText.text = "x" + _amount;
+        else
+        {
+            //Unequip from the potion inventory if the usable reach 0
+            Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+            potionInventory.slots.First(x => x.Equipment.equipmentID == _equipment.equipmentID).UnequipEquipments();
+            _amount = 0;
+            ResetSlot();
+        }
     }
 }

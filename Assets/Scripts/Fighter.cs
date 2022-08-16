@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Fighter : MonoBehaviour
 {
-    private float _invulnerableDuration = 0.8f;
-    private float _lastInvulnerableTime;
     private float _debuffDamageInterval = 2.0f;
     private float _startBleedingTime;
     private float _lastBleedingTime;
     private float _startElementBlightedTime;
     private float _lastElementBlightedTime;
+    protected float _invulnerableDuration = 0.8f;
+    protected float _lastInvulnerableTime;
     protected int _currentBleedingResistanceLevel = 0;
     protected int _currentElementResistanceLevel = 0;
     protected bool _isBleeding = false;
@@ -104,28 +104,6 @@ public class Fighter : MonoBehaviour
         }
     }
 
-    private void StopBleeding()
-    {
-        _isBleeding = false;
-        _currentProtection.RemoveAppliedDebuff(Common.Debuff.BLEEDING);
-        UpdateSpeed();
-        GameManager.Instance.UpdateHUDHealthPoints();
-        GameManager.Instance.UpdatePlayerMenuHealthPoints();
-        GameManager.Instance.UpdateStatusInfo();
-        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
-    }
-
-    private void StopElementBlight()
-    {
-        _isElementBlighted = false;
-        _currentProtection.RemoveAppliedDebuff(Common.Debuff.ELEMENT);
-        UpdateDamage();
-        GameManager.Instance.UpdateHUDHealthPoints();
-        GameManager.Instance.UpdatePlayerMenuHealthPoints();
-        GameManager.Instance.UpdateStatusInfo();
-        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
-    }
-
     protected virtual void ReceiveDamage(Damage damage)
     {
         if(Time.time - _lastInvulnerableTime > _invulnerableDuration)
@@ -160,7 +138,7 @@ public class Fighter : MonoBehaviour
             if(_currentElementResistanceLevel < 0 && isRefreshElement)
                 StartGetBlighted();
 
-            GameManager.Instance.UpdateStatusInfo();
+            GameManager.Instance.UpdateHUDStatusInfo();
             //calculate effective damage after element debuff and armor reduction
             float effectiveDamage = damage.damagePoints;
             if(_isElementBlighted)
@@ -181,6 +159,28 @@ public class Fighter : MonoBehaviour
                 Death();
             }
         }
+    }
+
+    protected void StopBleeding()
+    {
+        _isBleeding = false;
+        _currentProtection.RemoveAppliedDebuff(Common.Debuff.BLEEDING);
+        UpdateSpeed();
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
+        GameManager.Instance.UpdateHUDStatusInfo();
+        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
+    }
+
+    protected void StopElementBlight()
+    {
+        _isElementBlighted = false;
+        _currentProtection.RemoveAppliedDebuff(Common.Debuff.ELEMENT);
+        UpdateDamage();
+        GameManager.Instance.UpdateHUDHealthPoints();
+        GameManager.Instance.UpdatePlayerMenuHealthPoints();
+        GameManager.Instance.UpdateHUDStatusInfo();
+        GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
     }
 
     protected void UpdateKnockbackRecoverySpeed()

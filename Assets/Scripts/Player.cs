@@ -57,6 +57,9 @@ public class Player : Movable
         base.Update();
         if(_currentEquippedWeapon == null || _isAttacked)
             return;
+        
+        if(GameManager.Instance.CheckIsAtCentralHub() == true)
+            return;
             
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -148,6 +151,11 @@ public class Player : Movable
         }
     }
 
+    protected override void Death()
+    {
+        GameManager.Instance.ShowDeathMenu();
+    }
+
     public void SetPlayerSprite()
     {
         _spriteRenderer.sprite = GameManager.Instance.playerSprites[(int)_gender];
@@ -196,7 +204,7 @@ public class Player : Movable
             }   
             case Common.EquipmentType.POTION:
             {
-                if(_inventories[(int)Common.InventoryType.POTION].CheckIsInventoryFull() == true)
+                if(_inventories[(int)Common.InventoryType.POTION].CheckIsPotionInventoryFull(equipment) == true)
                     GameManager.Instance.ShowNotification("Inventory is full!", Color.red, isContinueBlockGameAction);
                 else
                 {
@@ -327,7 +335,7 @@ public class Player : Movable
                 break;
         }
         _inventories[(int)Common.InventoryType.POTION].ReduceEquipmentAmount(potion, 1);
-        GameManager.Instance.UpdateStatusInfo();
+        GameManager.Instance.UpdateHUDStatusInfo();
         GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
     }
 
@@ -354,7 +362,7 @@ public class Player : Movable
             default:
                 break;
         }
-        GameManager.Instance.UpdateStatusInfo();
+        GameManager.Instance.UpdateHUDStatusInfo();
         GameManager.Instance.UpdatePlayerMenuEquipmentInfo();
     }
 
@@ -459,5 +467,14 @@ public class Player : Movable
         InventorySlot equippedPouchInventorySlot = pouchInventory.slots.FirstOrDefault(x => x.IsEquipped);
         if(equippedPouchInventorySlot != null)
             equippedPouchInventorySlot.UnequipPotions();
+    }
+
+    public void Respawn()
+    {
+        StopBleeding();
+        StopElementBlight();
+        healthPoints = maxHealthPoints;
+        _lastInvulnerableTime = Time.time;
+        _knockbackDirection = Vector3.zero;
     }
 }

@@ -34,7 +34,7 @@ public class PouchSlot : ActivatableSlot
             if(Time.time - _cooldownStartTime > _potion.cooldown)
             {
                 _isOnCooldown = false;
-                cooldownMask.fillAmount = 1.0f;
+                cooldownMask.fillAmount = 0.0f;
             }
             else
             {
@@ -90,7 +90,9 @@ public class PouchSlot : ActivatableSlot
         }
 
         if(!_isActivated && !_isOnCooldown)
+        {
             ActivateSlot();
+        }
         else if(_isActivated && !_isOnCooldown)
         {
             float timeElapsed = Time.time - _activateTime;
@@ -122,5 +124,16 @@ public class PouchSlot : ActivatableSlot
     public void RemoveFromPouchSlot()
     {
         ResetSlot();
+    }
+
+    public void RemoveAllEffectsAndTimers()
+    {
+        _isActivated = false;
+        _isOnCooldown = false;
+        _activateTime = 0.0f;
+        _cooldownStartTime = 0.0f;
+        cooldownMask.fillAmount = 0.0f;
+        Potion potion = _equipment as Potion;
+        GameManager.Instance.player.RemovePotionEffect(potion);
     }
 }

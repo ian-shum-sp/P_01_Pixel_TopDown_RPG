@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    private bool _isShopOpened = false;
     private Shop _currentActiveShop;
     private Equipment _selectedBuyEquipment;
     private Equipment _selectedSellEquipment;
@@ -179,17 +180,25 @@ public class ShopManager : MonoBehaviour
     {
         if(_isInitialized)
             return;
-
+        
         UpdateSellSlots();
         DeactivateAllShops();
         DeactivateArmorSellSlots();
         DeactivateWeaponSellSlots();
         DeactivatePotionSellSlots();
         _isInitialized = true;
+        _isShopOpened = false;
     }
 
     public void ShowShop(Common.NPCType shopOwner)
     {
+        if(_isShopOpened)
+        {
+            GameManager.Instance.IsBlockGameActions = false;
+            return;
+        }
+
+        _isShopOpened = true;
         animator.SetTrigger("Show");
         goldInfoText.text = "Available Gold: " + GameManager.Instance.player.Gold.ToString();
         _currentActiveShop = shops.First(x => x.shopOwner == shopOwner);
@@ -226,7 +235,17 @@ public class ShopManager : MonoBehaviour
 
     public void HideShop()
     {
+        if(!_isShopOpened)
+        {
+            GameManager.Instance.IsBlockGameActions = true;
+            return;
+        }
+
+        _isShopOpened = false;
         animator.SetTrigger("Hide");
+        if(_currentActiveShop == null)
+            return;
+
         switch(_currentActiveShop.shopOwner)
         {
             case Common.NPCType.DUNGEON_ARMORER:

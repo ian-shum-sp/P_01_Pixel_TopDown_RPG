@@ -74,6 +74,7 @@ public class PlayerInitializer : MonoBehaviour
         {
             InitializePlayerStats();
             nameInputAnimator.SetTrigger("Hide");
+            GameManager.Instance.InitializeHUD();
             GameManager.Instance.ShowHUD();
             GameManager.Instance.InitializePlayerMenu();
             string nPCID = GameManager.Instance.GetNPCID(Common.NPCType.GUIDE);

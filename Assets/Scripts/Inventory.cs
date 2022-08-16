@@ -97,6 +97,20 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public bool CheckIsPotionInventoryFull(Equipment equipment)
+    {
+        InventorySlot slotWithSamePotion = slots.FirstOrDefault(x => x.Equipment != null && x.Equipment.equipmentID == equipment.equipmentID);
+
+        if(slotWithSamePotion != null)
+            return false;
+
+        InventorySlot unoccupiedSlot = slots.FirstOrDefault(x => x.IsUnlocked && !x.IsOccupied);
+        if(unoccupiedSlot == null)
+            return true;
+
+        return false;
+    }
+
     public void TryUpgradeInventory()
     {
         if(_inventoryLevel == maxLevel)

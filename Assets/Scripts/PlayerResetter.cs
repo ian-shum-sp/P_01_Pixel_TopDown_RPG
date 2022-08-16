@@ -23,6 +23,7 @@ public class PlayerResetter : Collidable
             GameManager.Instance.player.InitializeInventory(Common.InventoryType.WEAPON, 1);
             GameManager.Instance.player.InitializeInventory(Common.InventoryType.POTION, 1);
             GameManager.Instance.player.InitializeInventory(Common.InventoryType.POUCH, 1);
+            GameManager.Instance.UpdateShopSellSection();
         }
     }
 }

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Portal : Collidable
+public class Portal : MonoBehaviour
 {
     private bool _isActivated = false;
     public Common.SceneName sceneName;
-    protected override void OnCollide(Collider2D collider)
+
+    private void OnTriggerEnter2D(Collider2D collider) 
     {
         if(_isActivated)
             return;
@@ -14,7 +15,6 @@ public class Portal : Collidable
         if(collider.name == "Player")
         {
             _isActivated = true;
-
             GameScene scene = new GameScene();
             scene.SceneName = sceneName;
             switch(sceneName)
@@ -55,7 +55,6 @@ public class Portal : Collidable
                     break;
                 }
             }
-            GameManager.Instance.CurrentGameScene = scene;
             GameManager.Instance.LoadScene(scene);
         }
     }

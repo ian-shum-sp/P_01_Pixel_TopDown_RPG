@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 9f94cc2ca688dae40ba84cdb46934414
@@ -17,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DungeonCentralHub.unity
     guid: c699921d80476bb4a8c97492f7920682
+  - enabled: 1
+    path: Assets/Scenes/EnchantedForestCentralHub.unity
+    guid: b3221365c98c4cc418f9c0ed4a7cbf23
+  - enabled: 1
+    path: Assets/Scenes/FantasyCentralHub.unity
+    guid: 7dff49b5beb2e2940a258ec6f0abbdcb
+  - enabled: 1
+    path: Assets/Scenes/DungeonAdventureMap.unity
+    guid: 7d2702a274dc25a40892650759bf7bd2
   m_configObjects: {}

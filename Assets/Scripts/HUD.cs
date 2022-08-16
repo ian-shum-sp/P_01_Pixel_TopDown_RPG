@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
+    private bool _isInitialized;
     private int _currentBagLevel = 0;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI playerNameText;
@@ -24,6 +25,9 @@ public class HUD : MonoBehaviour
         if(GameManager.Instance.IsBlockGameActions)
             return;
 
+        if(GameManager.Instance.CheckIsAtCentralHub() == true)
+            return;
+
         if(Input.GetKeyDown(KeyCode.Alpha1))
             pouchSlots[0].TryUsePotion();
         
@@ -39,6 +43,9 @@ public class HUD : MonoBehaviour
    
     public void InitializeHUD()
     {
+        if(_isInitialized)
+            return;
+    
         playerNameText.text = GameManager.Instance.player.Name;
         statusInfoText.text = null;
         UpdateExperience();
@@ -51,6 +58,17 @@ public class HUD : MonoBehaviour
             else
                 pouchSlots[i].LockSlot();
         }
+        _isInitialized = true;
+    }
+
+    public void ResetHUD()
+    {
+        for(int i = 0; i < pouchSlots.Length; i++)
+        {
+            if(pouchSlots[i].IsOccupied)
+                pouchSlots[i].RemoveAllEffectsAndTimers();
+        }
+        _isInitialized = false;
     }
 
     public void UpdateExperience()
@@ -93,7 +111,7 @@ public class HUD : MonoBehaviour
         string elementText = protection.GetTotalElementResistanceLevel() < 0 ? "Element " + Mathf.Abs(protection.GetTotalElementResistanceLevel()) : null;
 
         statusText += strengthText + " " + speedText  + " " +  bleedingText  + " " +  elementText;
-        statusText.Trim();
+        statusText = statusText.Trim();
 
         statusInfoText.text = statusText;
     }
@@ -123,7 +141,6 @@ public class HUD : MonoBehaviour
     public void UpdatePouchSlot(string equipmentID, int amount)
     {
         PouchSlot pouchSlot = pouchSlots.First(x => x.Equipment.equipmentID == equipmentID);
-
         if(amount <= 0)
             RemoveFromPouchSlot(equipmentID);
         else
