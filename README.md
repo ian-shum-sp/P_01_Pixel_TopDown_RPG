@@ -27,3 +27,36 @@ For potions, you can get potions will different buffs from the Potion Brewer/Mer
 There are 3 types of debuffs in this game, which are Bleeding, Knockback and Element. Bleeding and Element debuffs deal damage over time, with Bleeding reducing speed and Element reducing damage output as secondary effect.  
 
 To counter debuffs, there are 5 buffs in the game, which are Bleeding Resistance, Knockback Resistance, Element Resistance, Strength and Speed. Buffs can be gained permanently through armors or by temporarily through the consumption of potions.
+
+## Mobs
+The mobs are categorised into 4 categories: Tiny, Mediumn, Large and Boss. Upon defeating a mob, player will gain experience and gold, where he/she can level up and spend gold to buy more armors or weapon. Each mob has its own armor points, movement speed, attack animation, attack speed, damage points, and also may have debuffs on their attack. Mobs will be triggered when the player enters a specific range and it will chase for a fixed range, depending on the type of mobs. 
+
+## Notes
+Currently this game is playable but with minimum features only. There might be continous update on this game. Possible updates to include:  
+1. Quest line (with a quest menu)
+2. Enhance animation of characters, mobs
+3. Enhance map and level designs
+4. More rooms for exploration
+
+Updates will be recorded in the Design file in the Documents directory. I will also provide updates (if any) on top of this file.  
+For the latest stats of the weapons, armors and mobs etc, kindly take a look into the Stats.md file in the Documents directory. That file will contain most of the stats related items in the game.
+
+If you have good suggestions, please hit me up as well! Thanks a lot!
+
+## References
+Thanks [Epitome](https://www.youtube.com/c/EpitomeGames/featured) for the amazing video and inspiration.  
+Youtube video link: https://youtu.be/b8YUfee_pzc  
+  
+Thanks [0x72](https://0x72.itch.io/) on itch.io for the amazing assets.  
+Assets link: https://0x72.itch.io/16x16-dungeon-tileset  
+Assets link: https://0x72.itch.io/dungeontileset-ii  
+  
+Thanks [Niji](https://nijikokun.itch.io/) on itch.io for the amazing assets.  
+https://nijikokun.itch.io/dungeontileset-ii-extended  
+  
+Thanks [Superdark](https://superdark.itch.io/) on itch.io for the amazing assets.  
+https://superdark.itch.io/enchanted-forest-characters  
+https://superdark.itch.io/16x16-free-npc-pack  
+  
+Thanks [John Bloor](https://www.1001fonts.com/users/johnbloor/) on 1001 Fonts for the amazing assets.  
+https://www.1001fonts.com/bulky-pixels-font.html  
