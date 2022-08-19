@@ -39,9 +39,9 @@ Currently this game is playable but with minimum features only. There might be c
 4. More rooms for exploration
 
 Updates will be recorded in the Design file in the Documents directory. I will also provide updates (if any) on top of this file.  
-For the latest stats of the weapons, armors and mobs etc, kindly take a look into the Stats.md file in the Documents directory. That file will contain most of the stats related items in the game.
-
-If you have good suggestions, please hit me up as well! Thanks a lot!
+For the latest stats of the weapons, armors and mobs etc, kindly take a look into the Stats.md file in the Documents directory. That file will contain most of the stats related items in the game.  
+If you are interested in more of a background of me developing this game, you can go to my [page](https://ianshum.github.io/) to have a look at it!  
+Finally, if you have good suggestions, please hit me up as well! Thanks a lot!
 
 ## References
 Thanks [Epitome](https://www.youtube.com/c/EpitomeGames/featured) for the amazing video and inspiration.  
