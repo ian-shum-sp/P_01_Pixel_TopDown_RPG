@@ -512,7 +512,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(-500.0f, -500.0f, 0.0f);
+            player.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
         }
     }
 
