@@ -38,8 +38,8 @@ Currently this game is playable but with minimum features only. There might be c
 3. Enhance map and level designs
 4. More rooms for exploration
 
-Updates will be recorded in the Design file in the Documents directory. I will also provide updates (if any) on top of this file.  
-For the latest stats of the weapons, armors and mobs etc, kindly take a look into the Stats.md file in the Documents directory. That file will contain most of the stats related items in the game.  
+Updates will be recorded in the Design file [(click here to open)](https://github.com/ianshum/P_01_Pixel_TopDown_RPG/blob/master/Documents/Design%20V0.2.md) in the Documents directory. I will also provide updates (if any) on top of this file.  
+For the latest stats of the weapons, armors and mobs etc, kindly take a look into the Stats.md file [(click here to open)](https://github.com/ianshum/P_01_Pixel_TopDown_RPG/blob/master/Documents/Stats.md) in the Documents directory. That file will contain most of the stats related items in the game.  
 If you are interested in more of a background of me developing this game, you can go to my [page](https://ianshum.github.io/) to have a look at it!  
 Finally, if you have good suggestions, please hit me up as well! Thanks a lot!
 
