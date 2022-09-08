@@ -87,8 +87,8 @@ public class InventorySlot : Slot
                 default: 
                     break;
             }
-
             EquipEquipments();
+            GameManager.Instance.HideUnequippedEquipmentInfo();
         }
 
         if(GameManager.Instance.GetConfirmationResult() == false && !GameManager.Instance.IsBlockGameActions)
@@ -96,131 +96,6 @@ public class InventorySlot : Slot
             _isTryEquip = false;
             GameManager.Instance.IsBlockGameActions = true;
         }
-    }
-
-    private void TryEquip()
-    {
-        int playerLevel = GameManager.Instance.GetPlayerLevel();
-        if(playerLevel < _equipment.levelRequirement)
-        {
-            GameManager.Instance.ShowNotification("Not enough level!", Color.red);
-            return;
-        }
-
-        _isTryEquip = true;
-        switch(_equipment.equipmentType)
-        {
-            case Common.EquipmentType.CHEST_ARMOR:
-            {
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
-                if(_inventory.slots.Count(x => x._isEquipped == true && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.CHEST_ARMOR)) > 0)
-                {
-                    GameManager.Instance.ShowConfirmation("Do you want to change your chest armor?");
-                }
-                else
-                {
-                    //equip to the player game object
-                    Armor armor = _equipment as Armor;
-                    GameManager.Instance.player.EquipArmor(armor);
-                    EquipEquipments();
-                }
-                break;
-            }
-            case Common.EquipmentType.HEAD_ARMOR:
-            {
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
-                if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.HEAD_ARMOR)) > 0)
-                {
-                    GameManager.Instance.ShowConfirmation("Do you want to change your head armor?");
-                }
-                else
-                {
-                    //equip to the player game object
-                    Armor armor = _equipment as Armor;
-                    GameManager.Instance.player.EquipArmor(armor);
-                    EquipEquipments();
-                }
-                break;
-            }
-            case Common.EquipmentType.BOOTS_ARMOR:
-            {
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
-                if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.BOOTS_ARMOR)) > 0)
-                {
-                    GameManager.Instance.ShowConfirmation("Do you want to change your boots armor?");
-                }   
-                else
-                {
-                     //equip to the player game object
-                    Armor armor = _equipment as Armor;
-                    GameManager.Instance.player.EquipArmor(armor);
-                    EquipEquipments();
-                }
-                break;
-            }
-            case Common.EquipmentType.MELEE_WEAPON:
-            case Common.EquipmentType.RANGED_WEAPON:
-            {
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
-                if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && (x._equipment.equipmentType == Common.EquipmentType.MELEE_WEAPON || x._equipment.equipmentType == Common.EquipmentType.RANGED_WEAPON))) > 0)
-                {
-                    GameManager.Instance.ShowConfirmation("Do you want to change your weapon?");
-                }
-                else
-                {
-                    //equip to the player game object
-                    Weapon weapon = _equipment as Weapon;
-                    GameManager.Instance.player.EquipWeapon(weapon);
-                    EquipEquipments();
-                }
-                break;
-            }
-            case Common.EquipmentType.POTION:
-            {
-                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-                Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
-                if(potionInventory.slots.Count(x => x._isEquipped) == _inventory.UnlockedInventorySlots)
-                {
-                    GameManager.Instance.ShowConfirmation("Do you want to change your first potion in place?");
-                }
-                else
-                {
-                    Potion potion = _equipment as Potion;
-                    //equip potion to the pouch
-                    _inventory.slots.First(x => !x._isOccupied).EquipPotions(potion, _amount);
-                    //equip in the potion inventory
-                    EquipEquipments();
-                }
-                break;
-            }
-            default: 
-                break;
-        }
-    }
-    
-    private void EquipEquipments()
-    {
-        _isEquipped = true;
-        _inventorySlotImage.color = Common.EquippedSlotBackgroundColor;
-        if(_equipment.equipmentType != Common.EquipmentType.POTION)
-            GameManager.Instance.AddToDisplaySlot(_equipment);
-        _isTryEquip = false;
-        _inventory = null;
-    }
-
-    private void EquipPotions(Potion potion, int amount)
-    {
-        base.AddToSlot(potion);
-        int maxAllowed = potion.maxNumberInPouch;
-        if(amount > maxAllowed)
-            _amount = maxAllowed;
-        else
-            _amount = amount;
-        _isEquipped = true;
-        equipmentSprite.sprite = _equipment.equipmentSprite;
-        equipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
-        equipmentText.text = "x" + _amount;
-        GameManager.Instance.EquipToPouch(potion, _amount);
     }
     
     protected override void ResetSlot()
@@ -265,6 +140,153 @@ public class InventorySlot : Slot
         ResetSlot();
     }
 
+    public override void SelectSlot()
+    {
+        base.SelectSlot();
+        _inventorySlotImage.color = Common.InventorySelectedSlotBackgroundColor;
+    }
+
+    public override void DeselectSlot()
+    {
+        base.DeselectSlot();
+        if(_isEquipped)
+            _inventorySlotImage.color = Common.EquippedSlotBackgroundColor;
+        else 
+            _inventorySlotImage.color = Common.UnequippedSlotBackgroundColor;
+    }
+
+    public void TryEquip()
+    {
+        int playerLevel = GameManager.Instance.GetPlayerLevel();
+        if(playerLevel < _equipment.levelRequirement)
+        {
+            GameManager.Instance.ShowNotification("Not enough level!", Color.red);
+            return;
+        }
+
+        _isTryEquip = true;
+        switch(_equipment.equipmentType)
+        {
+            case Common.EquipmentType.CHEST_ARMOR:
+            {
+                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+                if(_inventory.slots.Count(x => x._isEquipped == true && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.CHEST_ARMOR)) > 0)
+                {
+                    GameManager.Instance.ShowConfirmation("Do you want to change your chest armor?");
+                }
+                else
+                {
+                    //equip to the player game object
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
+                    EquipEquipments();
+                    GameManager.Instance.HideUnequippedEquipmentInfo();
+                }
+                break;
+            }
+            case Common.EquipmentType.HEAD_ARMOR:
+            {
+                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+                if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.HEAD_ARMOR)) > 0)
+                {
+                    GameManager.Instance.ShowConfirmation("Do you want to change your head armor?");
+                }
+                else
+                {
+                    //equip to the player game object
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
+                    EquipEquipments();
+                    GameManager.Instance.HideUnequippedEquipmentInfo();
+                }
+                break;
+            }
+            case Common.EquipmentType.BOOTS_ARMOR:
+            {
+                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+                if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && x._equipment.equipmentType == Common.EquipmentType.BOOTS_ARMOR)) > 0)
+                {
+                    GameManager.Instance.ShowConfirmation("Do you want to change your boots armor?");
+                }   
+                else
+                {
+                     //equip to the player game object
+                    Armor armor = _equipment as Armor;
+                    GameManager.Instance.player.EquipArmor(armor);
+                    EquipEquipments();
+                    GameManager.Instance.HideUnequippedEquipmentInfo();
+                }
+                break;
+            }
+            case Common.EquipmentType.MELEE_WEAPON:
+            case Common.EquipmentType.RANGED_WEAPON:
+            {
+                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
+                if(_inventory.slots.Count(x => x._isEquipped && (x._equipment != null && (x._equipment.equipmentType == Common.EquipmentType.MELEE_WEAPON || x._equipment.equipmentType == Common.EquipmentType.RANGED_WEAPON))) > 0)
+                {
+                    GameManager.Instance.ShowConfirmation("Do you want to change your weapon?");
+                }
+                else
+                {
+                    //equip to the player game object
+                    Weapon weapon = _equipment as Weapon;
+                    GameManager.Instance.player.EquipWeapon(weapon);
+                    EquipEquipments();
+                    GameManager.Instance.HideUnequippedEquipmentInfo();
+                }
+                break;
+            }
+            case Common.EquipmentType.POTION:
+            {
+                _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+                Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+                if(potionInventory.slots.Count(x => x._isEquipped) == _inventory.UnlockedInventorySlots)
+                {
+                    GameManager.Instance.ShowConfirmation("Do you want to change your first potion in place?");
+                }
+                else
+                {
+                    Potion potion = _equipment as Potion;
+                    //equip potion to the pouch
+                    _inventory.slots.First(x => !x._isOccupied).EquipPotions(potion, _amount);
+                    //equip in the potion inventory
+                    EquipEquipments();
+                    GameManager.Instance.HideUnequippedEquipmentInfo();
+                }
+                break;
+            }
+            default: 
+                break;
+        }
+    }
+    
+    public void EquipEquipments()
+    {
+        _isEquipped = true;
+        _inventorySlotImage.color = Common.EquippedSlotBackgroundColor;
+        if(_equipment.equipmentType != Common.EquipmentType.POTION)
+            GameManager.Instance.AddToDisplaySlot(_equipment);
+        _isTryEquip = false;
+        _inventory = null;
+        SelectSlot();
+        GameManager.Instance.ShowEquippedEquipmentInfo(false, _equipment, _amount, inventorySlotID);
+    }
+
+    public void EquipPotions(Potion potion, int amount)
+    {
+        base.AddToSlot(potion);
+        int maxAllowed = potion.maxNumberInPouch;
+        if(amount > maxAllowed)
+            _amount = maxAllowed;
+        else
+            _amount = amount;
+        _isEquipped = true;
+        equipmentSprite.sprite = _equipment.equipmentSprite;
+        equipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+        equipmentText.text = "x" + _amount;
+        GameManager.Instance.EquipToPouch(potion, _amount);
+    }
+
     public void UnequipEquipments()
     {
         _isEquipped = false;
@@ -272,6 +294,8 @@ public class InventorySlot : Slot
         if(_equipment.equipmentType != Common.EquipmentType.POTION)
             GameManager.Instance.RemoveFromDisplaySlot(_equipment);
         _inventory = null;
+        DeselectSlot();
+        GameManager.Instance.HideEquippedEquipmentInfo();
     }
 
     public void UnequipPotions()
@@ -295,78 +319,188 @@ public class InventorySlot : Slot
 
     public void OnCursorEnter()
     {
-        if(_isUnlocked && _isOccupied && GameManager.Instance.CheckIfPopUpShown() == false)
-        {
+        if(_isUnlocked && _isOccupied)
             GameManager.Instance.ChangeCursor(true);
-            GameManager.Instance.ShowEquipmentPopUp(_equipment, _amount, transform.position + new Vector3(-280.0f, 160.0f, 0.0f));
-        }
     }
 
     public void OnCursorExit()
     {
         GameManager.Instance.ChangeCursor(false);
-        if(GameManager.Instance.CheckIfPopUpShown() == true)
-            GameManager.Instance.HideEquipmentPopUp();
     }
-    
+
     public void TryInteract()
     {
         if(!_isOccupied)
             return;
 
-        if(!_isEquipped)
+        if(_isSelected)
         {
-            if(_equipment.equipmentType != Common.EquipmentType.POTION)
-            {
-                TryEquip();
-            }
+            DeselectSlot();
+            if(_isEquipped)
+                GameManager.Instance.HideEquippedEquipmentInfo();
             else
-            {
-                if(GameManager.Instance.CheckIsAtCentralHub() == true)
-                    TryEquip();
-                else
-                    GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
-            }
+                GameManager.Instance.HideUnequippedEquipmentInfo();
         }
         else
         {
+            Inventory armorInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+            Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
+            Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+            //deselect the other selected slot first (if any) before selecting
             switch(_equipment.equipmentType)
             {
-                //if it is an armor, unequip from the player gameobject first
                 case Common.EquipmentType.CHEST_ARMOR:
                 case Common.EquipmentType.HEAD_ARMOR:
                 case Common.EquipmentType.BOOTS_ARMOR:
                 {
-                    GameManager.Instance.player.UnequipArmor(_equipment as Armor);
-                    break;
-                }
-                //if it is a weapon, unequip from the player gameobject first
-                case Common.EquipmentType.MELEE_WEAPON:
-                case Common.EquipmentType.RANGED_WEAPON:
-                {
-                    GameManager.Instance.player.UnequipWeapon(_equipment.equipmentID);
-                    break;
-                }
-                //if it is a potion, unequip from the pouch
-                case Common.EquipmentType.POTION:
-                {
-                    if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                    weaponInventory.DeselectAnySelectedSlots();
+                    potionInventory.DeselectAnySelectedSlots();
+                    if(_isEquipped)
                     {
-                        _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-                        _inventory.slots.First(x => x._equipment.equipmentID == _equipment.equipmentID).UnequipPotions();
+                        InventorySlot slot = armorInventory.slots.FirstOrDefault(x => x._isSelected && x._isEquipped);
+                        if(slot != null)
+                        {
+                            slot.DeselectSlot();
+                        }
+                        SelectSlot();
+                        GameManager.Instance.ShowEquippedEquipmentInfo(false, _equipment, _amount, inventorySlotID);
                     }
                     else
                     {
-                        GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+                        InventorySlot selectedEquippedSlot = armorInventory.slots.FirstOrDefault(x => x._isSelected && x._isEquipped);
+                        if(selectedEquippedSlot != null)
+                        {
+                            selectedEquippedSlot.DeselectSlot();
+                        }
+                        InventorySlot seletedUnequippedSlot = armorInventory.slots.FirstOrDefault(x => x._isSelected && !x._isEquipped);
+                        if(seletedUnequippedSlot != null)
+                        {
+                            seletedUnequippedSlot.DeselectSlot();
+                        }
+                        SelectSlot();
+                        GameManager.Instance.ShowUnequippedEquipmentInfo(_equipment, _amount, inventorySlotID);
+                        GameManager.Instance.ShowEquippedEquipmentInfo(true);
+                    }
+                    break;
+                }
+                case Common.EquipmentType.MELEE_WEAPON:
+                case Common.EquipmentType.RANGED_WEAPON:
+                {
+                    armorInventory.DeselectAnySelectedSlots();
+                    potionInventory.DeselectAnySelectedSlots();
+                    if(_isEquipped)
+                    {
+                        InventorySlot slot = weaponInventory.slots.FirstOrDefault(x => x._isSelected && x._isEquipped);
+                        if(slot != null)
+                        {
+                            slot.DeselectSlot();
+                        }
+                        SelectSlot();
+                        GameManager.Instance.ShowEquippedEquipmentInfo(false, _equipment, _amount, inventorySlotID);
+                    }
+                    else
+                    {
+                        InventorySlot slot = weaponInventory.slots.FirstOrDefault(x => x._isSelected && !x._isEquipped);
+                        if(slot != null)
+                        {
+                            slot.DeselectSlot();
+                        }
+                        SelectSlot();
+                        GameManager.Instance.ShowUnequippedEquipmentInfo(_equipment, _amount, inventorySlotID);
+                        GameManager.Instance.ShowEquippedEquipmentInfo(true);
+                    }
+                    break;
+                }
+                case Common.EquipmentType.POTION:
+                {
+                    armorInventory.DeselectAnySelectedSlots();
+                    weaponInventory.DeselectAnySelectedSlots();
+                    if(_isEquipped)
+                    {
+                        InventorySlot slot = potionInventory.slots.FirstOrDefault(x => x._isSelected && x._isEquipped);
+                        if(slot != null)
+                        {
+                            slot.DeselectSlot();
+                        }
+                        SelectSlot();
+                        GameManager.Instance.ShowEquippedEquipmentInfo(false, _equipment, _amount, inventorySlotID);
+                    }
+                    else
+                    {
+                        InventorySlot slot = potionInventory.slots.FirstOrDefault(x => x._isSelected && !x._isEquipped);
+                        if(slot != null)
+                        {
+                            slot.DeselectSlot();
+                        }
+                        SelectSlot();
+                        GameManager.Instance.ShowUnequippedEquipmentInfo(_equipment, _amount, inventorySlotID);
                     }
                     break;
                 }
                 default: 
                     break;
             }
-            UnequipEquipments();
         }
     }
+
+    // public void TryInteract()
+    // {
+    //     if(!_isOccupied)
+    //         return;
+
+    //     if(!_isEquipped)
+    //     {
+    //         if(_equipment.equipmentType != Common.EquipmentType.POTION)
+    //         {
+    //             TryEquip();
+    //         }
+    //         else
+    //         {
+    //             if(GameManager.Instance.CheckIsAtCentralHub() == true)
+    //                 TryEquip();
+    //             else
+    //                 GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         switch(_equipment.equipmentType)
+    //         {
+    //             //if it is an armor, unequip from the player gameobject first
+    //             case Common.EquipmentType.CHEST_ARMOR:
+    //             case Common.EquipmentType.HEAD_ARMOR:
+    //             case Common.EquipmentType.BOOTS_ARMOR:
+    //             {
+    //                 GameManager.Instance.player.UnequipArmor(_equipment as Armor);
+    //                 break;
+    //             }
+    //             //if it is a weapon, unequip from the player gameobject first
+    //             case Common.EquipmentType.MELEE_WEAPON:
+    //             case Common.EquipmentType.RANGED_WEAPON:
+    //             {
+    //                 GameManager.Instance.player.UnequipWeapon(_equipment.equipmentID);
+    //                 break;
+    //             }
+    //             //if it is a potion, unequip from the pouch
+    //             case Common.EquipmentType.POTION:
+    //             {
+    //                 if(GameManager.Instance.CheckIsAtCentralHub() == true)
+    //                 {
+    //                     _inventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
+    //                     _inventory.slots.First(x => x.IsOccupied && x.Equipment.equipmentID == _equipment.equipmentID).UnequipPotions();
+    //                 }
+    //                 else
+    //                 {
+    //                     GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+    //                 }
+    //                 break;
+    //             }
+    //             default: 
+    //                 break;
+    //         }
+    //         UnequipEquipments();
+    //     }
+    // }
 
     public void ReduceAmount(int amount)
     {
@@ -375,7 +509,7 @@ public class InventorySlot : Slot
         if(_equipment.equipmentType == Common.EquipmentType.POTION)
         {
             Inventory pouchInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POUCH);
-            pouchInventory.slots.First(x => x.Equipment.equipmentID == _equipment.equipmentID).UpdatePotionsAmount(amount);
+            pouchInventory.slots.First(x => x.IsOccupied && x.Equipment.equipmentID == _equipment.equipmentID).UpdatePotionsAmount(amount);
         }
         
         if(_amount <= 0)

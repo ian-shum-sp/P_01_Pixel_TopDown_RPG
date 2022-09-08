@@ -285,7 +285,7 @@ public class ShopManager : MonoBehaviour
         buyPotionSprite.sprite = null;
         buyPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
         buyEquipmentText.text = "NOT SELECTED";
-        buyEquipmentInfoText.text = "Please select an item to display its info";
+        buyEquipmentInfoText.text = "Select an equipment to display its info";
         purchaseButton.gameObject.SetActive(false);
     }
 
@@ -301,7 +301,7 @@ public class ShopManager : MonoBehaviour
         sellPotionSprite.sprite = null;
         sellPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
         sellEquipmentText.text = "NOT SELECTED";
-        sellEquipmentInfoText.text = "Please select an item to display its info";
+        sellEquipmentInfoText.text = "Select an equipment to display its info";
         sellButton.gameObject.SetActive(false);
     }
 

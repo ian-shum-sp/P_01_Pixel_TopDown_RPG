@@ -135,12 +135,12 @@ public class HUD : MonoBehaviour
 
     public void RemoveFromPouchSlot(string equipmentID)
     {
-        pouchSlots.First(x => x.Equipment.equipmentID == equipmentID).RemoveFromPouchSlot();
+        pouchSlots.First(x => x.IsOccupied && x.Equipment.equipmentID == equipmentID).RemoveFromPouchSlot();
     }
 
     public void UpdatePouchSlot(string equipmentID, int amount)
     {
-        PouchSlot pouchSlot = pouchSlots.First(x => x.Equipment.equipmentID == equipmentID);
+        PouchSlot pouchSlot = pouchSlots.First(x => x.IsOccupied && x.Equipment.equipmentID == equipmentID);
         if(amount <= 0)
             RemoveFromPouchSlot(equipmentID);
         else

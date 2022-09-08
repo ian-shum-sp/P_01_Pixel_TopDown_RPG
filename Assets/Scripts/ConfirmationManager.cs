@@ -34,11 +34,17 @@ public class ConfirmationManager : MonoBehaviour
             GameManager.Instance.IsBlockGameActions = true;
             GameManager.Instance.IsTryResetGame = false;
         }
+
         if(GameManager.Instance.IsTryLoadMainMenu)
         {
             GameManager.Instance.ReturnToMainMenu();
             GameManager.Instance.IsBlockGameActions = true;
             GameManager.Instance.IsTryLoadMainMenu = false;
+        }
+
+        if(GameManager.Instance.IsTryExitGame)
+        {
+            GameManager.Instance.ExitGame();
         }
     }
 
@@ -53,6 +59,12 @@ public class ConfirmationManager : MonoBehaviour
         }
 
         if(GameManager.Instance.IsTryLoadMainMenu)
+        {
+            GameManager.Instance.IsBlockGameActions = true;
+            GameManager.Instance.IsTryLoadMainMenu = false;
+        }
+
+        if(GameManager.Instance.IsTryExitGame)
         {
             GameManager.Instance.IsBlockGameActions = true;
             GameManager.Instance.IsTryLoadMainMenu = false;

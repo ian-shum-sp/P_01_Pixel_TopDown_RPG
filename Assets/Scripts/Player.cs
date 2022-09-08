@@ -9,8 +9,8 @@ public class Player : Movable
     private SpriteRenderer _spriteRenderer;
     private string _name;
     private Common.PlayerGender _gender;
-    private int _gold;
-    private int _experience;
+    public int _gold;
+    public int _experience;
     private Weapon _currentEquippedWeapon;
     private PlayerWeapon _currentEquippedPlayerWeapon;
     private bool _canInteract;
@@ -391,32 +391,33 @@ public class Player : Movable
         GameManager.Instance.ShowFloatingText("+" + healingAmount + " Health Points", 25, Color.green, transform.position, Vector3.up * 30, 2.0f);
     }
 
-    public void LevelUp()
+    public void LevelUp(int levelReached)
     {
-        int playerLevel = GameManager.Instance.GetPlayerLevel();
-        if(playerLevel <= 9)
+        if(levelReached <= 9)
             maxHealthPoints += 5;
-        else if(playerLevel >= 10 && playerLevel <= 20)
+        else if(levelReached >= 10 && levelReached <= 20)
             maxHealthPoints += 10;
-        else if(playerLevel >= 21 && playerLevel <= 24)
+        else if(levelReached >= 21 && levelReached <= 24)
             maxHealthPoints += 15;
-        else if(playerLevel == 25)
+        else if(levelReached == 25)
             maxHealthPoints += 40;
         
         healthPoints += healthPoints * 0.1f;
+        if(healthPoints >= maxHealthPoints)
+            healthPoints = maxHealthPoints;
         GameManager.Instance.UpdateHUDHealthPoints();
         GameManager.Instance.UpdatePlayerMenuHealthPoints();
-        GameManager.Instance.UpdateBagSprite(playerLevel);
+        GameManager.Instance.UpdateBagSprite(levelReached);
     }
 
     public void InitializeLevelFromLoadGame()
     {
         int playerLevel = GameManager.Instance.GetPlayerLevel();
-        if(playerLevel != 1)
+        if(playerLevel > 1)
         {
-            for (int i = 0; i < playerLevel; i++)
+            for (int i = 1; i < playerLevel; i++)
             {
-                LevelUp();
+                LevelUp(i+1);
             }
         }
     }

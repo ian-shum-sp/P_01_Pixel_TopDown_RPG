@@ -147,6 +147,7 @@ public static class Common
     public static readonly Color UnoccupiedSlotImageBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
     public static readonly Color EquippedSlotBackgroundColor = new Color(211.0f/255.0f, 191.0f/255.0f, 169.0f/255.0f, 1.0f);
     public static readonly Color UnequippedSlotBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);
+    public static readonly Color InventorySelectedSlotBackgroundColor = new Color(Color.grey.r, Color.grey.g, Color.grey.b, 100.0f/255.0f);
     public static readonly Color BuySlotSelectedSlotBackgroundColor = new Color(151.0f/255.0f, 218.0f/255.0f, 63.0f/255.0f, 1.0f);
     public static readonly Color SellSlotSelectedSlotBackgroundColor = new Color(114.0f/255.0f, 214.0f/255.0f, 206.0f/255.0f, 1.0f);
     public static readonly Color NotSelectedSlotBackgroundColor = new Color(Color.white.r, Color.white.g, Color.white.b, 100.0f/255.0f);

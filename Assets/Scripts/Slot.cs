@@ -8,6 +8,7 @@ public abstract class Slot : MonoBehaviour
     protected Equipment _equipment;
     protected bool _isUnlocked;
     protected bool _isOccupied;
+    protected bool _isSelected = false;
     #endregion
 
     #region accessors
@@ -25,6 +26,11 @@ public abstract class Slot : MonoBehaviour
     {
         get { return _equipment; }
         set { _equipment = value; }
+    }
+    public bool IsSelected
+    {
+        get { return _isSelected; }
+        set { _isSelected = value; }
     }
     #endregion
 
@@ -54,5 +60,15 @@ public abstract class Slot : MonoBehaviour
     {
         _isOccupied = false;
         _equipment = null;
+    }
+
+    public virtual void SelectSlot()
+    {
+        _isSelected = true;
+    }
+
+    public virtual void DeselectSlot()
+    {
+        _isSelected = false;
     }
 }

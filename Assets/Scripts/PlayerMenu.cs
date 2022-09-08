@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,10 @@ using UnityEngine.UI;
 public class PlayerMenu : MonoBehaviour
 {
     #region class members
+    private Equipment _unequippedEquipment;
+    private string _unequippedEquipmentInventorySlotID;
+    private Equipment _equippedEquipment;
+    private string _equippedEquipmentInventorySlotID;
     public Image playerSprite;
     public TextMeshProUGUI playerNameText;
     public TextMeshProUGUI genderText;
@@ -16,31 +21,32 @@ public class PlayerMenu : MonoBehaviour
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI equipmentWeaponStatInfoText;
     public TextMeshProUGUI equipmentArmorStatInfoText;
-    public Image experienceBarMask;
+    public TextMeshProUGUI experienceRequireText;
     public TextMeshProUGUI experienceText;
+    public Image experienceBarMask;
     //Equipped equipments (exclude pouch)
     public DisplaySlot[] displaySlots;
     public TextMeshProUGUI armorInventoryUpgradeButtonText;
     public TextMeshProUGUI weaponInventoryUpgradeButtonText;
     public TextMeshProUGUI potionInventoryUpgradeButtonText;
     public TextMeshProUGUI pouchInventoryUpgradeButtonText;
-    public GameObject popUpPanel;
-    public Image popUpEquipmentSprite;
-    public Image popUpWeaponSprite;
-    public Image popUpPotionSprite;
-    public TextMeshProUGUI popUpEquipmentText;
-    public TextMeshProUGUI popUpEquipmentInfoText;
-    public Animator popUpAnimator;
+    public Image unequippedEquipmentSprite;
+    public Image unequippedWeaponSprite;
+    public Image unequippedPotionSprite;
+    public TextMeshProUGUI unequippedEquipmentText;
+    public TextMeshProUGUI unequippedEquipmentInfoText;
+    public Button equipButton;
+    public Image equippedEquipmentSprite;
+    public Image equippedWeaponSprite;
+    public Image equippedPotionSprite;
+    public TextMeshProUGUI equippedEquipmentText;
+    public TextMeshProUGUI equippedEquipmentInfoText;
+    public Button unequipButton;
     public Animator animator;
-    private bool _isPopUpShowing;
     #endregion
 
     #region accessors
-    public bool IsPopUpShowing
-    {
-        get { return _isPopUpShowing; }
-        set { _isPopUpShowing = value; }
-    }
+
     #endregion
     
     private void UpdateUpgradeButtonText(TextMeshProUGUI text, string upgradeText, Color color)
@@ -49,25 +55,17 @@ public class PlayerMenu : MonoBehaviour
             text.color = color;
     }
 
-    private void ResetPopUpSprite()
-    {
-        popUpEquipmentSprite.sprite = null;
-        popUpEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        popUpWeaponSprite.sprite = null;
-        popUpWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-        popUpPotionSprite.sprite = null;
-        popUpPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
-    }
-    
     public void InitializePlayerMenu()
     {
         playerSprite.sprite = GameManager.Instance.playerSprites[(int)GameManager.Instance.player.Gender];
         playerNameText.text = "Name: " + GameManager.Instance.player.Name;
         genderText.text = "Gender: " + Common.GetEnumDescription(GameManager.Instance.player.Gender);
+        ResetEquipmentInfoPanels();
     }
 
     public void UpdateOnExpandPlayerMenu()
     {
+        ResetEquipmentInfoPanels();
         UpdateLastSaveTime();
         UpdateHealthPoints();
         UpdateGold();
@@ -104,6 +102,7 @@ public class PlayerMenu : MonoBehaviour
         if(playerLevel == GameManager.Instance.experienceManager.experienceTable.Count)
         {
             levelText.text = "Level: 25 (MAX LEVEL)";
+            experienceRequireText.text = "Experience Points to next level: -";
             experienceText.text = "Total Experience Points: " + GameManager.Instance.player.Experience.ToString() + " Experience";
             experienceBarMask.fillAmount = 1.0f;
         }
@@ -115,9 +114,11 @@ public class PlayerMenu : MonoBehaviour
             int experienceNeededToReachNextLevel = currentLevelAccumulatedExperience - previousLevelAccumulatedExperience;
             int currentPlayerExperienceIntoLevel = GameManager.Instance.player.Experience - previousLevelAccumulatedExperience;
             float experienceRatio = (float)currentPlayerExperienceIntoLevel / (float)experienceNeededToReachNextLevel;
+            int differenceInExperienceToNextLevel = experienceNeededToReachNextLevel - currentPlayerExperienceIntoLevel;
+            experienceRequireText.text = "Experience Points to next level: " + differenceInExperienceToNextLevel.ToString() + " Experience";
             experienceText.text = currentPlayerExperienceIntoLevel.ToString() + "/" + experienceNeededToReachNextLevel.ToString();
             experienceBarMask.fillAmount = experienceRatio;
-        }
+}
     }
 
     public void UpdateInventoryUpgradeStatus()
@@ -308,20 +309,69 @@ public class PlayerMenu : MonoBehaviour
         }
     }
 
-    public void UpdatePopUpInfo(Equipment equipment, int amount, Vector3 position)
+    public void ResetEquipmentInfoPanels()
     {
-        ResetPopUpSprite();
-        switch(equipment.equipmentType)
+        ResetEquippedEquipmentInfo();
+        ResetUnequippedEquipmentInfo();
+        Inventory armorInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+        Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
+        Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+        armorInventory.DeselectAnySelectedSlots();
+        weaponInventory.DeselectAnySelectedSlots();
+        potionInventory.DeselectAnySelectedSlots();
+    }
+
+
+    public void ResetUnequippedEquipmentInfo()
+    {
+        _unequippedEquipment = null;
+        _unequippedEquipmentInventorySlotID = null;
+        unequippedEquipmentSprite.sprite = null;
+        unequippedEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        unequippedWeaponSprite.sprite = null;
+        unequippedWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        unequippedPotionSprite.sprite = null;
+        unequippedPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        unequippedEquipmentText.text = "NOT SELECTED";
+        unequippedEquipmentInfoText.text = "Select an unequipped equipment to display its info";
+        unequippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Middle;
+        equipButton.gameObject.SetActive(false);
+    }
+
+    public void ResetEquippedEquipmentInfo()
+    {
+        _equippedEquipment = null;
+        _equippedEquipmentInventorySlotID = null;
+        equippedEquipmentSprite.sprite = null;
+        equippedEquipmentSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        equippedWeaponSprite.sprite = null;
+        equippedWeaponSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        equippedPotionSprite.sprite = null;
+        equippedPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
+        equippedEquipmentText.text = "NOT SELECTED";
+        equippedEquipmentInfoText.text = "Select an equipped equipment to display its info";
+        equippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Middle;
+        unequipButton.gameObject.SetActive(false);
+    }
+
+    public void SetUnequippedEquipmentInfo(Equipment equipment, int amount, string inventorySlotID)
+    {
+        ResetUnequippedEquipmentInfo();
+        _unequippedEquipment = equipment;
+        _unequippedEquipmentInventorySlotID = inventorySlotID;
+        equipButton.gameObject.SetActive(true);
+        switch(_unequippedEquipment.equipmentType)
         {
             case Common.EquipmentType.HEAD_ARMOR:
             case Common.EquipmentType.CHEST_ARMOR:
             case Common.EquipmentType.BOOTS_ARMOR:
             {
-                Armor armor = equipment as Armor;
-                popUpEquipmentSprite.sprite = armor.equipmentSprite;
-                popUpEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
-                popUpEquipmentText.text = armor.equipmentName;
-                popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
+                Armor armor = _unequippedEquipment as Armor;
+                unequippedEquipmentSprite.sprite = armor.equipmentSprite;
+                unequippedEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                unequippedEquipmentText.text = armor.equipmentName;
+                unequippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                unequippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
                                             "Armor Points: " + armor.armorPoints.ToString() + "\n" +
                                             "Level Requirement: " + armor.levelRequirement.ToString() + "\n" +
                                             "Purchase Price: " + armor.purchasePrice.ToString() + "\n" +
@@ -332,11 +382,12 @@ public class PlayerMenu : MonoBehaviour
             case Common.EquipmentType.MELEE_WEAPON:
             case Common.EquipmentType.RANGED_WEAPON:
             {
-                Weapon weapon = equipment as Weapon;
-                popUpWeaponSprite.sprite = weapon.equipmentSprite;
-                popUpWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
-                popUpEquipmentText.text = weapon.equipmentName;
-                popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
+                Weapon weapon = _unequippedEquipment as Weapon;
+                unequippedWeaponSprite.sprite = weapon.equipmentSprite;
+                unequippedWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                unequippedEquipmentText.text = weapon.equipmentName;
+                unequippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                unequippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
                                             "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
                                             "Attack Range: " + weapon.attackRange.ToString() + "\n" +
                                             "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
@@ -348,11 +399,12 @@ public class PlayerMenu : MonoBehaviour
             }
             case Common.EquipmentType.POTION:
             {
-                Potion potion = equipment as Potion;
-                popUpPotionSprite.sprite = potion.equipmentSprite;
-                popUpPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
-                popUpEquipmentText.text = potion.equipmentName;
-                popUpEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
+                Potion potion = _unequippedEquipment as Potion;
+                equippedPotionSprite.sprite = potion.equipmentSprite;
+                equippedPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                unequippedEquipmentText.text = potion.equipmentName;
+                unequippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                unequippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
                                             "Duration: " + potion.duration.ToString() + " seconds\n" +
                                             "Cooldown: " + potion.cooldown.ToString() + " seconds\n" +
                                             "Amount in inventory: " + amount.ToString() + "\n" +
@@ -365,6 +417,211 @@ public class PlayerMenu : MonoBehaviour
             default:
                 break;
         }
-        popUpPanel.transform.position = position;
+    }
+
+    public void SetEquippedEquipmentInfo(bool isAutomatic, Equipment equipment = null, int amount = 0, string inventorySlotID = null)
+    {
+        ResetEquippedEquipmentInfo();
+        if(isAutomatic)
+        {
+            switch(_unequippedEquipment.equipmentType)
+            {
+                case Common.EquipmentType.HEAD_ARMOR:
+                case Common.EquipmentType.CHEST_ARMOR:
+                case Common.EquipmentType.BOOTS_ARMOR:
+                {
+                    Inventory armorInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+                    InventorySlot equippedSlot = armorInventory.slots.FirstOrDefault(x => x.IsOccupied && x.Equipment.equipmentType == _unequippedEquipment.equipmentType && x.IsEquipped);
+                    if(equippedSlot != null)
+                    {
+                        unequipButton.gameObject.SetActive(true);
+                        equippedSlot.SelectSlot();
+                        _equippedEquipment = equippedSlot.Equipment;
+                        _equippedEquipmentInventorySlotID = equippedSlot.inventorySlotID;
+                        Armor armor = _equippedEquipment as Armor;
+                        equippedEquipmentSprite.sprite = armor.equipmentSprite;
+                        equippedEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                        equippedEquipmentText.text = armor.equipmentName;
+                        equippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                        equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
+                                                    "Armor Points: " + armor.armorPoints.ToString() + "\n" +
+                                                    "Level Requirement: " + armor.levelRequirement.ToString() + "\n" +
+                                                    "Purchase Price: " + armor.purchasePrice.ToString() + "\n" +
+                                                    "Sell Price: " + Mathf.FloorToInt(armor.purchasePrice/2.0f).ToString() + "\n" +
+                                                    "Armor Buffs: " + Common.GetEnumDescription(armor.armorBuff) + (armor.armorBuff == Common.ArmorBuff.NONE ? "" : " Level " + armor.buffLevel);
+                    }
+                    break;
+                }
+                case Common.EquipmentType.MELEE_WEAPON:
+                case Common.EquipmentType.RANGED_WEAPON:
+                {
+                    Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
+                    InventorySlot equippedSlot = weaponInventory.slots.FirstOrDefault(x => x.IsOccupied && x.IsEquipped);
+                    if(equippedSlot != null)
+                    {
+                        unequipButton.gameObject.SetActive(true);
+                        equippedSlot.SelectSlot();
+                        _equippedEquipment = equippedSlot.Equipment;
+                        _equippedEquipmentInventorySlotID = equippedSlot.inventorySlotID;
+                        Weapon weapon = _equippedEquipment as Weapon;
+                        equippedWeaponSprite.sprite = weapon.equipmentSprite;
+                        equippedWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                        equippedEquipmentText.text = weapon.equipmentName;
+                        equippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                        equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
+                                                    "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
+                                                    "Attack Range: " + weapon.attackRange.ToString() + "\n" +
+                                                    "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                                    "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
+                                                    "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
+                                                    "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
+                                                    "Weapon Buffs: " + Common.GetEnumDescription(weapon.weaponDebuff) + (weapon.weaponDebuff == Common.Debuff.NONE ? "" : " Level " + weapon.debuffLevel);
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            _equippedEquipment = equipment;
+            _equippedEquipmentInventorySlotID = inventorySlotID;
+            unequipButton.gameObject.SetActive(true);
+            switch(_equippedEquipment.equipmentType)
+            {
+                case Common.EquipmentType.HEAD_ARMOR:
+                case Common.EquipmentType.CHEST_ARMOR:
+                case Common.EquipmentType.BOOTS_ARMOR:
+                {
+                    Armor armor = _equippedEquipment as Armor;
+                    equippedEquipmentSprite.sprite = armor.equipmentSprite;
+                    equippedEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                    equippedEquipmentText.text = armor.equipmentName;
+                    equippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                    equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
+                                                "Armor Points: " + armor.armorPoints.ToString() + "\n" +
+                                                "Level Requirement: " + armor.levelRequirement.ToString() + "\n" +
+                                                "Purchase Price: " + armor.purchasePrice.ToString() + "\n" +
+                                                "Sell Price: " + Mathf.FloorToInt(armor.purchasePrice/2.0f).ToString() + "\n" +
+                                                "Armor Buffs: " + Common.GetEnumDescription(armor.armorBuff) + (armor.armorBuff == Common.ArmorBuff.NONE ? "" : " Level " + armor.buffLevel);
+                    break;
+                }
+                case Common.EquipmentType.MELEE_WEAPON:
+                case Common.EquipmentType.RANGED_WEAPON:
+                {
+                    Weapon weapon = _equippedEquipment as Weapon;
+                    equippedWeaponSprite.sprite = weapon.equipmentSprite;
+                    equippedWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                    equippedEquipmentText.text = weapon.equipmentName;
+                    equippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                    equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
+                                                "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
+                                                "Attack Range: " + weapon.attackRange.ToString() + "\n" +
+                                                "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                                "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
+                                                "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
+                                                "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
+                                                "Weapon Buffs: " + Common.GetEnumDescription(weapon.weaponDebuff) + (weapon.weaponDebuff == Common.Debuff.NONE ? "" : " Level " + weapon.debuffLevel);
+                    break;
+                }
+                case Common.EquipmentType.POTION:
+                {
+                    Potion potion = _equippedEquipment as Potion;
+                    equippedPotionSprite.sprite = potion.equipmentSprite;
+                    equippedPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                    equippedEquipmentText.text = potion.equipmentName;
+                    equippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
+                    equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
+                                                "Duration: " + potion.duration.ToString() + " seconds\n" +
+                                                "Cooldown: " + potion.cooldown.ToString() + " seconds\n" +
+                                                "Amount in inventory: " + amount.ToString() + "\n" +
+                                                "Max number in pouch: " + potion.maxNumberInPouch.ToString() + "\n" +
+                                                "Purchase Price: " + potion.purchasePrice.ToString() + "\n" +
+                                                "Sell Price: " + Mathf.FloorToInt(potion.purchasePrice/2.0f).ToString() + "\n" +
+                                                "Effect: " + Common.GetEnumDescription(potion.potionBuff) + " Level " + potion.buffLevel;
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void Equip()
+    {
+        switch(_unequippedEquipment.equipmentType)
+        {
+            case Common.EquipmentType.HEAD_ARMOR:
+            case Common.EquipmentType.CHEST_ARMOR:
+            case Common.EquipmentType.BOOTS_ARMOR:
+            {
+                Inventory armorInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+                armorInventory.slots.First(x => x.inventorySlotID == _unequippedEquipmentInventorySlotID).TryEquip();
+                break;
+            }
+            case Common.EquipmentType.MELEE_WEAPON:
+            case Common.EquipmentType.RANGED_WEAPON:
+            {
+                Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
+                weaponInventory.slots.First(x => x.inventorySlotID == _unequippedEquipmentInventorySlotID).TryEquip();
+                break;
+            }
+            case Common.EquipmentType.POTION:
+            {
+                if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                {
+                    Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+                    potionInventory.slots.First(x => x.inventorySlotID == _unequippedEquipmentInventorySlotID).TryEquip();
+                }
+                else
+                {
+                    GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    public void Unequip()
+    {
+        switch(_equippedEquipment.equipmentType)
+        {
+            case Common.EquipmentType.HEAD_ARMOR:
+            case Common.EquipmentType.CHEST_ARMOR:
+            case Common.EquipmentType.BOOTS_ARMOR:
+            {
+                GameManager.Instance.player.UnequipArmor(_equippedEquipment as Armor);
+                Inventory armorInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.ARMOR);
+                armorInventory.slots.First(x => x.inventorySlotID == _equippedEquipmentInventorySlotID).UnequipEquipments();
+                break;
+            }
+            case Common.EquipmentType.MELEE_WEAPON:
+            case Common.EquipmentType.RANGED_WEAPON:
+            {
+                GameManager.Instance.player.UnequipWeapon(_equippedEquipment.equipmentID);
+                Inventory weaponInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.WEAPON);
+                weaponInventory.slots.First(x => x.inventorySlotID == _equippedEquipmentInventorySlotID).UnequipEquipments();
+                break;
+            }
+            case Common.EquipmentType.POTION:
+            {
+                if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                {
+                    Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
+                    potionInventory.slots.First(x => x.IsOccupied && x.Equipment.equipmentID == _equippedEquipment.equipmentID).UnequipPotions();
+                    potionInventory.slots.First(x => x.inventorySlotID == _equippedEquipmentInventorySlotID).UnequipEquipments();
+                }
+                else
+                {
+                    GameManager.Instance.ShowNotification("You can only equip/unequip potion in central hubs!", Color.red);
+                }
+                break;
+            }
+            default:
+                break;
+        }
     }
 }

@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: RW04
-  equipmentName: Satff +1
+  equipmentName: Staff +1
   equipmentType: 4
   purchasePrice: 80
   levelRequirement: 4

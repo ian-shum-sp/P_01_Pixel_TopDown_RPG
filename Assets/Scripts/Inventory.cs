@@ -84,7 +84,7 @@ public class Inventory : MonoBehaviour
 
     public void ReduceEquipmentAmount(Equipment equipment, int amount)
     {
-        slots.First(x => x.Equipment.equipmentID == equipment.equipmentID).ReduceAmount(amount);
+        slots.First(x => x.IsOccupied && x.Equipment.equipmentID == equipment.equipmentID).ReduceAmount(amount);
     }
    
     public bool CheckIsInventoryFull()
@@ -150,5 +150,17 @@ public class Inventory : MonoBehaviour
     {
         InventorySlot slot = slots.First(x => x.inventorySlotID == inventorySlotID);
         slot.AddEquipmentToSlot(equipment, amount);
+    }
+
+    public void DeselectAnySelectedSlots()
+    {
+        List<InventorySlot> selectedSlots = slots.Where(x => x.IsSelected).ToList();
+        if(selectedSlots.Count() > 0)
+        {
+            for (int i = 0; i < selectedSlots.Count(); i++)
+            {
+                selectedSlots[i].DeselectSlot();
+            }
+        }
     }
 }

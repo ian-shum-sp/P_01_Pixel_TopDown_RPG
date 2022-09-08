@@ -64,3 +64,6 @@ TagManager:
   - name: High Wall
     uniqueID: 698241601
     locked: 0
+  - name: High Wall Design
+    uniqueID: 3986285067
+    locked: 0

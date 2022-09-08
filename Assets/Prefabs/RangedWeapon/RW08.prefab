@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: RW08
-  equipmentName: Satf +3
+  equipmentName: Staff +3
   equipmentType: 4
   purchasePrice: 460
   levelRequirement: 15

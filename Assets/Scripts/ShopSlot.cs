@@ -5,21 +5,9 @@ using UnityEngine.UI;
 
 public class ShopSlot : Slot
 {
-    #region class members
-    protected bool _isSelected = false;
     protected Image _inventorySlotImage;
     public Image equipmentSprite;
     public Button inventorySlotButton;
-    #endregion
-    
-    #region accessors
-    public bool IsSelected
-    {
-        get { return _isSelected; }
-        set { _isSelected = value; }
-    }
-    
-    #endregion
 
     protected virtual void Start()
     {
@@ -38,14 +26,9 @@ public class ShopSlot : Slot
         
     }
 
-    public virtual void SelectSlot()
+    public override void DeselectSlot()
     {
-        _isSelected = true;
-    }
-
-    public void DeselectSlot()
-    {
-        _isSelected = false;
+        base.DeselectSlot();
         _inventorySlotImage.color = Common.NotSelectedSlotBackgroundColor;
     }
 

@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentID: RW12
-  equipmentName: Satff +5
+  equipmentName: Staff +5
   equipmentType: 4
   purchasePrice: 1250
   levelRequirement: 21

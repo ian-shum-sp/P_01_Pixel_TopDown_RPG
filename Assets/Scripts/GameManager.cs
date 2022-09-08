@@ -48,6 +48,12 @@ public class GameManager : MonoBehaviour
         get { return _isTryLoadMainMenu; }
         set { _isTryLoadMainMenu = value; }
     }
+    private bool _isTryExitGame;
+    public bool IsTryExitGame
+    {
+        get { return _isTryExitGame; }
+        set { _isTryExitGame = value; }
+    }
     private bool _isBlockGameActions;
     public bool IsBlockGameActions
     {
@@ -125,6 +131,7 @@ public class GameManager : MonoBehaviour
         mainScene.SceneDisplayName = "Main Menu";
         _currentGameScene = mainScene;
         _isBlockGameActions = true;
+        SetPlayButtonText();
         SetResetButtonVisibility();
         ShowMainMenuDisplay();
         ChangeCursor(false);
@@ -440,28 +447,29 @@ public class GameManager : MonoBehaviour
         playerMenu.RemoveFromDisplaySlot(equipment);
     }
 
-    public void ShowEquipmentPopUp(Equipment equipment, int amount, Vector3 position)
+    public void ResetEquipmentInfoPanels()
     {
-        if(playerMenu.IsPopUpShowing)
-            return;
-            
-        playerMenu.UpdatePopUpInfo(equipment, amount, position);
-        playerMenu.popUpAnimator.SetTrigger("Show");
-        playerMenu.IsPopUpShowing = true;
+        playerMenu.ResetEquipmentInfoPanels();
     }
 
-    public bool CheckIfPopUpShown()
+    public void ShowUnequippedEquipmentInfo(Equipment equipment, int amount, string inventorySlotID)
     {
-        return playerMenu.IsPopUpShowing;
+        playerMenu.SetUnequippedEquipmentInfo(equipment, amount, inventorySlotID);
     }
 
-    public void HideEquipmentPopUp()
+    public void ShowEquippedEquipmentInfo(bool isAutomatic, Equipment equipment = null, int amount = 0, string inventorySlotID = null)
     {
-        if(!playerMenu.IsPopUpShowing)
-            return;
+        playerMenu.SetEquippedEquipmentInfo(isAutomatic, equipment, amount, inventorySlotID);
+    }
 
-        playerMenu.popUpAnimator.SetTrigger("Hide");
-        playerMenu.IsPopUpShowing = false;
+    public void HideUnequippedEquipmentInfo()
+    {
+        playerMenu.ResetUnequippedEquipmentInfo();
+    }
+
+    public void HideEquippedEquipmentInfo()
+    {
+        playerMenu.ResetEquippedEquipmentInfo();
     }
     #endregion
 
@@ -512,7 +520,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            player.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            player.transform.position = new Vector3(500.0f, 500.0f, 0.0f);
         }
     }
 
@@ -699,6 +707,14 @@ public class GameManager : MonoBehaviour
             resetButton.gameObject.SetActive(true);
     }
 
+    public void SetPlayButtonText()
+    {
+        if(!PlayerPrefs.HasKey("P01SaveData"))
+            mainMenu.ChangeText("NEW GAME");
+        else
+            mainMenu.ChangeText("LOAD GAME");
+    }
+
     public void TryResetSave()
     {
         if(PlayerPrefs.HasKey("P01SaveData"))
@@ -778,6 +794,7 @@ public class GameManager : MonoBehaviour
             player.InitializeLevelFromLoadGame();
             //Gold
             player.Gold = int.Parse(saveData[3]);
+            player.UnequipAllEquipment();
             InitializePlayerMenu();
             //Armor Inventory
             //0 => inventory level
@@ -875,22 +892,22 @@ public class GameManager : MonoBehaviour
             //Equipped Head Armor
             if(saveData[10] != "NotEquipped")
             {
-                armorInventory.slots.First(x => x.inventorySlotID == saveData[10]).TryInteract();
+                armorInventory.slots.First(x => x.inventorySlotID == saveData[10]).TryEquip();
             }
             //Equipped Chest Armor
             if(saveData[11] != "NotEquipped")
             {
-                armorInventory.slots.First(x => x.inventorySlotID == saveData[11]).TryInteract();
+                armorInventory.slots.First(x => x.inventorySlotID == saveData[11]).TryEquip();
             }
             //Equipped Boots Armor
             if(saveData[12] != "NotEquipped")
             {
-                armorInventory.slots.First(x => x.inventorySlotID == saveData[12]).TryInteract();
+                armorInventory.slots.First(x => x.inventorySlotID == saveData[12]).TryEquip();
             }
             //Equipped Weapon Armor
             if(saveData[13] != "NotEquipped")
             {
-                weaponInventory.slots.First(x => x.inventorySlotID == saveData[13]).TryInteract();
+                weaponInventory.slots.First(x => x.inventorySlotID == saveData[13]).TryEquip();
             }
             //Equipped Potion
             string[] equippedPotionSlotsData = saveData[14].Split(',');
@@ -902,7 +919,7 @@ public class GameManager : MonoBehaviour
                     //1 => amount
                     string[] info = equippedPotionSlotsData[i].Split(':'); 
                     InventorySlot slot = potionInventory.slots.First(x => x.inventorySlotID == info[0]);
-                    slot.TryInteract();
+                    slot.TryEquip();
                     Potion potion = slot.Equipment as Potion;
                     int availableInPotionInventory = slot.Amount;
                     int equippedAmount = int.Parse(info[1]);
@@ -923,6 +940,20 @@ public class GameManager : MonoBehaviour
             InitializeShops();
             LoadScene(lastSavedScene);
         }
+    }
+
+    public void TryExitGame()
+    {
+        _isTryExitGame = true;
+        ShowConfirmation("Exit game? All unsaved changes will be discarded");
+    }
+
+    public void ExitGame()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        Application.Quit();
     }
 
     //For first start, on scene loaded will be loaded before start
@@ -952,6 +983,7 @@ public class GameManager : MonoBehaviour
         //If it is main menu scene, hide the hud and show menu display
         else
         {
+            SetPlayButtonText();
             SetResetButtonVisibility();
             ShowMainMenuDisplay();
             HideHUD();
