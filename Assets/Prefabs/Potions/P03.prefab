@@ -102,7 +102,7 @@ MonoBehaviour:
   equipmentType: 5
   purchasePrice: 300
   levelRequirement: 0
-  equipmentSprite: {fileID: 21300000, guid: baef12ebb03315d4cbede780c284e57d, type: 3}
+  equipmentSprite: {fileID: 21300000, guid: 059f8b939aa4764429ebcc6b7a0d1084, type: 3}
   potionBuff: 3
   buffLevel: 3
   duration: 60

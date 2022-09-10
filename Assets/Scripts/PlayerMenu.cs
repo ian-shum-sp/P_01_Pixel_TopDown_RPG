@@ -390,7 +390,7 @@ public class PlayerMenu : MonoBehaviour
                 unequippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
                                             "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
                                             "Attack Range: " + weapon.attackRange.ToString() + "\n" +
-                                            "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                            "Attack Speed: " + Mathf.FloorToInt((2.5f - weapon.cooldown)*20).ToString()+ "\n" +
                                             "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
                                             "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
                                             "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
@@ -471,7 +471,7 @@ public class PlayerMenu : MonoBehaviour
                         equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
                                                     "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
                                                     "Attack Range: " + weapon.attackRange.ToString() + "\n" +
-                                                    "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                                    "Attack Speed: " + Mathf.FloorToInt((2.5f - weapon.cooldown)*20).ToString()+ "\n" +
                                                     "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
                                                     "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
                                                     "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
@@ -518,7 +518,7 @@ public class PlayerMenu : MonoBehaviour
                     equippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
                                                 "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
                                                 "Attack Range: " + weapon.attackRange.ToString() + "\n" +
-                                                "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                                "Attack Speed: " + Mathf.FloorToInt((2.5f - weapon.cooldown)*20).ToString()+ "\n" +
                                                 "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
                                                 "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
                                                 "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +

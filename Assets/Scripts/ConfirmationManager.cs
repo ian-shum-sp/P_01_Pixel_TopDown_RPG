@@ -67,7 +67,7 @@ public class ConfirmationManager : MonoBehaviour
         if(GameManager.Instance.IsTryExitGame)
         {
             GameManager.Instance.IsBlockGameActions = true;
-            GameManager.Instance.IsTryLoadMainMenu = false;
+            GameManager.Instance.IsTryExitGame = false;
         }
     }
 }

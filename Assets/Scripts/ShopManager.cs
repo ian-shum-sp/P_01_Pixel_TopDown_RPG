@@ -285,6 +285,7 @@ public class ShopManager : MonoBehaviour
         buyPotionSprite.sprite = null;
         buyPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
         buyEquipmentText.text = "NOT SELECTED";
+        buyEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Middle;
         buyEquipmentInfoText.text = "Select an equipment to display its info";
         purchaseButton.gameObject.SetActive(false);
     }
@@ -301,6 +302,7 @@ public class ShopManager : MonoBehaviour
         sellPotionSprite.sprite = null;
         sellPotionSprite.color = Common.UnoccupiedSlotImageBackgroundColor;
         sellEquipmentText.text = "NOT SELECTED";
+        sellEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Middle;
         sellEquipmentInfoText.text = "Select an equipment to display its info";
         sellButton.gameObject.SetActive(false);
     }
@@ -320,6 +322,7 @@ public class ShopManager : MonoBehaviour
                 buyEquipmentSprite.sprite = armor.equipmentSprite;;
                 buyEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 buyEquipmentText.text = armor.equipmentName;
+                buyEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 buyEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
                                             "Armor Points: " + armor.armorPoints.ToString() + "\n" +
                                             "Level Requirement: " + armor.levelRequirement.ToString() + "\n" +
@@ -335,10 +338,11 @@ public class ShopManager : MonoBehaviour
                 buyWeaponSprite.sprite = weapon.equipmentSprite;
                 buyWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 buyEquipmentText.text = weapon.equipmentName;
+                buyEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 buyEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
                                             "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
                                             "Attack Range: " + weapon.attackRange.ToString() + "\n" +
-                                            "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                            "Attack Speed: " + Mathf.FloorToInt((2.5f - weapon.cooldown)*20).ToString()+ "\n" +
                                             "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
                                             "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
                                             "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
@@ -351,6 +355,7 @@ public class ShopManager : MonoBehaviour
                 buyPotionSprite.sprite = potion.equipmentSprite;
                 buyPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 buyEquipmentText.text = potion.equipmentName;
+                buyEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 buyEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
                                             "Duration: " + potion.duration.ToString() + " seconds\n" +
                                             "Cooldown: " + potion.cooldown.ToString() + "seconds\n" +
@@ -382,6 +387,7 @@ public class ShopManager : MonoBehaviour
                 sellEquipmentSprite.sprite = armor.equipmentSprite;;
                 sellEquipmentSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 sellEquipmentText.text = armor.equipmentName;
+                sellEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 sellEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(armor.equipmentType) + "\n" +
                                             "Armor Points: " + armor.armorPoints.ToString() + "\n" +
                                             "Level Requirement: " + armor.levelRequirement.ToString() + "\n" +
@@ -397,10 +403,11 @@ public class ShopManager : MonoBehaviour
                 sellWeaponSprite.sprite = weapon.equipmentSprite;
                 sellWeaponSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 sellEquipmentText.text = weapon.equipmentName;
+                sellEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 sellEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(weapon.equipmentType) + "\n" +
                                             "Damage Points: " + weapon.damagePoints.ToString() + "\n" +
                                             "Attack Range: " + weapon.attackRange.ToString() + "\n" +
-                                            "Attack Speed: " + Mathf.FloorToInt((2.0f - weapon.cooldown)*20).ToString()+ "\n" +
+                                            "Attack Speed: " + Mathf.FloorToInt((2.5f - weapon.cooldown)*20).ToString()+ "\n" +
                                             "Level Requirement: " + weapon.levelRequirement.ToString() + "\n" +
                                             "Purchase Price: " + weapon.purchasePrice.ToString() + "\n" +
                                             "Sell Price: " + Mathf.FloorToInt(weapon.purchasePrice/2.0f).ToString() + "\n" +
@@ -413,6 +420,7 @@ public class ShopManager : MonoBehaviour
                 sellPotionSprite.sprite = potion.equipmentSprite;
                 sellPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 sellEquipmentText.text = potion.equipmentName;
+                sellEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 sellEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
                                             "Duration: " + potion.duration.ToString() + " seconds\n" +
                                             "Cooldown: " + potion.cooldown.ToString() + " seconds\n" +
