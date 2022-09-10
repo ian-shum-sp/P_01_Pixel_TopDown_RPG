@@ -1007,7 +1007,15 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIsAtCentralHub()
     {
-        if(_currentGameScene.SceneName == Common.SceneName.DUNGEON_CENTRAL_HUB || _currentGameScene.SceneName == Common.SceneName.ENCHANTED_FOREST_CENTRAL_HUB ||_currentGameScene.SceneName == Common.SceneName.FANTASY_CENTRAL_HUB)
+        if(_currentGameScene.SceneName == Common.SceneName.DUNGEON_CENTRAL_HUB || _currentGameScene.SceneName == Common.SceneName.ENCHANTED_FOREST_CENTRAL_HUB || _currentGameScene.SceneName == Common.SceneName.FANTASY_CENTRAL_HUB)
+            return true;
+        
+        return false;
+    }
+
+    public bool CheckIsIntroductory()
+    {
+        if(_currentGameScene.SceneName == Common.SceneName.INTRODUCTORY)
             return true;
         
         return false;

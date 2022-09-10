@@ -400,8 +400,8 @@ public class PlayerMenu : MonoBehaviour
             case Common.EquipmentType.POTION:
             {
                 Potion potion = _unequippedEquipment as Potion;
-                equippedPotionSprite.sprite = potion.equipmentSprite;
-                equippedPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
+                unequippedPotionSprite.sprite = potion.equipmentSprite;
+                unequippedPotionSprite.color = Common.OccupiedSlotImageBackgroundColor;
                 unequippedEquipmentText.text = potion.equipmentName;
                 unequippedEquipmentInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
                 unequippedEquipmentInfoText.text = "Type: " + Common.GetEnumDescription(potion.equipmentType) + "\n" +
@@ -569,7 +569,7 @@ public class PlayerMenu : MonoBehaviour
             }
             case Common.EquipmentType.POTION:
             {
-                if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                if(GameManager.Instance.CheckIsAtCentralHub() == true || GameManager.Instance.CheckIsIntroductory() == true)
                 {
                     Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
                     potionInventory.slots.First(x => x.inventorySlotID == _unequippedEquipmentInventorySlotID).TryEquip();
@@ -608,7 +608,7 @@ public class PlayerMenu : MonoBehaviour
             }
             case Common.EquipmentType.POTION:
             {
-                if(GameManager.Instance.CheckIsAtCentralHub() == true)
+                if(GameManager.Instance.CheckIsAtCentralHub() == true || GameManager.Instance.CheckIsIntroductory() == true)
                 {
                     Inventory potionInventory = GameManager.Instance.player.GetInventory(Common.InventoryType.POTION);
                     potionInventory.slots.First(x => x.IsOccupied && x.Equipment.equipmentID == _equippedEquipment.equipmentID).UnequipPotions();
